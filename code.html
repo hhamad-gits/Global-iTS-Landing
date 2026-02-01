@@ -1,0 +1,1830 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Global iTS - Enterprise AI Solutions</title>
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#c3b798",
+                        "primary-dark": "#a89b7d",
+                        "navy-start": "#00013a",
+                        "navy-end": "#0f1055",
+                    },
+                    fontFamily: {
+                        "sans": ["Inter", "sans-serif"],
+                        "serif": ["Inter", "sans-serif"],
+                    },
+                    backgroundImage: {
+                        'hero-pattern': "repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.03) 0px, rgba(255, 255, 255, 0.03) 1px, transparent 1px, transparent 40px)",
+                    }
+                },
+            },
+        }
+    </script>
+    <style>
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+
+        .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .glow-text {
+            text-shadow: 0 0 20px rgba(195, 183, 152, 0.3);
+        }
+
+        .globe-glow {
+            box-shadow: 0 0 100px 20px rgba(15, 16, 85, 0.6) inset;
+        }
+
+        .card-gold-glow:hover {
+            box-shadow: 0 15px 40px -10px rgba(195, 183, 152, 0.25);
+        }
+
+        .aurora-gradient {
+            background: linear-gradient(180deg, #00013a 0%, #080925 100%);
+            position: relative;
+        }
+
+        /* Product Card Icon Hover Effect */
+        .group:hover .w-12.h-12 {
+            background: #00013a !important;
+        }
+
+        /* Progressive Blur Effect - Fixed at bottom of viewport */
+        .progressive-blur-viewport {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 80px;
+            pointer-events: none;
+            z-index: 40;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            mask-image: linear-gradient(to top, 
+                rgba(0, 0, 0, 1) 0%, 
+                rgba(0, 0, 0, 0.8) 20%,
+                rgba(0, 0, 0, 0.4) 60%,
+                rgba(0, 0, 0, 0) 100%);
+            -webkit-mask-image: linear-gradient(to top, 
+                rgba(0, 0, 0, 1) 0%, 
+                rgba(0, 0, 0, 0.8) 20%,
+                rgba(0, 0, 0, 0.4) 60%,
+                rgba(0, 0, 0, 0) 100%);
+        }
+
+        /* Dot Pattern for Industries Section */
+        .dot-pattern {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            background-image: radial-gradient(circle, rgba(0, 1, 58, 0.4) 1.5px, transparent 1.5px);
+            background-size: 24px 24px;
+            mask-image: radial-gradient(700px circle at center, white, transparent);
+            -webkit-mask-image: radial-gradient(700px circle at center, white, transparent);
+        }
+
+        /* Animated Shiny Text Effect */
+        @keyframes shiny-text {
+            0% {
+                background-position: 0% 50%;
+            }
+            100% {
+                background-position: 200% 50%;
+            }
+        }
+
+        .shiny-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 9999px;
+            border: 1px solid rgba(195, 183, 152, 0.4);
+            background-color: rgba(0, 1, 58, 0.8);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            box-shadow: 0 0 15px rgba(195, 183, 152, 0.15);
+            transition: all 0.3s ease-in;
+            cursor: pointer;
+        }
+
+        .shiny-badge:hover {
+            background-color: rgba(0, 1, 58, 0.9);
+            box-shadow: 0 0 20px rgba(195, 183, 152, 0.25);
+        }
+
+        .shiny-text {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.125rem 0.625rem;
+            transition: all 0.3s ease-out;
+            font-size: 0.6875rem;
+            font-weight: 500;
+            background: linear-gradient(
+                90deg,
+                rgba(195, 183, 152, 0.8) 0%,
+                rgba(255, 255, 255, 1) 25%,
+                rgba(195, 183, 152, 0.8) 50%,
+                rgba(255, 255, 255, 1) 75%,
+                rgba(195, 183, 152, 0.8) 100%
+            );
+            background-size: 200% auto;
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shiny-text 3s linear infinite;
+        }
+
+        .shiny-badge:hover .shiny-text {
+            color: rgba(115, 115, 115, 1);
+        }
+
+        .dark .shiny-badge:hover .shiny-text {
+            color: rgba(163, 163, 163, 1);
+        }
+
+        .shiny-arrow {
+            margin-left: 0.2rem;
+            width: 0.55rem;
+            height: 0.55rem;
+            transition: transform 0.3s ease-in-out;
+            opacity: 0.8;
+        }
+
+        .shiny-badge:hover .shiny-arrow {
+            transform: translateX(0.125rem);
+        }
+
+        /* Responsive spacing for larger monitors - push content down more */
+        @media (min-width: 1920px) {
+            .hero-content-top {
+                padding-top: 4rem !important;
+            }
+        }
+
+        @media (min-width: 2560px) {
+            .hero-content-top {
+                padding-top: 6rem !important;
+            }
+        }
+
+        /* Skeleton Loader Styles */
+        .skeleton {
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: skeleton-loading 1.5s ease-in-out infinite;
+            border-radius: 8px;
+        }
+
+        .skeleton-dark {
+            background: linear-gradient(90deg, rgba(255, 255, 255, 0.05) 25%, rgba(255, 255, 255, 0.1) 50%, rgba(255, 255, 255, 0.05) 75%);
+            background-size: 200% 100%;
+            animation: skeleton-loading 1.5s ease-in-out infinite;
+        }
+
+        @keyframes skeleton-loading {
+            0% {
+                background-position: 200% 0;
+            }
+            100% {
+                background-position: -200% 0;
+            }
+        }
+
+        .skeleton-news-card {
+            opacity: 0.7;
+        }
+
+        .skeleton-blog-card {
+            opacity: 0.7;
+        }
+
+    </style>
+</head>
+
+<body class="bg-navy-start text-white overflow-x-hidden font-sans">
+    <!-- Progressive Blur Overlay at bottom of viewport -->
+    <div class="progressive-blur-viewport"></div>
+    
+    <nav
+        class="absolute top-0 left-0 right-0 z-50 w-full px-6 py-5 lg:px-12 border-b border-white/10 backdrop-blur-sm bg-navy-start/50">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <div class="flex items-center">
+                <img src="https://globaledgeholding.com/wp-content/uploads/2019/07/GitsGedge-logos-4-1.png" alt="Global iTS" class="h-10 w-auto object-contain">
+            </div>
+            <div class="hidden md:flex items-center gap-10">
+                <a class="text-sm font-medium text-white/80 hover:text-primary transition-colors" href="#">Solutions</a>
+                <a class="text-sm font-medium text-white/80 hover:text-primary transition-colors" href="#">Services</a>
+                <a class="text-sm font-medium text-white/80 hover:text-primary transition-colors"
+                    href="#">Industries</a>
+                <a class="text-sm font-medium text-white/80 hover:text-primary transition-colors" href="#">Company</a>
+            </div>
+            <div class="flex items-center gap-4">
+                <button
+                    class="hidden md:flex bg-primary hover:bg-primary-dark text-navy-start font-bold py-2.5 px-6 rounded-lg text-sm transition-all duration-300">
+                    Contact Us
+                </button>
+                <button class="md:hidden text-white">
+                    <span class="material-symbols-outlined">menu</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+    <section
+        class="relative h-screen w-full flex flex-col pt-20 pb-0 overflow-hidden bg-gradient-to-b from-navy-start to-navy-end">
+        <!-- Background Video -->
+        <video 
+            autoplay 
+            loop 
+            muted 
+            playsinline 
+            class="absolute inset-0 w-full h-full object-cover z-0"
+            style="pointer-events: none;">
+            <source src="Copy of Locations Video 2025.mp4" type="video/mp4">
+        </video>
+        
+        <div class="relative z-10 max-w-7xl mx-auto px-6 lg:px-12 flex flex-col items-center w-full h-full justify-between">
+            <!-- Top Content Section -->
+            <div class="flex flex-col items-center w-full pt-2 hero-content-top">
+                <div class="animate-fade-in-up">
+                    <div class="shiny-badge group">
+                        <span class="shiny-text">
+                            <span>✨ Microsoft Inner Circle Partner 2026</span>
+                            <svg class="shiny-arrow" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 15 15" fill="none">
+                                <path d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z" fill="currentColor" fill-rule="evenodd" clip-rule="evenodd"></path>
+                            </svg>
+                        </span>
+                    </div>
+                </div>
+                <div class="mt-4 max-w-4xl text-center">
+                    <h1
+                        class="font-serif text-3xl md:text-4xl lg:text-[44px] leading-[1.1] text-white glow-text mb-3">
+                        <span
+                            class="text-transparent bg-clip-text bg-gradient-to-r from-white via-white to-primary/80">Digitizing Businesses Globally</span>
+                    </h1>
+                </div>
+            </div>
+
+            <!-- Spacer to push stats to bottom -->
+            <div class="flex-1"></div>
+
+            <!-- Statistics Bar - At bottom with higher z-index -->
+            <div class="w-full max-w-4xl mx-auto relative z-20 pb-5">
+                <div
+                    class="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-0 bg-white/5 backdrop-blur-md rounded-xl border border-white/10 p-2 md:p-3 shadow-2xl">
+                    <div class="flex flex-col items-center justify-center text-center md:border-r border-white/10 py-1 px-1">
+                        <span class="material-symbols-outlined text-primary text-2xl mb-1">history</span>
+                        <h3 class="text-2xl font-serif text-white font-bold">17+</h3>
+                        <p class="text-xs text-gray-400 font-medium uppercase tracking-wider mt-0.5">Years Experience</p>
+                    </div>
+                    <div class="flex flex-col items-center justify-center text-center md:border-r border-white/10 py-1 px-1">
+                        <span class="material-symbols-outlined text-primary text-2xl mb-1">public</span>
+                        <h3 class="text-2xl font-serif text-white font-bold">13</h3>
+                        <p class="text-xs text-gray-400 font-medium uppercase tracking-wider mt-0.5">Global Locations</p>
+                    </div>
+                    <div class="flex flex-col items-center justify-center text-center md:border-r border-white/10 py-1 px-1">
+                        <span class="material-symbols-outlined text-primary text-2xl mb-1">corporate_fare</span>
+                        <h3 class="text-2xl font-serif text-white font-bold">100+</h3>
+                        <p class="text-xs text-gray-400 font-medium uppercase tracking-wider mt-0.5">Enterprise Clients
+                        </p>
+                    </div>
+                    <div class="flex flex-col items-center justify-center text-center py-1 px-1">
+                        <span class="material-symbols-outlined text-primary text-2xl mb-1">support_agent</span>
+                        <h3 class="text-2xl font-serif text-white font-bold">24/7</h3>
+                        <p class="text-xs text-gray-400 font-medium uppercase tracking-wider mt-0.5">Expert Support</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Products Section - Light Mode Card Grid -->
+    <section class="aurora-gradient py-24 lg:py-32 w-full relative overflow-hidden border-t border-white/5">
+        <!-- Subtle gradient orbs -->
+        <div class="absolute top-0 right-1/4 w-[600px] h-[600px] rounded-full opacity-30 pointer-events-none" style="background: radial-gradient(circle, rgba(195, 183, 152, 0.15) 0%, transparent 70%);"></div>
+        <div class="absolute bottom-0 left-1/4 w-[500px] h-[500px] rounded-full opacity-20 pointer-events-none" style="background: radial-gradient(circle, rgba(195, 183, 152, 0.08) 0%, transparent 70%);"></div>
+        
+        <div class="max-w-7xl mx-auto px-6 lg:px-12 relative z-10">
+            <!-- Section Header -->
+            <div class="text-center mb-16 max-w-3xl mx-auto">
+                <span class="text-primary font-bold tracking-widest uppercase text-sm mb-3 block">Solution Ecosystem</span>
+                <h2 class="font-serif text-4xl lg:text-6xl mb-6 pb-2 text-white leading-tight">
+                    Structured Intelligence
+                </h2>
+                <p class="text-gray-400 text-lg leading-relaxed">
+                    A unified stack of AI-driven financial platforms designed for precision, scalability, and seamless integration.
+                </p>
+            </div>
+
+            <!-- Products Grid -->
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Microsoft Dynamics 365 -->
+                <div class="group bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-primary transition-all duration-300 relative overflow-hidden flex flex-col">
+                    <!-- Gradient overlay on hover -->
+                    <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" style="background: linear-gradient(135deg, rgba(195, 183, 152, 0.08) 0%, rgba(195, 183, 152, 0.05) 100%);"></div>
+                    
+                    <div class="relative z-10 flex flex-col flex-grow">
+                        <!-- Icon & Header -->
+                        <div class="flex items-end gap-4 mb-4">
+                            <div class="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 transition-all duration-300" style="background: linear-gradient(135deg, rgba(195, 183, 152, 0.2) 0%, rgba(195, 183, 152, 0.1) 100%);">
+                                <span class="material-symbols-outlined text-primary transition-colors" style="font-size: 28px;">database</span>
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="font-serif text-lg font-bold text-white leading-tight">
+                                    Microsoft Dynamics 365
+                                </h3>
+                            </div>
+                        </div>
+
+                        <!-- Description -->
+                        <p class="text-gray-400 text-sm leading-relaxed mb-4">
+                            Complete ERP and CRM solutions including AX, GP, and Business Central for streamlined operations.
+                        </p>
+
+                        <!-- Features & Link - pushed to bottom -->
+                        <div class="mt-auto">
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <span class="px-2 py-1 rounded-md text-xs font-medium bg-white/10 text-gray-300">Finance & Operations</span>
+                                <span class="px-2 py-1 rounded-md text-xs font-medium bg-white/10 text-gray-300">Sales & Marketing</span>
+                                <span class="px-2 py-1 rounded-md text-xs font-medium bg-white/10 text-gray-300">Customer Service</span>
+                            </div>
+
+                            <!-- Link -->
+                            <a href="#" class="inline-flex items-center gap-1 text-sm font-medium text-primary hover:text-white transition-colors group/link">
+                                Learn More
+                                <span class="material-symbols-outlined text-base group-hover/link:translate-x-1 transition-transform">arrow_forward</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cloud Solutions -->
+                <div class="group bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-primary transition-all duration-300 relative overflow-hidden flex flex-col">
+                    <!-- Gradient overlay on hover -->
+                    <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" style="background: linear-gradient(135deg, rgba(195, 183, 152, 0.08) 0%, rgba(0, 1, 58, 0.05) 100%);"></div>
+                    
+                    <div class="relative z-10 flex flex-col flex-grow">
+                        <!-- Icon & Header -->
+                        <div class="flex items-end gap-4 mb-4">
+                            <div class="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 transition-all duration-300" style="background: linear-gradient(135deg, rgba(195, 183, 152, 0.2) 0%, rgba(195, 183, 152, 0.1) 100%);">
+                                <span class="material-symbols-outlined text-primary transition-colors" style="font-size: 28px;">cloud</span>
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="font-serif text-lg font-bold text-white leading-tight">
+                                    Cloud Solutions
+                                </h3>
+                            </div>
+                        </div>
+
+                        <!-- Description -->
+                        <p class="text-gray-400 text-sm leading-relaxed mb-4">
+                            Azure infrastructure, Office 365, and cloud migration services for modern business agility.
+                        </p>
+
+                        <!-- Features & Link - pushed to bottom -->
+                        <div class="mt-auto">
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <span class="px-2 py-1 rounded-md text-xs font-medium bg-white/10 text-gray-300">Azure Migration</span>
+                                <span class="px-2 py-1 rounded-md text-xs font-medium bg-white/10 text-gray-300">Office 365</span>
+                                <span class="px-2 py-1 rounded-md text-xs font-medium bg-white/10 text-gray-300">Hybrid Cloud</span>
+                            </div>
+
+                            <!-- Link -->
+                            <a href="#" class="inline-flex items-center gap-1 text-sm font-medium text-primary hover:text-white transition-colors group/link">
+                                Learn More
+                                <span class="material-symbols-outlined text-base group-hover/link:translate-x-1 transition-transform">arrow_forward</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CRM & xRM Solutions -->
+                <div class="group bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-primary transition-all duration-300 relative overflow-hidden flex flex-col">
+                    <!-- Gradient overlay on hover -->
+                    <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" style="background: linear-gradient(135deg, rgba(195, 183, 152, 0.08) 0%, rgba(0, 1, 58, 0.05) 100%);"></div>
+                    
+                    <div class="relative z-10 flex flex-col flex-grow">
+                        <!-- Icon & Header -->
+                        <div class="flex items-end gap-4 mb-4">
+                            <div class="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 transition-all duration-300" style="background: linear-gradient(135deg, rgba(195, 183, 152, 0.2) 0%, rgba(195, 183, 152, 0.1) 100%);">
+                                <span class="material-symbols-outlined text-primary transition-colors" style="font-size: 28px;">group</span>
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="font-serif text-lg font-bold text-white leading-tight">
+                                    CRM & xRM Solutions
+                                </h3>
+                            </div>
+                        </div>
+
+                        <!-- Description -->
+                        <p class="text-gray-400 text-sm leading-relaxed mb-4">
+                            Customer relationship management tailored for financial institutions and investment firms.
+                        </p>
+
+                        <!-- Features & Link - pushed to bottom -->
+                        <div class="mt-auto">
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <span class="px-2 py-1 rounded-md text-xs font-medium bg-white/10 text-gray-300">Lead Management</span>
+                                <span class="px-2 py-1 rounded-md text-xs font-medium bg-white/10 text-gray-300">Client Portal</span>
+                                <span class="px-2 py-1 rounded-md text-xs font-medium bg-white/10 text-gray-300">Analytics</span>
+                            </div>
+
+                            <!-- Link -->
+                            <a href="#" class="inline-flex items-center gap-1 text-sm font-medium text-primary hover:text-white transition-colors group/link">
+                                Learn More
+                                <span class="material-symbols-outlined text-base group-hover/link:translate-x-1 transition-transform">arrow_forward</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Industry Solutions -->
+                <div class="group bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-primary transition-all duration-300 relative overflow-hidden flex flex-col">
+                    <!-- Gradient overlay on hover -->
+                    <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" style="background: linear-gradient(135deg, rgba(195, 183, 152, 0.08) 0%, rgba(0, 1, 58, 0.05) 100%);"></div>
+                    
+                    <div class="relative z-10 flex flex-col flex-grow">
+                        <!-- Icon & Header -->
+                        <div class="flex items-end gap-4 mb-4">
+                            <div class="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 transition-all duration-300" style="background: linear-gradient(135deg, rgba(195, 183, 152, 0.2) 0%, rgba(195, 183, 152, 0.1) 100%);">
+                                <span class="material-symbols-outlined text-primary transition-colors" style="font-size: 28px;">apartment</span>
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="font-serif text-lg font-bold text-white leading-tight">
+                                    Industry Solutions
+                                </h3>
+                            </div>
+                        </div>
+
+                        <!-- Description -->
+                        <p class="text-gray-400 text-sm leading-relaxed mb-4">
+                            Specialized vertical products for Property Management, Maintenance, and Payroll.
+                        </p>
+
+                        <!-- Features & Link - pushed to bottom -->
+                        <div class="mt-auto">
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <span class="px-2 py-1 rounded-md text-xs font-medium bg-white/10 text-gray-300">Property Management</span>
+                                <span class="px-2 py-1 rounded-md text-xs font-medium bg-white/10 text-gray-300">HR & Payroll</span>
+                                <span class="px-2 py-1 rounded-md text-xs font-medium bg-white/10 text-gray-300">Asset Management</span>
+                            </div>
+
+                            <!-- Link -->
+                            <a href="#" class="inline-flex items-center gap-1 text-sm font-medium text-primary hover:text-white transition-colors group/link">
+                                Learn More
+                                <span class="material-symbols-outlined text-base group-hover/link:translate-x-1 transition-transform">arrow_forward</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Co-Pilot Integration -->
+                <div class="group bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-primary transition-all duration-300 relative overflow-hidden flex flex-col">
+                    <!-- Gradient overlay on hover -->
+                    <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" style="background: linear-gradient(135deg, rgba(195, 183, 152, 0.08) 0%, rgba(0, 1, 58, 0.05) 100%);"></div>
+                    
+                    <div class="relative z-10 flex flex-col flex-grow">
+                        <!-- Icon & Header -->
+                        <div class="flex items-end gap-4 mb-4">
+                            <div class="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 transition-all duration-300" style="background: linear-gradient(135deg, rgba(195, 183, 152, 0.2) 0%, rgba(195, 183, 152, 0.1) 100%);">
+                                <span class="material-symbols-outlined text-primary transition-colors" style="font-size: 28px;">settings</span>
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="font-serif text-lg font-bold text-white leading-tight">
+                                    Co-Pilot Integration
+                                </h3>
+                            </div>
+                        </div>
+
+                        <!-- Description -->
+                        <p class="text-gray-400 text-sm leading-relaxed mb-4">
+                            AI-powered productivity tools leveraging Microsoft Copilot for enhanced decision making.
+                        </p>
+
+                        <!-- Features & Link - pushed to bottom -->
+                        <div class="mt-auto">
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <span class="px-2 py-1 rounded-md text-xs font-medium bg-white/10 text-gray-300">AI Assistance</span>
+                                <span class="px-2 py-1 rounded-md text-xs font-medium bg-white/10 text-gray-300">Automation</span>
+                                <span class="px-2 py-1 rounded-md text-xs font-medium bg-white/10 text-gray-300">Insights</span>
+                            </div>
+
+                            <!-- Link -->
+                            <a href="#" class="inline-flex items-center gap-1 text-sm font-medium text-primary hover:text-white transition-colors group/link">
+                                Learn More
+                                <span class="material-symbols-outlined text-base group-hover/link:translate-x-1 transition-transform">arrow_forward</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Infrastructure & Security -->
+                <div class="group bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-primary transition-all duration-300 relative overflow-hidden flex flex-col">
+                    <!-- Gradient overlay on hover -->
+                    <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" style="background: linear-gradient(135deg, rgba(195, 183, 152, 0.08) 0%, rgba(0, 1, 58, 0.05) 100%);"></div>
+                    
+                    <div class="relative z-10 flex flex-col flex-grow">
+                        <!-- Icon & Header -->
+                        <div class="flex items-end gap-4 mb-4">
+                            <div class="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 transition-all duration-300" style="background: linear-gradient(135deg, rgba(195, 183, 152, 0.2) 0%, rgba(195, 183, 152, 0.1) 100%);">
+                                <span class="material-symbols-outlined text-primary transition-colors" style="font-size: 28px;">shield</span>
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="font-serif text-lg font-bold text-white leading-tight">
+                                    Infrastructure & Security
+                                </h3>
+                            </div>
+                        </div>
+
+                        <!-- Description -->
+                        <p class="text-gray-400 text-sm leading-relaxed mb-4">
+                            Enterprise-grade Hyper-V infrastructure with comprehensive security solutions.
+                        </p>
+
+                        <!-- Features & Link - pushed to bottom -->
+                        <div class="mt-auto">
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <span class="px-2 py-1 rounded-md text-xs font-medium bg-white/10 text-gray-300">Network Security</span>
+                                <span class="px-2 py-1 rounded-md text-xs font-medium bg-white/10 text-gray-300">Compliance</span>
+                                <span class="px-2 py-1 rounded-md text-xs font-medium bg-white/10 text-gray-300">Monitoring</span>
+                            </div>
+
+                            <!-- Link -->
+                            <a href="#" class="inline-flex items-center gap-1 text-sm font-medium text-primary hover:text-white transition-colors group/link">
+                                Learn More
+                                <span class="material-symbols-outlined text-base group-hover/link:translate-x-1 transition-transform">arrow_forward</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="aurora-gradient py-20 lg:py-24 w-full relative overflow-hidden border-t border-white/5">
+        <!-- Subtle gradient orbs -->
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[900px] bg-primary/20 rounded-full blur-[150px] pointer-events-none z-0"></div>
+        
+        <div class="max-w-7xl mx-auto px-6 lg:px-12 relative z-10">
+            <div class="text-center mb-16 max-w-3xl mx-auto">
+                <h2 class="font-serif text-4xl lg:text-5xl text-white mb-6 leading-tight">Serving Every Sector of
+                    Financial Services</h2>
+                <p class="text-gray-400 text-lg leading-relaxed">
+                    Specialized solutions tailored to your industry's unique requirements
+                </p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div
+                    class="bg-white/5 backdrop-blur-sm rounded-[16px] p-8 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col items-start border border-white/10 h-full">
+                    <span class="material-symbols-outlined text-[64px] text-primary mb-6 font-thin">storefront</span>
+                    <h4 class="text-[22px] font-serif font-bold text-white mb-3">Retail Banking</h4>
+                    <p class="text-sm text-gray-400 leading-relaxed mb-6">
+                        Optimized branch operations and personalized customer journeys powered by predictive AI models.
+                    </p>
+                    <a class="text-primary hover:text-white text-sm font-semibold mt-auto flex items-center gap-1 transition-colors group"
+                        href="#">
+                        Learn More <span class="transition-transform group-hover:translate-x-1">→</span>
+                    </a>
+                </div>
+                <div
+                    class="bg-white/5 backdrop-blur-sm rounded-[16px] p-8 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col items-start border border-white/10 h-full">
+                    <span class="material-symbols-outlined text-[64px] text-primary mb-6 font-thin">domain</span>
+                    <h4 class="text-[22px] font-serif font-bold text-white mb-3">Corporate Banking</h4>
+                    <p class="text-sm text-gray-400 leading-relaxed mb-6">
+                        Streamlined cash management and trade finance solutions for complex enterprise requirements.
+                    </p>
+                    <a class="text-primary hover:text-white text-sm font-semibold mt-auto flex items-center gap-1 transition-colors group"
+                        href="#">
+                        Learn More <span class="transition-transform group-hover:translate-x-1">→</span>
+                    </a>
+                </div>
+                <div
+                    class="bg-white/5 backdrop-blur-sm rounded-[16px] p-8 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col items-start border border-white/10 h-full">
+                    <span class="material-symbols-outlined text-[64px] text-primary mb-6 font-thin">verified_user</span>
+                    <h4 class="text-[22px] font-serif font-bold text-white mb-3">Private Banking</h4>
+                    <p class="text-sm text-gray-400 leading-relaxed mb-6">
+                        Bespoke wealth structuring and secure client management for high-net-worth individuals.
+                    </p>
+                    <a class="text-primary hover:text-white text-sm font-semibold mt-auto flex items-center gap-1 transition-colors group"
+                        href="#">
+                        Learn More <span class="transition-transform group-hover:translate-x-1">→</span>
+                    </a>
+                </div>
+                <div
+                    class="bg-white/5 backdrop-blur-sm rounded-[16px] p-8 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col items-start border border-white/10 h-full">
+                    <span
+                        class="material-symbols-outlined text-[64px] text-primary mb-6 font-thin">health_and_safety</span>
+                    <h4 class="text-[22px] font-serif font-bold text-white mb-3">Insurance</h4>
+                    <p class="text-sm text-gray-400 leading-relaxed mb-6">
+                        Advanced underwriting algorithms and automated claims processing for modern insurers.
+                    </p>
+                    <a class="text-primary hover:text-white text-sm font-semibold mt-auto flex items-center gap-1 transition-colors group"
+                        href="#">
+                        Learn More <span class="transition-transform group-hover:translate-x-1">→</span>
+                    </a>
+                </div>
+                <div
+                    class="bg-white/5 backdrop-blur-sm rounded-[16px] p-8 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col items-start border border-white/10 h-full">
+                    <span
+                        class="material-symbols-outlined text-[64px] text-primary mb-6 font-thin">account_balance_wallet</span>
+                    <h4 class="text-[22px] font-serif font-bold text-white mb-3">Wealth Management</h4>
+                    <p class="text-sm text-gray-400 leading-relaxed mb-6">
+                        Comprehensive portfolio analysis and advisory tools to maximize client asset growth.
+                    </p>
+                    <a class="text-primary hover:text-white text-sm font-semibold mt-auto flex items-center gap-1 transition-colors group"
+                        href="#">
+                        Learn More <span class="transition-transform group-hover:translate-x-1">→</span>
+                    </a>
+                </div>
+                <div
+                    class="bg-white/5 backdrop-blur-sm rounded-[16px] p-8 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col items-start border border-white/10 h-full">
+                    <span class="material-symbols-outlined text-[64px] text-primary mb-6 font-thin">trending_up</span>
+                    <h4 class="text-[22px] font-serif font-bold text-white mb-3">Investment Firms</h4>
+                    <p class="text-sm text-gray-400 leading-relaxed mb-6">
+                        Data-driven market insights and algorithmic trading support for institutional investors.
+                    </p>
+                    <a class="text-primary hover:text-white text-sm font-semibold mt-auto flex items-center gap-1 transition-colors group"
+                        href="#">
+                        Learn More <span class="transition-transform group-hover:translate-x-1">→</span>
+                    </a>
+                </div>
+                <div
+                    class="bg-white/5 backdrop-blur-sm rounded-[16px] p-8 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col items-start border border-white/10 h-full">
+                    <span
+                        class="material-symbols-outlined text-[64px] text-primary mb-6 font-thin">family_restroom</span>
+                    <h4 class="text-[22px] font-serif font-bold text-white mb-3">Family Offices</h4>
+                    <p class="text-sm text-gray-400 leading-relaxed mb-6">
+                        Integrated generational wealth planning and multi-asset reporting systems.
+                    </p>
+                    <a class="text-primary hover:text-white text-sm font-semibold mt-auto flex items-center gap-1 transition-colors group"
+                        href="#">
+                        Learn More <span class="transition-transform group-hover:translate-x-1">→</span>
+                    </a>
+                </div>
+                <div
+                    class="bg-white/5 backdrop-blur-sm rounded-[16px] p-8 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col items-start border border-white/10 h-full">
+                    <span class="material-symbols-outlined text-[64px] text-primary mb-6 font-thin">apartment</span>
+                    <h4 class="text-[22px] font-serif font-bold text-white mb-3">Real Estate</h4>
+                    <p class="text-sm text-gray-400 leading-relaxed mb-6">
+                        Property portfolio management and lease administration for real estate investment trusts.
+                    </p>
+                    <a class="text-primary hover:text-white text-sm font-semibold mt-auto flex items-center gap-1 transition-colors group"
+                        href="#">
+                        Learn More <span class="transition-transform group-hover:translate-x-1">→</span>
+                    </a>
+                </div>
+                <div
+                    class="bg-white/5 backdrop-blur-sm rounded-[16px] p-8 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col items-start border border-white/10 h-full">
+                    <span class="material-symbols-outlined text-[64px] text-primary mb-6 font-thin">hub</span>
+                    <h4 class="text-[22px] font-serif font-bold text-white mb-3">Holding Companies</h4>
+                    <p class="text-sm text-gray-400 leading-relaxed mb-6">
+                        Consolidated financial reporting and governance across diverse subsidiary portfolios.
+                    </p>
+                    <a class="text-primary hover:text-white text-sm font-semibold mt-auto flex items-center gap-1 transition-colors group"
+                        href="#">
+                        Learn More <span class="transition-transform group-hover:translate-x-1">→</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Our Foundation Section -->
+    <section class="aurora-gradient py-24 w-full border-t border-white/5 relative">
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[900px] bg-primary/20 rounded-full blur-[150px] pointer-events-none z-0"></div>
+        <div class="max-w-7xl mx-auto px-6 lg:px-12 flex flex-col lg:flex-row items-center gap-20 relative z-10">
+            <div class="w-full lg:w-1/2">
+                <span class="text-primary font-bold tracking-widest uppercase text-sm mb-4 block">Our Foundation</span>
+                <h2 class="font-serif text-4xl lg:text-5xl text-white mb-8 leading-tight">Built on Microsoft Cloud, Optimized for Enterprise</h2>
+                <div class="space-y-6">
+                    <div class="flex items-start gap-4">
+                        <span class="material-symbols-outlined text-primary mt-1">verified</span>
+                        <div>
+                            <h4 class="text-lg font-bold text-white mb-1">Microsoft Inner Circle</h4>
+                            <p class="text-gray-400 text-sm">Top 1% of global partners, delivering specialized Microsoft Dynamics 365 and Azure frameworks.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-4">
+                        <span class="material-symbols-outlined text-primary mt-1">security</span>
+                        <div>
+                            <h4 class="text-lg font-bold text-white mb-1">Global Compliance Ready</h4>
+                            <p class="text-gray-400 text-sm">Enterprise-grade security standards ensuring your data residency and sovereign cloud requirements.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-10 flex flex-wrap gap-4">
+                    <div class="bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-xs font-semibold text-gray-400 uppercase tracking-wider">Dynamics 365</div>
+                    <div class="bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-xs font-semibold text-gray-400 uppercase tracking-wider">Azure AI</div>
+                    <div class="bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-xs font-semibold text-gray-400 uppercase tracking-wider">Power Platform</div>
+                </div>
+            </div>
+            <div class="w-full lg:w-1/2">
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-6">
+                    <div class="aspect-square glass-slab rounded-2xl flex flex-col items-center justify-center p-6 text-center" style="box-shadow: 0 0 25px rgba(195, 183, 152, 0.1); border: 1px solid rgba(195, 183, 152, 0.2);">
+                        <span class="material-symbols-outlined text-4xl text-primary mb-3">workspace_premium</span>
+                        <p class="text-[10px] font-bold uppercase tracking-widest">Microsoft Gold Partner</p>
+                    </div>
+                    <div class="aspect-square glass-slab rounded-2xl flex flex-col items-center justify-center p-6 text-center" style="box-shadow: 0 0 25px rgba(195, 183, 152, 0.1); border: 1px solid rgba(195, 183, 152, 0.2);">
+                        <span class="material-symbols-outlined text-4xl text-primary mb-3">stars</span>
+                        <p class="text-[10px] font-bold uppercase tracking-widest">Inner Circle Member</p>
+                    </div>
+                    <div class="aspect-square glass-slab rounded-2xl flex flex-col items-center justify-center p-6 text-center" style="box-shadow: 0 0 25px rgba(195, 183, 152, 0.1); border: 1px solid rgba(195, 183, 152, 0.2);">
+                        <span class="material-symbols-outlined text-4xl text-primary mb-3">lock</span>
+                        <p class="text-[10px] font-bold uppercase tracking-widest">ISO 27001 Certified</p>
+                    </div>
+                    <div class="aspect-square glass-slab rounded-2xl flex flex-col items-center justify-center p-6 text-center" style="box-shadow: 0 0 25px rgba(195, 183, 152, 0.1); border: 1px solid rgba(195, 183, 152, 0.2);">
+                        <span class="material-symbols-outlined text-4xl text-primary mb-3">assignment_turned_in</span>
+                        <p class="text-[10px] font-bold uppercase tracking-widest">SOC 2 Type II</p>
+                    </div>
+                    <div class="aspect-square glass-slab rounded-2xl flex flex-col items-center justify-center p-6 text-center" style="box-shadow: 0 0 25px rgba(195, 183, 152, 0.1); border: 1px solid rgba(195, 183, 152, 0.2);">
+                        <span class="material-symbols-outlined text-4xl text-primary mb-3">cloud_done</span>
+                        <p class="text-[10px] font-bold uppercase tracking-widest">Azure Specialist</p>
+                    </div>
+                    <div class="aspect-square glass-slab rounded-2xl flex flex-col items-center justify-center p-6 text-center" style="box-shadow: 0 0 25px rgba(195, 183, 152, 0.1); border: 1px solid rgba(195, 183, 152, 0.2);">
+                        <span class="material-symbols-outlined text-4xl text-primary mb-3">shield_person</span>
+                        <p class="text-[10px] font-bold uppercase tracking-widest">GDPR Compliant</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Global iTS Section -->
+    <section class="aurora-gradient py-24 w-full border-t border-white/5 relative">
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[900px] bg-primary/20 rounded-full blur-[150px] pointer-events-none z-0"></div>
+        <div class="max-w-7xl mx-auto px-6 lg:px-12 relative z-10">
+            <div class="text-center mb-20">
+                <span class="text-primary font-bold tracking-widest uppercase text-sm mb-3 block">Why Global iTS</span>
+                <h2 class="font-serif text-4xl lg:text-5xl text-white mb-6 leading-tight">Powering Enterprise Excellence Worldwide</h2>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12 mb-20">
+                <div class="text-center p-6">
+                    <div class="size-20 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <span class="material-symbols-outlined text-4xl text-primary">history</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-4">17+ Years Legacy</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">Almost two decades of domain expertise in financial services, navigating shifting regulations and tech cycles.</p>
+                </div>
+                <div class="text-center p-6">
+                    <div class="size-20 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <span class="material-symbols-outlined text-4xl text-primary">speed</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-4">Rapid Implementation</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">Our proprietary G-Start methodology accelerates deployment, ensuring you realize value in record time.</p>
+                </div>
+                <div class="text-center p-6">
+                    <div class="size-20 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <span class="material-symbols-outlined text-4xl text-primary">support</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-4">Local Global Support</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">Combining global delivery capabilities with dedicated local support teams in 13+ countries.</p>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="bg-white/5 backdrop-blur-sm p-8 rounded-xl border-t-2 border-primary shadow-sm">
+                    <h4 class="font-bold text-white mb-3">Bank-Grade Security</h4>
+                    <p class="text-xs text-gray-400 leading-relaxed">End-to-end encryption and multi-layer threat protection across all AI modules.</p>
+                </div>
+                <div class="bg-white/5 backdrop-blur-sm p-8 rounded-xl border-t-2 border-primary shadow-sm">
+                    <h4 class="font-bold text-white mb-3">Industry Specific</h4>
+                    <p class="text-xs text-gray-400 leading-relaxed">Custom workflows designed specifically for Shariah compliance and GCC regulatory frameworks.</p>
+                </div>
+                <div class="bg-white/5 backdrop-blur-sm p-8 rounded-xl border-t-2 border-primary shadow-sm">
+                    <h4 class="font-bold text-white mb-3">Seamless Integration</h4>
+                    <p class="text-xs text-gray-400 leading-relaxed">Pre-built connectors for legacy core systems, SWIFT, and regional clearing houses.</p>
+                </div>
+                <div class="bg-white/5 backdrop-blur-sm p-8 rounded-xl border-t-2 border-primary shadow-sm">
+                    <h4 class="font-bold text-white mb-3">Measurable ROI</h4>
+                    <p class="text-xs text-gray-400 leading-relaxed">Focused on tangible outcomes: lower OpEx, higher STP rates, and improved CX.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="aurora-gradient py-20 lg:py-24 w-full border-t border-white/5 relative">
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[900px] bg-primary/20 rounded-full blur-[150px] pointer-events-none z-0"></div>
+        <style>
+            @keyframes marqueeScroll {
+                0% {
+                    transform: translateX(0%);
+                }
+
+                100% {
+                    transform: translateX(-50%);
+                }
+            }
+
+            .marquee-container {
+                width: 100%;
+                overflow: hidden;
+                background: transparent;
+            }
+
+            .marquee-row {
+                width: 100%;
+                max-width: 1200px;
+                margin: 0 auto;
+                overflow: hidden;
+                position: relative;
+            }
+
+            .marquee-gradient-left {
+                position: absolute;
+                left: 0;
+                top: 0;
+                height: 100%;
+                width: 80px;
+                z-index: 10;
+                pointer-events: none;
+                background: linear-gradient(to right, rgba(8, 9, 37, 1), transparent);
+            }
+
+            .marquee-gradient-right {
+                position: absolute;
+                right: 0;
+                top: 0;
+                height: 100%;
+                width: 80px;
+                z-index: 10;
+                pointer-events: none;
+                background: linear-gradient(to left, rgba(8, 9, 37, 1), transparent);
+            }
+
+            @media (min-width: 768px) {
+                .marquee-gradient-right {
+                    width: 160px;
+                }
+            }
+
+            .marquee-inner {
+                display: flex;
+                min-width: 200%;
+                animation: marqueeScroll 90s linear infinite;
+                padding: 40px 0 20px;
+            }
+
+            .marquee-row:hover .marquee-inner {
+                animation-play-state: paused;
+            }
+
+            .marquee-reverse {
+                animation-direction: reverse;
+                padding: 20px 0 40px;
+            }
+
+            .testimonial-card {
+                background: rgba(255, 255, 255, 0.05);
+                backdrop-filter: blur(10px);
+                padding: 24px;
+                border-radius: 12px;
+                margin: 0 16px;
+                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                width: 380px;
+                flex-shrink: 0;
+                transition: all 0.2s ease;
+            }
+
+            .testimonial-card:hover {
+                box-shadow: 0 4px 12px rgba(195, 183, 152, 0.2);
+                border-color: rgba(195, 183, 152, 0.3);
+            }
+
+            .card-header {
+                display: flex;
+                gap: 12px;
+                margin-bottom: 16px;
+                background: transparent;
+            }
+
+            .company-logo {
+                width: 105px;
+                height: 105px;
+                object-fit: contain;
+                flex-shrink: 0;
+            }
+
+            .user-info {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+            }
+
+            .user-name {
+                font-weight: 600;
+                font-size: 16px;
+                color: #ffffff;
+                margin-bottom: 4px;
+            }
+
+            .user-position {
+                font-size: 13px;
+                color: #9ca3af;
+                line-height: 1.4;
+            }
+
+            .testimonial-text {
+                font-size: 14px;
+                line-height: 1.6;
+                color: #d1d5db;
+            }
+        </style>
+        <div class="max-w-7xl mx-auto px-6 lg:px-12 relative z-10">
+            <div class="text-center mb-16 max-w-3xl mx-auto">
+                <span class="text-primary font-bold tracking-widest uppercase text-sm mb-3 block">Client Success
+                    Stories</span>
+                <h2 class="font-serif text-4xl lg:text-5xl text-white mb-6 leading-tight">Trusted by Industry Leaders</h2>
+                <p class="text-gray-400 text-lg leading-relaxed">
+                    Hear from our clients about their transformative experiences with Global iTS solutions
+                </p>
+            </div>
+            <div class="marquee-container">
+                <div class="marquee-row">
+                    <div class="marquee-gradient-left"></div>
+                    <div class="marquee-inner" id="row1"></div>
+                    <div class="marquee-gradient-right"></div>
+                </div>
+                <div class="marquee-row">
+                    <div class="marquee-gradient-left"></div>
+                    <div class="marquee-inner marquee-reverse" id="row2"></div>
+                    <div class="marquee-gradient-right"></div>
+                </div>
+            </div>
+        </div>
+        <script>
+            const testimonialsData = [
+                {
+                    logo: 'https://globalits.bh/demo/wp-content/uploads/2025/12/Untitled-design-80-1024x1024-1.png',
+                    name: 'Layla Abdulghani',
+                    position: 'HR Manager, The Family Office',
+                    text: 'Our legacy HR system was slow and manual. With GHRMS, HR is now streamlined, efficient, and cost effective. We achieved real value and faster workflows. Kudos to Global ITS for precise execution and on-time delivery.'
+                },
+                {
+                    logo: 'https://globalits.bh/demo/wp-content/uploads/2025/12/Untitled-design-77-1024x1024-1.png',
+                    name: 'Ahmed Radhi',
+                    position: 'Assistant General Manager, SNIC Insurance',
+                    text: 'After a rigorous tender, NBB chose Global ITS as our ERP partner. Their deep banking expertise and strong delivery team gave us full confidence in this investment. We are proud to partner with Global ITS.'
+                },
+                {
+                    logo: 'https://globalits.bh/demo/wp-content/uploads/2025/12/Untitled-design-76-1024x1024-1.png',
+                    name: 'Husain Sabt',
+                    position: 'Head of IT, Solidarity Bahrain',
+                    text: 'Solidarity Bahrain successfully implemented Microsoft Dynamics 365 CRM, improving customer experience, productivity, and efficiency while reducing risk and cost. We thank Global ITS for their expert guidance.'
+                }
+            ];
+
+            const createCard = (testimonial) => `
+            <div class="testimonial-card">
+                <div class="card-header">
+                    <img class="company-logo" src="${testimonial.logo}" alt="${testimonial.name}">
+                    <div class="user-info">
+                        <div class="user-name">${testimonial.name}</div>
+                        <div class="user-position">${testimonial.position}</div>
+                    </div>
+                </div>
+                <p class="testimonial-text">${testimonial.text}</p>
+            </div>
+        `;
+
+            const renderCards = (target) => {
+                const doubled = [...testimonialsData, ...testimonialsData];
+                doubled.forEach(testimonial => target.insertAdjacentHTML('beforeend', createCard(testimonial)));
+            };
+
+            const row1 = document.getElementById('row1');
+            const row2 = document.getElementById('row2');
+
+            renderCards(row1);
+            renderCards(row2);
+        </script>
+    </section>
+
+    <!-- Executive Management Section -->
+    <section class="aurora-gradient py-24 lg:py-32 w-full relative overflow-hidden border-t border-white/5">
+        <!-- Subtle gradient orbs -->
+        <div class="absolute top-0 left-1/4 w-[500px] h-[500px] rounded-full opacity-20 pointer-events-none" style="background: radial-gradient(circle, rgba(195, 183, 152, 0.15) 0%, transparent 70%);"></div>
+        <div class="absolute bottom-0 right-1/4 w-[600px] h-[600px] rounded-full opacity-20 pointer-events-none" style="background: radial-gradient(circle, rgba(195, 183, 152, 0.08) 0%, transparent 70%);"></div>
+        
+        <div class="max-w-7xl mx-auto px-6 lg:px-12 relative z-10">
+            <!-- Section Header -->
+            <div class="text-center mb-16 max-w-3xl mx-auto">
+                <span class="text-primary font-bold tracking-widest uppercase text-sm mb-3 block">Leadership</span>
+                <h2 class="font-serif text-4xl lg:text-5xl mb-6 text-white leading-tight">
+                    Executive Management
+                </h2>
+                <p class="text-gray-400 text-lg leading-relaxed">
+                    Guided by visionaries with deep expertise in finance and technology, we steer the future of digital transformation.
+                </p>
+            </div>
+
+            <!-- Team Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Redha Radhi -->
+                <div class="group bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-primary transition-all duration-300 flex flex-col items-center text-center relative overflow-hidden">
+                    <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" style="background: linear-gradient(135deg, rgba(195, 183, 152, 0.05) 0%, rgba(0, 1, 58, 0.03) 100%);"></div>
+                    
+                    <div class="relative z-10 w-full flex flex-col items-center">
+                        <div class="relative w-full aspect-[3/4] mb-6 overflow-hidden rounded-xl bg-white/10">
+                            <img alt="Redha Radhi" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" src="https://globalits.bh/wp-content/uploads/2025/01/ORG-Structure-Globalits.png" loading="lazy" />
+                        </div>
+                        <h3 class="text-xl font-bold mb-1 text-white">Redha Radhi</h3>
+                        <span class="text-sm font-semibold text-primary uppercase tracking-wide">Chief Executive Officer</span>
+                        <div class="mt-4 flex gap-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <a class="text-gray-400 hover:text-primary transition-colors" href="#">
+                                <span class="text-sm">LinkedIn</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bader Hashem -->
+                <div class="group bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-primary transition-all duration-300 flex flex-col items-center text-center relative overflow-hidden">
+                    <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" style="background: linear-gradient(135deg, rgba(195, 183, 152, 0.05) 0%, rgba(0, 1, 58, 0.03) 100%);"></div>
+                    
+                    <div class="relative z-10 w-full flex flex-col items-center">
+                        <div class="relative w-full aspect-[3/4] mb-6 overflow-hidden rounded-xl bg-white/10">
+                            <img alt="Bader Hashem" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" src="https://globalits.bh/wp-content/uploads/2025/01/ORG-Structure-Globalits-1.png" loading="lazy" />
+                        </div>
+                        <h3 class="text-xl font-bold mb-1 text-white">Bader Hashem</h3>
+                        <span class="text-sm font-semibold text-primary uppercase tracking-wide">Chief Operating Officer</span>
+                        <div class="mt-4 flex gap-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <a class="text-gray-400 hover:text-primary transition-colors" href="#">
+                                <span class="text-sm">LinkedIn</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Yaser Hassan -->
+                <div class="group bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-primary transition-all duration-300 flex flex-col items-center text-center relative overflow-hidden">
+                    <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" style="background: linear-gradient(135deg, rgba(195, 183, 152, 0.05) 0%, rgba(0, 1, 58, 0.03) 100%);"></div>
+                    
+                    <div class="relative z-10 w-full flex flex-col items-center">
+                        <div class="relative w-full aspect-[3/4] mb-6 overflow-hidden rounded-xl bg-white/10">
+                            <img alt="Yaser Hassan" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" src="https://globalits.bh/wp-content/uploads/2025/01/ORG-Structure-Globalits-2.png" loading="lazy" />
+                        </div>
+                        <h3 class="text-xl font-bold mb-1 text-white">Yaser Hassan</h3>
+                        <span class="text-sm font-semibold text-primary uppercase tracking-wide">Chief Technology Officer</span>
+                        <div class="mt-4 flex gap-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <a class="text-gray-400 hover:text-primary transition-colors" href="#">
+                                <span class="text-sm">LinkedIn</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Alaa Sabt -->
+                <div class="group bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-primary transition-all duration-300 flex flex-col items-center text-center relative overflow-hidden">
+                    <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" style="background: linear-gradient(135deg, rgba(195, 183, 152, 0.05) 0%, rgba(0, 1, 58, 0.03) 100%);"></div>
+                    
+                    <div class="relative z-10 w-full flex flex-col items-center">
+                        <div class="relative w-full aspect-[3/4] mb-6 overflow-hidden rounded-xl bg-white/10">
+                            <img alt="Alaa Sabt" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" src="https://globalits.bh/wp-content/uploads/2025/01/ORG-Structure-Globalits-5.png" loading="lazy" />
+                        </div>
+                        <h3 class="text-xl font-bold mb-1 text-white">Alaa Sabt</h3>
+                        <span class="text-sm font-semibold text-primary uppercase tracking-wide">Chief Financial Officer</span>
+                        <div class="mt-4 flex gap-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <a class="text-gray-400 hover:text-primary transition-colors" href="#">
+                                <span class="text-sm">LinkedIn</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Vision & Mission Section -->
+    <section class="aurora-gradient py-16 lg:py-20 w-full relative overflow-hidden border-t border-white/5">
+        <!-- Subtle gradient orbs for navy-gold accent -->
+        <div class="absolute -bottom-32 -right-32 w-[350px] h-[350px] rounded-full opacity-[0.12] pointer-events-none" style="background: linear-gradient(135deg, rgba(195, 183, 152, 0.4) 0%, rgba(168, 155, 125, 0.3) 100%);"></div>
+
+        <div class="max-w-5xl mx-auto px-6 lg:px-12 relative z-10">
+            <!-- Header -->
+            <div class="text-center mb-10">
+                <h2 class="font-serif text-4xl lg:text-5xl mb-4 text-white leading-tight">
+                    Vision & <span class="text-primary">Mission</span>
+                </h2>
+                <p class="text-gray-400 text-lg max-w-2xl mx-auto">
+                    Guiding principles that drive our commitment to excellence
+                </p>
+            </div>
+
+            <!-- Cards -->
+            <div class="grid md:grid-cols-2 gap-6 mb-6">
+                <!-- Vision Card -->
+                <div class="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-primary transition-all duration-300 shadow-sm hover:shadow-lg">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-12 h-12 rounded-xl flex items-center justify-center" style="background: rgba(195, 183, 152, 0.2);">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#c3b798" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"></path>
+                                <circle cx="12" cy="12" r="3"></circle>
+                            </svg>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white">Our Vision</h3>
+                    </div>
+                    <p class="text-gray-400 leading-relaxed mb-4">
+                        To be the catalyst for transformative growth, empowering organizations 
+                        to achieve sustainable success through innovation and forward-thinking solutions.
+                    </p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-3 py-1 rounded-full text-sm font-medium bg-white/10 text-gray-300">Innovation</span>
+                        <span class="px-3 py-1 rounded-full text-sm font-medium bg-white/10 text-gray-300">Growth</span>
+                        <span class="px-3 py-1 rounded-full text-sm font-medium bg-white/10 text-gray-300">Excellence</span>
+                    </div>
+                </div>
+
+                <!-- Mission Card -->
+                <div class="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-primary transition-all duration-300 shadow-sm hover:shadow-lg">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-12 h-12 rounded-xl flex items-center justify-center" style="background: rgba(195, 183, 152, 0.2);">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#c3b798" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <circle cx="12" cy="12" r="6"></circle>
+                                <circle cx="12" cy="12" r="2"></circle>
+                            </svg>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white">Our Mission</h3>
+                    </div>
+                    <p class="text-gray-400 leading-relaxed mb-4">
+                        We deliver exceptional value through strategic partnerships, 
+                        leveraging expertise to solve complex challenges and create lasting positive outcomes.
+                    </p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-3 py-1 rounded-full text-sm font-medium bg-white/10 text-gray-300">Partnership</span>
+                        <span class="px-3 py-1 rounded-full text-sm font-medium bg-white/10 text-gray-300">Expertise</span>
+                        <span class="px-3 py-1 rounded-full text-sm font-medium bg-white/10 text-gray-300">Impact</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Core Values -->
+            <div class="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 shadow-sm">
+                <h3 class="text-2xl font-bold text-center mb-6 text-white">Core Values</h3>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <div class="text-center p-4 rounded-xl bg-white/5 hover:bg-white/10 transition-colors">
+                        <div class="w-3 h-3 rounded-full mx-auto mb-3" style="background: linear-gradient(135deg, rgba(195, 183, 152, 0.8) 0%, rgba(195, 183, 152, 0.6) 100%);"></div>
+                        <h4 class="font-semibold text-base mb-1 text-white">Integrity</h4>
+                        <p class="text-sm text-gray-400">Honest & transparent</p>
+                    </div>
+                    <div class="text-center p-4 rounded-xl bg-white/5 hover:bg-white/10 transition-colors">
+                        <div class="w-3 h-3 rounded-full mx-auto mb-3" style="background: linear-gradient(135deg, rgba(195, 183, 152, 0.75) 0%, rgba(195, 183, 152, 0.65) 100%);"></div>
+                        <h4 class="font-semibold text-base mb-1 text-white">Collaboration</h4>
+                        <p class="text-sm text-gray-400">Stronger together</p>
+                    </div>
+                    <div class="text-center p-4 rounded-xl bg-white/5 hover:bg-white/10 transition-colors">
+                        <div class="w-3 h-3 rounded-full mx-auto mb-3" style="background: linear-gradient(135deg, rgba(195, 183, 152, 0.7) 0%, rgba(195, 183, 152, 0.7) 100%);"></div>
+                        <h4 class="font-semibold text-base mb-1 text-white">Innovation</h4>
+                        <p class="text-sm text-gray-400">Forward thinking</p>
+                    </div>
+                    <div class="text-center p-4 rounded-xl bg-white/5 hover:bg-white/10 transition-colors">
+                        <div class="w-3 h-3 rounded-full mx-auto mb-3" style="background: linear-gradient(135deg, rgba(195, 183, 152, 0.65) 0%, rgba(195, 183, 152, 0.75) 100%);"></div>
+                        <h4 class="font-semibold text-base mb-1 text-white">Excellence</h4>
+                        <p class="text-sm text-gray-400">Highest standards</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // WordPress GraphQL Query Function
+        async function getPostsByCategory(category, limit = 3) {
+            try {
+                const res = await fetch('https://globalits.bh/graphql', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        query: `
+                            query ($category: String!, $limit: Int!) {
+                                posts(
+                                    first: $limit,
+                                    where: { categoryName: $category }
+                                ) {
+                                    nodes {
+                                        id
+                                        title
+                                        excerpt
+                                        slug
+                                        date
+                                        featuredImage {
+                                            node {
+                                                sourceUrl
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        `,
+                        variables: {
+                            category,
+                            limit
+                        }
+                    })
+                });
+
+                if (!res.ok) {
+                    throw new Error(`HTTP error! status: ${res.status}`);
+                }
+
+                const json = await res.json();
+                
+                if (json.errors) {
+                    console.error('GraphQL errors:', json.errors);
+                    return null;
+                }
+
+                return json.data?.posts?.nodes || null;
+            } catch (error) {
+                console.error(`Error fetching ${category} posts:`, error);
+                return null;
+            }
+        }
+
+        // Format date to readable format (e.g., "Oct 24, 2024")
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            const options = { year: 'numeric', month: 'short', day: 'numeric' };
+            return date.toLocaleDateString('en-US', options);
+        }
+
+        // Render News Posts
+        function renderNewsPosts(posts, containerId) {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+
+            container.innerHTML = '';
+
+            posts.forEach(post => {
+                const article = document.createElement('article');
+                article.className = 'group cursor-pointer';
+
+                const featuredImage = post.featuredImage?.node?.sourceUrl || 'https://via.placeholder.com/800x500/00013a/c3b798?text=No+Image';
+                const formattedDate = formatDate(post.date);
+
+                article.innerHTML = `
+                    <div class="aspect-[16/10] w-full rounded-[20px] overflow-hidden mb-6 relative">
+                        <img alt="${post.title}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" src="${featuredImage}" />
+                        <div class="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors"></div>
+                    </div>
+                    <div class="flex flex-col items-start">
+                        <span class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">${formattedDate}</span>
+                        <h3 class="text-xl font-bold text-white leading-tight group-hover:text-primary transition-colors">${post.title}</h3>
+                    </div>
+                `;
+
+                // Add click handler to navigate to post
+                article.addEventListener('click', () => {
+                    window.location.href = `/post.html?slug=${post.slug}`;
+                });
+
+                container.appendChild(article);
+            });
+        }
+
+        // Render Blog Posts
+        function renderBlogPosts(posts, containerId) {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+
+            container.innerHTML = '';
+
+            // Extract category badges from excerpt or use default
+            const categoryBadges = ['AI Governance', 'Digital Assets', 'Generative AI'];
+
+            posts.forEach((post, index) => {
+                const div = document.createElement('div');
+                div.className = 'bg-white/5 backdrop-blur-sm rounded-[20px] overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 group flex flex-col h-full border border-white/10';
+
+                const featuredImage = post.featuredImage?.node?.sourceUrl || 'https://via.placeholder.com/800x600/00013a/c3b798?text=No+Image';
+                const categoryBadge = categoryBadges[index % categoryBadges.length];
+                
+                // Strip HTML tags from excerpt
+                const tempDiv = document.createElement('div');
+                tempDiv.innerHTML = post.excerpt || '';
+                const cleanExcerpt = tempDiv.textContent || tempDiv.innerText || '';
+
+                div.innerHTML = `
+                    <div class="h-64 overflow-hidden relative">
+                        <img alt="${post.title}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="${featuredImage}" />
+                        <div class="absolute top-6 left-6 bg-primary/90 backdrop-blur-sm px-4 py-1.5 rounded-full text-xs font-bold text-navy-start uppercase tracking-wider">
+                            ${categoryBadge}
+                        </div>
+                    </div>
+                    <div class="p-8 flex flex-col flex-grow">
+                        <h3 class="font-serif text-2xl text-white mb-4 leading-snug group-hover:text-primary transition-colors">
+                            ${post.title}
+                        </h3>
+                        <p class="text-gray-400 mb-6 line-clamp-3 text-sm leading-relaxed flex-grow">
+                            ${cleanExcerpt}
+                        </p>
+                        <a class="inline-flex items-center text-primary font-bold text-sm tracking-wide hover:gap-2 transition-all" href="/post.html?slug=${post.slug}">
+                            Read Article <span class="material-symbols-outlined text-lg ml-1">arrow_right_alt</span>
+                        </a>
+                    </div>
+                `;
+
+                container.appendChild(div);
+            });
+        }
+
+        // Create skeleton loaders for news section
+        function createNewsSkeletons(containerId, count = 3) {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+
+            container.innerHTML = '';
+
+            for (let i = 0; i < count; i++) {
+                const skeleton = document.createElement('article');
+                skeleton.className = 'skeleton-news-card';
+                skeleton.innerHTML = `
+                    <div class="aspect-[16/10] w-full rounded-[20px] overflow-hidden mb-6 skeleton-dark"></div>
+                    <div class="flex flex-col items-start gap-2">
+                        <div class="skeleton-dark h-3 w-24 rounded"></div>
+                        <div class="skeleton-dark h-5 w-full rounded"></div>
+                        <div class="skeleton-dark h-5 w-3/4 rounded"></div>
+                    </div>
+                `;
+                container.appendChild(skeleton);
+            }
+        }
+
+        // Create skeleton loaders for blog section
+        function createBlogSkeletons(containerId, count = 3) {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+
+            container.innerHTML = '';
+
+            for (let i = 0; i < count; i++) {
+                const skeleton = document.createElement('div');
+                skeleton.className = 'bg-white/5 backdrop-blur-sm rounded-[20px] overflow-hidden shadow-sm flex flex-col h-full skeleton-blog-card border border-white/10';
+                skeleton.innerHTML = `
+                    <div class="h-64 skeleton-dark"></div>
+                    <div class="p-8 flex flex-col gap-4">
+                        <div class="skeleton-dark h-8 w-full rounded"></div>
+                        <div class="skeleton-dark h-8 w-5/6 rounded"></div>
+                        <div class="skeleton-dark h-4 w-full rounded mt-2"></div>
+                        <div class="skeleton-dark h-4 w-full rounded"></div>
+                        <div class="skeleton-dark h-4 w-3/4 rounded"></div>
+                        <div class="skeleton-dark h-6 w-32 rounded mt-4"></div>
+                    </div>
+                `;
+                container.appendChild(skeleton);
+            }
+        }
+    </script>
+
+    <!-- News Section -->
+    <section id="news-section" class="aurora-gradient py-20 lg:py-24 w-full relative z-10 border-t border-white/5">
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[900px] bg-primary/20 rounded-full blur-[150px] pointer-events-none z-0"></div>
+        <div class="max-w-7xl mx-auto px-6 lg:px-12 relative z-10">
+            <div class="flex justify-between items-end mb-12">
+                <div>
+                    <span class="text-primary font-bold tracking-widest uppercase text-sm mb-3 block">Press Room</span>
+                    <h2 class="font-serif text-4xl lg:text-5xl text-white leading-tight">Latest from the Global Front</h2>
+                </div>
+                <a class="hidden md:flex items-center gap-2 text-white font-semibold hover:text-primary transition-colors" href="#">
+                    View Archive <span class="material-symbols-outlined">arrow_forward</span>
+                </a>
+            </div>
+            <div id="news-posts" class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- News posts will be dynamically loaded here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Blogs Section -->
+    <section id="blog-section" class="aurora-gradient py-20 lg:py-24 w-full border-t border-white/5 relative">
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[900px] bg-primary/20 rounded-full blur-[150px] pointer-events-none z-0"></div>
+        <div class="max-w-7xl mx-auto px-6 lg:px-12 relative z-10">
+            <div class="text-center mb-16 max-w-3xl mx-auto">
+                <span class="text-primary font-bold tracking-widest uppercase text-sm mb-3 block">Thought Leadership</span>
+                <h2 class="font-serif text-4xl lg:text-5xl text-white leading-tight">Strategic Insights & AI Perspectives</h2>
+            </div>
+            <div id="blog-posts" class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Blog posts will be dynamically loaded here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="aurora-gradient py-24 border-t border-white/5 relative">
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[900px] bg-primary/20 rounded-full blur-[150px] pointer-events-none z-0"></div>
+        <div class="max-w-7xl mx-auto px-6 lg:px-12 relative z-10">
+            <div class="grid lg:grid-cols-2 gap-16">
+                <!-- Contact Info -->
+                <div>
+                    <span class="font-semibold text-sm uppercase tracking-wider text-primary">
+                        Get in Touch
+                    </span>
+                    <h2 class="font-serif text-3xl md:text-4xl font-bold mt-3 mb-6 text-white leading-tight">
+                        Let's Transform Your 
+                        <span class="text-primary">Business Together</span>
+                    </h2>
+                    <p class="text-lg mb-8 text-gray-400">
+                        Ready to accelerate your digital transformation? Our team of experts 
+                        is here to help you navigate the future of finance.
+                    </p>
+
+                    <!-- Contact Details -->
+                    <div class="space-y-4 mb-8">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-lg flex items-center justify-center" style="background-color: rgba(195, 183, 152, 0.2);">
+                                <svg class="w-5 h-5" style="color: #c3b798;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-400">Email</p>
+                                <a href="mailto:info@globalits.bh" class="font-medium hover:text-primary transition-colors text-white">
+                                    info@globalits.bh
+                                </a>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-lg flex items-center justify-center" style="background-color: rgba(195, 183, 152, 0.2);">
+                                <svg class="w-5 h-5" style="color: #c3b798;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-400">Phone</p>
+                                <a href="tel:+97317000000" class="font-medium hover:text-primary transition-colors text-white">
+                                    +973 17 000 000
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Global Offices -->
+                    <div class="p-6 rounded-2xl border bg-white/5 backdrop-blur-sm border-white/10">
+                        <div class="flex items-center gap-2 mb-4">
+                            <svg class="w-5 h-5" style="color: #c3b798;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                            </svg>
+                            <h4 class="font-bold text-white">Global Offices</h4>
+                        </div>
+                        <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 text-sm">
+                            <div class="flex flex-col">
+                                <span class="font-medium text-gray-300">Bahrain (HQ)</span>
+                            </div>
+                            <div class="flex flex-col">
+                                <span class="font-medium text-gray-300">London</span>
+                            </div>
+                            <div class="flex flex-col">
+                                <span class="font-medium text-gray-300">Riyadh</span>
+                            </div>
+                            <div class="flex flex-col">
+                                <span class="font-medium text-gray-300">Oman</span>
+                            </div>
+                            <div class="flex flex-col">
+                                <span class="font-medium text-gray-300">Pakistan</span>
+                            </div>
+                            <div class="flex flex-col">
+                                <span class="font-medium text-gray-300">Egypt</span>
+                            </div>
+                            <div class="flex flex-col">
+                                <span class="font-medium text-gray-300">Kuwait</span>
+                            </div>
+                            <div class="flex flex-col">
+                                <span class="font-medium text-gray-300">India</span>
+                            </div>
+                            <div class="flex flex-col">
+                                <span class="font-medium text-gray-300">UAE</span>
+                            </div>
+                            <div class="flex flex-col">
+                                <span class="font-medium text-gray-300">Qatar</span>
+                            </div>
+                            <div class="flex flex-col">
+                                <span class="font-medium text-gray-300">Singapore</span>
+                            </div>
+                            <div class="flex flex-col">
+                                <span class="font-medium text-gray-300">Jordan</span>
+                            </div>
+                            <div class="flex flex-col">
+                                <span class="font-medium text-gray-300">Saudi Arabia</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contact Form -->
+                <div class="rounded-3xl p-8 md:p-10 border bg-white/5 backdrop-blur-sm border-white/10 shadow-lg">
+                    <h3 class="font-serif text-xl font-bold mb-6 text-white">
+                        Request a Consultation
+                    </h3>
+                    <form class="space-y-5" id="contactForm">
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium mb-2 text-gray-300">
+                                    First Name
+                                </label>
+                                <input
+                                    type="text"
+                                    name="firstName"
+                                    class="w-full px-4 py-3 rounded-xl border focus:outline-none transition-colors text-white placeholder-gray-500"
+                                    placeholder="John"
+                                    style="background-color: rgba(255, 255, 255, 0.05); border-color: rgba(255, 255, 255, 0.1);"
+                                    onfocus="this.style.borderColor='#c3b798'"
+                                    onblur="this.style.borderColor='rgba(255, 255, 255, 0.1)'"
+                                    required
+                                />
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium mb-2 text-gray-300">
+                                    Last Name
+                                </label>
+                                <input
+                                    type="text"
+                                    name="lastName"
+                                    class="w-full px-4 py-3 rounded-xl border focus:outline-none transition-colors text-white placeholder-gray-500"
+                                    placeholder="Doe"
+                                    style="background-color: rgba(255, 255, 255, 0.05); border-color: rgba(255, 255, 255, 0.1);"
+                                    onfocus="this.style.borderColor='#c3b798'"
+                                    onblur="this.style.borderColor='rgba(255, 255, 255, 0.1)'"
+                                    required
+                                />
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-2 text-gray-300">
+                                Work Email
+                            </label>
+                            <input
+                                type="email"
+                                name="email"
+                                class="w-full px-4 py-3 rounded-xl border focus:outline-none transition-colors text-white placeholder-gray-500"
+                                placeholder="john@company.com"
+                                style="background-color: rgba(255, 255, 255, 0.05); border-color: rgba(255, 255, 255, 0.1);"
+                                onfocus="this.style.borderColor='#c3b798'"
+                                onblur="this.style.borderColor='rgba(255, 255, 255, 0.1)'"
+                                required
+                            />
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-2 text-gray-300">
+                                Company
+                            </label>
+                            <input
+                                type="text"
+                                name="company"
+                                class="w-full px-4 py-3 rounded-xl border focus:outline-none transition-colors text-white placeholder-gray-500"
+                                placeholder="Your Company"
+                                style="background-color: rgba(255, 255, 255, 0.05); border-color: rgba(255, 255, 255, 0.1);"
+                                onfocus="this.style.borderColor='#c3b798'"
+                                onblur="this.style.borderColor='rgba(255, 255, 255, 0.1)'"
+                                required
+                            />
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-2 text-gray-300">
+                                How can we help?
+                            </label>
+                            <textarea
+                                name="message"
+                                rows="4"
+                                class="w-full px-4 py-3 rounded-xl border focus:outline-none transition-colors resize-none text-white placeholder-gray-500"
+                                placeholder="Tell us about your project..."
+                                style="background-color: rgba(255, 255, 255, 0.05); border-color: rgba(255, 255, 255, 0.1);"
+                                onfocus="this.style.borderColor='#c3b798'"
+                                onblur="this.style.borderColor='rgba(255, 255, 255, 0.1)'"
+                                required
+                            ></textarea>
+                        </div>
+                        <button 
+                            type="submit" 
+                            class="w-full px-6 py-4 rounded-xl font-semibold text-white flex items-center justify-center gap-2 transition-all hover:opacity-90"
+                            style="background: linear-gradient(135deg, #c3b798 0%, #a89b7d 100%);"
+                        >
+                            Send Message
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+                            </svg>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer Section -->
+    <footer class="bg-gradient-to-b from-navy-start to-navy-end text-white py-20 lg:py-24 border-t border-white/10">
+        <div class="max-w-7xl mx-auto px-6 lg:px-12">
+            <div class="flex w-full flex-col justify-between gap-10 lg:flex-row lg:items-start">
+                <!-- Logo & Description Section -->
+                <div class="flex w-full flex-col gap-6 lg:max-w-md">
+                    <!-- Logo -->
+                    <div class="flex items-center">
+                        <img src="https://globaledgeholding.com/wp-content/uploads/2019/07/GitsGedge-logos-4-1.png" alt="Global iTS" class="h-10 w-auto object-contain">
+                    </div>
+                    
+                    <!-- Description -->
+                    <p class="text-sm text-gray-400 leading-relaxed max-w-sm">
+                        Delivering enterprise-grade AI solutions for financial services worldwide. Trusted by leading banks, insurers, and investment firms across the GCC and beyond.
+                    </p>
+                    
+                    <!-- Social Links -->
+                    <ul class="flex items-center space-x-5">
+                        <li>
+                            <a href="#" aria-label="LinkedIn" class="text-gray-400 hover:text-primary transition-colors duration-300">
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                                </svg>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" aria-label="Twitter" class="text-gray-400 hover:text-primary transition-colors duration-300">
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"/>
+                                </svg>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" aria-label="Facebook" class="text-gray-400 hover:text-primary transition-colors duration-300">
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                                </svg>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" aria-label="Instagram" class="text-gray-400 hover:text-primary transition-colors duration-300">
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                                </svg>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Navigation Links Grid -->
+                <div class="grid w-full gap-8 grid-cols-2 md:grid-cols-3 lg:gap-16">
+                    <!-- Solutions Column -->
+                    <div>
+                        <h3 class="mb-4 font-bold text-white text-base">Solutions</h3>
+                        <ul class="space-y-3 text-sm text-gray-400">
+                            <li class="hover:text-primary transition-colors">
+                                <a href="#">G Bank AI</a>
+                            </li>
+                            <li class="hover:text-primary transition-colors">
+                                <a href="#">G Insure AI</a>
+                            </li>
+                            <li class="hover:text-primary transition-colors">
+                                <a href="#">G Invest AI</a>
+                            </li>
+                            <li class="hover:text-primary transition-colors">
+                                <a href="#">G Risk AI</a>
+                            </li>
+                            <li class="hover:text-primary transition-colors">
+                                <a href="#">G HRMS AI</a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Company Column -->
+                    <div>
+                        <h3 class="mb-4 font-bold text-white text-base">Company</h3>
+                        <ul class="space-y-3 text-sm text-gray-400">
+                            <li class="hover:text-primary transition-colors">
+                                <a href="#">About Us</a>
+                            </li>
+                            <li class="hover:text-primary transition-colors">
+                                <a href="#">Leadership</a>
+                            </li>
+                            <li class="hover:text-primary transition-colors">
+                                <a href="#">Careers</a>
+                            </li>
+                            <li class="hover:text-primary transition-colors">
+                                <a href="#">News & Events</a>
+                            </li>
+                            <li class="hover:text-primary transition-colors">
+                                <a href="#">Contact</a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Resources Column -->
+                    <div>
+                        <h3 class="mb-4 font-bold text-white text-base">Resources</h3>
+                        <ul class="space-y-3 text-sm text-gray-400">
+                            <li class="hover:text-primary transition-colors">
+                                <a href="#">Documentation</a>
+                            </li>
+                            <li class="hover:text-primary transition-colors">
+                                <a href="#">Support Center</a>
+                            </li>
+                            <li class="hover:text-primary transition-colors">
+                                <a href="#">Case Studies</a>
+                            </li>
+                            <li class="hover:text-primary transition-colors">
+                                <a href="#">Whitepapers</a>
+                            </li>
+                            <li class="hover:text-primary transition-colors">
+                                <a href="#">Blog</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bottom Section: Copyright & Legal -->
+            <div class="mt-12 flex flex-col justify-between gap-4 border-t border-white/10 pt-8 text-xs text-gray-400 md:flex-row md:items-center">
+                <p class="order-2 md:order-1">© 2026 Global iTS. All rights reserved.</p>
+                <ul class="order-1 flex flex-col gap-3 md:order-2 md:flex-row md:gap-6">
+                    <li class="hover:text-primary transition-colors">
+                        <a href="#">Terms and Conditions</a>
+                    </li>
+                    <li class="hover:text-primary transition-colors">
+                        <a href="#">Privacy Policy</a>
+                    </li>
+                    <li class="hover:text-primary transition-colors">
+                        <a href="#">Cookie Policy</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize WordPress Content Loading
+        document.addEventListener('DOMContentLoaded', function() {
+            loadWordPressContent();
+        });
+
+        // Main function to load WordPress content
+        async function loadWordPressContent() {
+            console.log('Loading WordPress content...');
+
+            // Show skeleton loaders immediately
+            createNewsSkeletons('news-posts', 3);
+            createBlogSkeletons('blog-posts', 3);
+
+            try {
+                // Fetch both categories in parallel
+                const [newsPosts, blogPosts] = await Promise.all([
+                    getPostsByCategory('news', 3),
+                    getPostsByCategory('blogs', 3)
+                ]);
+
+                // Handle News Section
+                if (newsPosts && newsPosts.length > 0) {
+                    renderNewsPosts(newsPosts, 'news-posts');
+                    console.log(`Loaded ${newsPosts.length} news posts`);
+                } else {
+                    console.warn('No news posts found, hiding section');
+                    const newsSection = document.getElementById('news-section');
+                    if (newsSection) {
+                        newsSection.style.display = 'none';
+                    }
+                }
+
+                // Handle Blog Section
+                if (blogPosts && blogPosts.length > 0) {
+                    renderBlogPosts(blogPosts, 'blog-posts');
+                    console.log(`Loaded ${blogPosts.length} blog posts`);
+                } else {
+                    console.warn('No blog posts found, hiding section');
+                    const blogSection = document.getElementById('blog-section');
+                    if (blogSection) {
+                        blogSection.style.display = 'none';
+                    }
+                }
+
+            } catch (error) {
+                console.error('Error loading WordPress content:', error);
+                
+                // Hide both sections on critical error
+                const newsSection = document.getElementById('news-section');
+                const blogSection = document.getElementById('blog-section');
+                
+                if (newsSection) newsSection.style.display = 'none';
+                if (blogSection) blogSection.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+
+</html>

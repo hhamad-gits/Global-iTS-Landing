@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        body {
+            margin: 0;
+            background: #00013a;
+        }
+
+        #globe-container {
+            width: 100%;
+            height: 600px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="globe-container"></div>
+
+    <script src="//unpkg.com/globe.gl"></script>
+    <script>
+        // 13 Global iTS locations
+        const locations = [
+            { lat: 26.0667, lng: 50.5577, city: 'Bahrain', size: 1.2 },
+            { lat: 51.5074, lng: -0.1278, city: 'London', size: 0.8 },
+            { lat: 24.7136, lng: 46.6753, city: 'Riyadh', size: 0.8 },
+            { lat: 23.5880, lng: 58.3829, city: 'Oman', size: 0.7 },
+            { lat: 30.3753, lng: 69.3451, city: 'Pakistan', size: 0.7 },
+            { lat: 30.0444, lng: 31.2357, city: 'Egypt', size: 0.7 },
+            { lat: 29.3759, lng: 47.9774, city: 'Kuwait', size: 0.7 },
+            { lat: 28.6139, lng: 77.2090, city: 'India', size: 0.7 },
+            { lat: 25.2048, lng: 55.2708, city: 'UAE', size: 0.8 },
+            { lat: 25.2854, lng: 51.5310, city: 'Qatar', size: 0.7 },
+            { lat: 1.3521, lng: 103.8198, city: 'Singapore', size: 0.7 },
+            { lat: 31.9454, lng: 35.9284, city: 'Jordan', size: 0.7 },
+            { lat: 21.4858, lng: 39.1925, city: 'Saudi Arabia', size: 0.7 }
+        ];
+
+        // Create arcs connecting Bahrain (HQ) to other locations
+        const arcs = [];
+        const bahrainHQ = locations[0];
+        const colors = ['#c3b798', '#a89b7d', '#d4c9aa'];
+
+        locations.slice(1).forEach((loc, idx) => {
+            arcs.push({
+                startLat: bahrainHQ.lat,
+                startLng: bahrainHQ.lng,
+                endLat: loc.lat,
+                endLng: loc.lng,
+                color: colors[idx % 3]
+            });
+        });
+
+        const globe = Globe()
+            (document.getElementById('globe-container'))
+            .globeImageUrl('//unpkg.com/three-globe/example/img/earth-night.jpg')
+            .backgroundColor('#00013a')
+            .atmosphereColor('#c3b798')
+            .atmosphereAltitude(0.2)
+            .pointsData(locations)
+            .pointAltitude(0.01)
+            .pointColor(() => '#c3b798')
+            .pointRadius(d => d.size * 0.5)
+            .pointLabel(d => `<div style="background: rgba(0,1,58,0.95); padding: 10px 14px; border-radius: 8px; color: #c3b798; font-weight: 600; border: 1px solid #c3b798;">${d.city}</div>`)
+            .arcsData(arcs)
+            .arcColor('color')
+            .arcDashLength(0.4)
+            .arcDashGap(0.2)
+            .arcDashAnimateTime(2000)
+            .arcStroke(0.6)
+            .arcAltitude(0.25)
+            .arcAltitudeAutoScale(0.3);
+
+        // Set initial view to Middle East/Asia region (centered on Bahrain)
+        globe.pointOfView({ lat: 26, lng: 50, altitude: 1.8 }, 0);
+
+        // Auto-rotate
+        globe.controls().autoRotate = true;
+        globe.controls().autoRotateSpeed = 0.4;
+        globe.controls().enableZoom = true;
+        globe.controls().minDistance = 200;
+        globe.controls().maxDistance = 500;
+    </script>
+</body>
+
+</html>
