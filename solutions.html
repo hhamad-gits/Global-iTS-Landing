@@ -1,0 +1,1612 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Solutions - Global iTS</title>
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#c3b798",
+                        "primary-dark": "#a89b7d",
+                        "navy-start": "#00013a",
+                        "navy-end": "#0f1055",
+                    },
+                    fontFamily: {
+                        "sans": ["Inter", "sans-serif"],
+                        "serif": ["Inter", "sans-serif"],
+                    },
+                    backgroundImage: {
+                        'hero-pattern': "repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.03) 0px, rgba(255, 255, 255, 0.03) 1px, transparent 1px, transparent 40px)",
+                    }
+                },
+            },
+        }
+    </script>
+    <style>
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+
+        .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .glow-text {
+            text-shadow: 0 0 20px rgba(195, 183, 152, 0.3);
+        }
+
+        .card-gold-glow:hover {
+            box-shadow: 0 15px 40px -10px rgba(195, 183, 152, 0.25);
+        }
+
+        .aurora-gradient {
+            background: #00013a;
+            position: relative;
+        }
+
+        /* Product Card Icon Hover Effect - only in dark sections */
+        .aurora-gradient .group:hover .w-12.h-12 {
+            background: #00013a !important;
+        }
+
+        /* Hero shader canvas */
+        #shader-canvas {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+
+        /* Hero intro animations - hidden until GSAP runs */
+        .hero-animate {
+            visibility: hidden;
+        }
+
+        /* CountUp animation */
+        .countup-metric {
+            font-variant-numeric: tabular-nums;
+        }
+
+        /* ── Nav Dropdown ────────────────────────────── */
+        .nav-dropdown-panel {
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(6px) scale(0.97);
+            transition: opacity 200ms cubic-bezier(.4,0,.2,1),
+                        visibility 200ms cubic-bezier(.4,0,.2,1),
+                        transform 200ms cubic-bezier(.4,0,.2,1);
+            pointer-events: none;
+        }
+        .nav-dropdown-panel.open {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0) scale(1);
+            pointer-events: auto;
+        }
+        .nav-chevron {
+            transition: transform 300ms cubic-bezier(.4,0,.2,1);
+        }
+        .nav-chevron.open {
+            transform: rotate(180deg);
+        }
+
+        /* ── Nav Scroll State ────────────────────────── */
+        #main-nav {
+            transition: background 300ms ease, border-color 300ms ease, backdrop-filter 300ms ease;
+        }
+        #main-nav.scrolled {
+            background: rgba(0, 1, 58, 0.92);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        /* ── Mobile Menu ─────────────────────────────── */
+        #mobile-menu {
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 300ms cubic-bezier(.4,0,.2,1),
+                        visibility 300ms cubic-bezier(.4,0,.2,1);
+        }
+        #mobile-menu.open {
+            opacity: 1;
+            visibility: visible;
+        }
+        #mobile-menu .mobile-inner {
+            transform: scale(0.97);
+            transition: transform 300ms cubic-bezier(.4,0,.2,1);
+        }
+        #mobile-menu.open .mobile-inner {
+            transform: scale(1);
+        }
+    </style>
+</head>
+
+<body class="bg-navy-start text-white overflow-x-hidden font-sans">
+
+    <!-- ============================================================== -->
+    <!-- NAV — Mega-menu with dropdowns -->
+    <!-- ============================================================== -->
+    <nav id="main-nav"
+        class="fixed top-0 left-0 right-0 z-50 w-full border-b border-transparent backdrop-blur-sm bg-navy-start/50">
+        <div class="max-w-7xl mx-auto px-6 lg:px-12 flex items-center justify-between h-16">
+            <!-- Logo + Desktop links -->
+            <div class="flex items-center gap-8">
+                <a href="index.html" class="flex-shrink-0">
+                    <img src="https://globaledgeholding.com/wp-content/uploads/2019/07/GitsGedge-logos-4-1.png"
+                        alt="Global iTS" class="h-10 w-auto object-contain">
+                </a>
+
+                <!-- Desktop Navigation -->
+                <div class="hidden md:flex items-center gap-1">
+                    <!-- ── Products Dropdown ──────────────────── -->
+                    <div class="relative" id="dropdown-products">
+                        <button onclick="toggleDropdown('products')"
+                            class="flex items-center gap-1.5 text-sm font-medium text-white/80 hover:text-primary px-3 py-2 rounded-md transition-colors">
+                            Products
+                            <svg class="w-3 h-3 nav-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+                        <div class="nav-dropdown-panel absolute top-full left-0 mt-2 origin-top-left">
+                            <div class="bg-navy-start/95 backdrop-blur-xl border border-white/10 rounded-xl shadow-2xl p-1.5 w-[520px]">
+                                <div class="bg-white/5 rounded-lg border border-white/5 p-3">
+                                    <div class="grid grid-cols-2 gap-2">
+                                        <a href="#" class="flex items-start gap-3 p-3 rounded-lg hover:bg-white/10 transition-colors">
+                                            <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5">
+                                                <span class="material-symbols-outlined text-primary" style="font-size:20px">account_balance</span>
+                                            </div>
+                                            <div>
+                                                <span class="block text-sm font-medium text-white">G Bank AI</span>
+                                                <span class="block text-xs text-gray-400 mt-0.5">AI-powered core banking platform</span>
+                                            </div>
+                                        </a>
+                                        <a href="#" class="flex items-start gap-3 p-3 rounded-lg hover:bg-white/10 transition-colors">
+                                            <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5">
+                                                <span class="material-symbols-outlined text-primary" style="font-size:20px">shield</span>
+                                            </div>
+                                            <div>
+                                                <span class="block text-sm font-medium text-white">G Insure AI</span>
+                                                <span class="block text-xs text-gray-400 mt-0.5">Insurance technology &amp; claims automation</span>
+                                            </div>
+                                        </a>
+                                        <a href="#" class="flex items-start gap-3 p-3 rounded-lg hover:bg-white/10 transition-colors">
+                                            <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5">
+                                                <span class="material-symbols-outlined text-primary" style="font-size:20px">trending_up</span>
+                                            </div>
+                                            <div>
+                                                <span class="block text-sm font-medium text-white">G Invest AI</span>
+                                                <span class="block text-xs text-gray-400 mt-0.5">Investment management &amp; portfolio analytics</span>
+                                            </div>
+                                        </a>
+                                        <a href="#" class="flex items-start gap-3 p-3 rounded-lg hover:bg-white/10 transition-colors">
+                                            <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5">
+                                                <span class="material-symbols-outlined text-primary" style="font-size:20px">gpp_maybe</span>
+                                            </div>
+                                            <div>
+                                                <span class="block text-sm font-medium text-white">G Risk AI</span>
+                                                <span class="block text-xs text-gray-400 mt-0.5">Risk assessment &amp; regulatory compliance</span>
+                                            </div>
+                                        </a>
+                                        <a href="#" class="flex items-start gap-3 p-3 rounded-lg hover:bg-white/10 transition-colors">
+                                            <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5">
+                                                <span class="material-symbols-outlined text-primary" style="font-size:20px">group</span>
+                                            </div>
+                                            <div>
+                                                <span class="block text-sm font-medium text-white">G HRMS AI</span>
+                                                <span class="block text-xs text-gray-400 mt-0.5">Human resource management system</span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="px-3 py-2 mt-1">
+                                    <p class="text-xs text-gray-400">
+                                        Interested?
+                                        <a href="#contact" class="text-primary font-medium hover:underline ml-1">Schedule a demo</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ── Company Dropdown ──────────────────── -->
+                    <div class="relative" id="dropdown-company">
+                        <button onclick="toggleDropdown('company')"
+                            class="flex items-center gap-1.5 text-sm font-medium text-white/80 hover:text-primary px-3 py-2 rounded-md transition-colors">
+                            Company
+                            <svg class="w-3 h-3 nav-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+                        <div class="nav-dropdown-panel absolute top-full left-0 mt-2 origin-top-left">
+                            <div class="bg-navy-start/95 backdrop-blur-xl border border-white/10 rounded-xl shadow-2xl p-1.5 w-[480px]">
+                                <div class="grid grid-cols-2 gap-2">
+                                    <!-- Left: main links with descriptions -->
+                                    <div class="bg-white/5 rounded-lg border border-white/5 p-3 space-y-2">
+                                        <a href="#" class="flex items-start gap-3 p-2 rounded-lg hover:bg-white/10 transition-colors">
+                                            <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5">
+                                                <span class="material-symbols-outlined text-primary" style="font-size:20px">groups</span>
+                                            </div>
+                                            <div>
+                                                <span class="block text-sm font-medium text-white">About Us</span>
+                                                <span class="block text-xs text-gray-400 mt-0.5">Learn more about our story and team</span>
+                                            </div>
+                                        </a>
+                                        <a href="#" class="flex items-start gap-3 p-2 rounded-lg hover:bg-white/10 transition-colors">
+                                            <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5">
+                                                <span class="material-symbols-outlined text-primary" style="font-size:20px">star</span>
+                                            </div>
+                                            <div>
+                                                <span class="block text-sm font-medium text-white">Customer Stories</span>
+                                                <span class="block text-xs text-gray-400 mt-0.5">See how we've helped our clients succeed</span>
+                                            </div>
+                                        </a>
+                                        <a href="#" class="flex items-start gap-3 p-2 rounded-lg hover:bg-white/10 transition-colors">
+                                            <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5">
+                                                <span class="material-symbols-outlined text-primary" style="font-size:20px">handshake</span>
+                                            </div>
+                                            <div>
+                                                <span class="block text-sm font-medium text-white">Partnerships</span>
+                                                <span class="block text-xs text-gray-400 mt-0.5">Collaborate with us for mutual growth</span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <!-- Right: secondary links -->
+                                    <div class="p-3 space-y-1">
+                                        <a href="#" class="flex items-center gap-2.5 p-2 rounded-lg hover:bg-white/10 transition-colors">
+                                            <span class="material-symbols-outlined text-white/70" style="font-size:18px">supervisor_account</span>
+                                            <span class="text-sm font-medium text-white">Leadership</span>
+                                        </a>
+                                        <a href="#" class="flex items-center gap-2.5 p-2 rounded-lg hover:bg-white/10 transition-colors">
+                                            <span class="material-symbols-outlined text-white/70" style="font-size:18px">work</span>
+                                            <span class="text-sm font-medium text-white">Careers</span>
+                                        </a>
+                                        <a href="#" class="flex items-center gap-2.5 p-2 rounded-lg hover:bg-white/10 transition-colors">
+                                            <span class="material-symbols-outlined text-white/70" style="font-size:18px">newspaper</span>
+                                            <span class="text-sm font-medium text-white">News &amp; Events</span>
+                                        </a>
+                                        <a href="#" class="flex items-center gap-2.5 p-2 rounded-lg hover:bg-white/10 transition-colors">
+                                            <span class="material-symbols-outlined text-white/70" style="font-size:18px">edit_note</span>
+                                            <span class="text-sm font-medium text-white">Blog</span>
+                                        </a>
+                                        <a href="#" class="flex items-center gap-2.5 p-2 rounded-lg hover:bg-white/10 transition-colors">
+                                            <span class="material-symbols-outlined text-white/70" style="font-size:18px">help</span>
+                                            <span class="text-sm font-medium text-white">Help Center</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ── Solutions Direct Link ─────────────── -->
+                    <a href="solutions.html"
+                        class="text-sm font-medium text-primary px-3 py-2 rounded-md transition-colors">
+                        Solutions
+                    </a>
+                </div>
+            </div>
+
+            <!-- CTA + Mobile toggle -->
+            <div class="flex items-center gap-3">
+                <a href="#contact"
+                    class="hidden md:inline-flex bg-primary hover:bg-primary-dark text-navy-start font-bold py-2.5 px-6 rounded-lg text-sm transition-all duration-300">
+                    Contact Us
+                </a>
+                <button id="mobile-toggle" onclick="toggleMobileMenu()" class="md:hidden text-white p-1"
+                    aria-expanded="false" aria-controls="mobile-menu" aria-label="Toggle menu">
+                    <svg id="menu-toggle-icon" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2.5"
+                        stroke-linecap="round" stroke-linejoin="round"
+                        class="w-6 h-6 transition-transform duration-300 ease-in-out">
+                        <path id="menu-path-animated"
+                            class="transition-all duration-300 ease-in-out"
+                            style="stroke-dasharray: 12 63;"
+                            d="M27 10 13 10C10.8 10 9 8.2 9 6 9 3.5 10.8 2 13 2 15.2 2 17 3.8 17 6L17 26C17 28.2 18.8 30 21 30 23.2 30 25 28.2 25 26 25 23.8 23.2 22 21 22L7 22" />
+                        <path d="M7 16 27 16" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- ── Mobile Menu ──────────────────────────────── -->
+        <div id="mobile-menu"
+            class="md:hidden fixed top-16 left-0 right-0 bottom-0 bg-navy-start/95 backdrop-blur-xl border-t border-white/10 overflow-y-auto z-40">
+            <div class="mobile-inner p-6 flex flex-col gap-4 h-full">
+                <div class="flex-1 space-y-6">
+                    <!-- Products -->
+                    <div>
+                        <span class="text-xs font-semibold uppercase tracking-wider text-primary/70 mb-3 block">Products</span>
+                        <div class="space-y-1">
+                            <a href="#" class="flex items-center gap-3 p-3 rounded-lg hover:bg-white/10 transition-colors">
+                                <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5">
+                                    <span class="material-symbols-outlined text-primary" style="font-size:20px">account_balance</span>
+                                </div>
+                                <div>
+                                    <span class="block text-sm font-medium text-white">G Bank AI</span>
+                                    <span class="block text-xs text-gray-400">AI-powered core banking platform</span>
+                                </div>
+                            </a>
+                            <a href="#" class="flex items-center gap-3 p-3 rounded-lg hover:bg-white/10 transition-colors">
+                                <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5">
+                                    <span class="material-symbols-outlined text-primary" style="font-size:20px">shield</span>
+                                </div>
+                                <div>
+                                    <span class="block text-sm font-medium text-white">G Insure AI</span>
+                                    <span class="block text-xs text-gray-400">Insurance technology &amp; claims automation</span>
+                                </div>
+                            </a>
+                            <a href="#" class="flex items-center gap-3 p-3 rounded-lg hover:bg-white/10 transition-colors">
+                                <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5">
+                                    <span class="material-symbols-outlined text-primary" style="font-size:20px">trending_up</span>
+                                </div>
+                                <div>
+                                    <span class="block text-sm font-medium text-white">G Invest AI</span>
+                                    <span class="block text-xs text-gray-400">Investment management &amp; portfolio analytics</span>
+                                </div>
+                            </a>
+                            <a href="#" class="flex items-center gap-3 p-3 rounded-lg hover:bg-white/10 transition-colors">
+                                <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5">
+                                    <span class="material-symbols-outlined text-primary" style="font-size:20px">gpp_maybe</span>
+                                </div>
+                                <div>
+                                    <span class="block text-sm font-medium text-white">G Risk AI</span>
+                                    <span class="block text-xs text-gray-400">Risk assessment &amp; regulatory compliance</span>
+                                </div>
+                            </a>
+                            <a href="#" class="flex items-center gap-3 p-3 rounded-lg hover:bg-white/10 transition-colors">
+                                <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5">
+                                    <span class="material-symbols-outlined text-primary" style="font-size:20px">group</span>
+                                </div>
+                                <div>
+                                    <span class="block text-sm font-medium text-white">G HRMS AI</span>
+                                    <span class="block text-xs text-gray-400">Human resource management system</span>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <!-- Company -->
+                    <div>
+                        <span class="text-xs font-semibold uppercase tracking-wider text-primary/70 mb-3 block">Company</span>
+                        <div class="space-y-1">
+                            <a href="#" class="flex items-center gap-3 p-3 rounded-lg hover:bg-white/10 transition-colors">
+                                <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5">
+                                    <span class="material-symbols-outlined text-primary" style="font-size:20px">groups</span>
+                                </div>
+                                <div>
+                                    <span class="block text-sm font-medium text-white">About Us</span>
+                                    <span class="block text-xs text-gray-400">Learn more about our story and team</span>
+                                </div>
+                            </a>
+                            <a href="#" class="flex items-center gap-3 p-3 rounded-lg hover:bg-white/10 transition-colors">
+                                <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5">
+                                    <span class="material-symbols-outlined text-primary" style="font-size:20px">star</span>
+                                </div>
+                                <div>
+                                    <span class="block text-sm font-medium text-white">Customer Stories</span>
+                                    <span class="block text-xs text-gray-400">See how we've helped our clients succeed</span>
+                                </div>
+                            </a>
+                            <a href="#" class="flex items-center gap-3 p-3 rounded-lg hover:bg-white/10 transition-colors">
+                                <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5">
+                                    <span class="material-symbols-outlined text-primary" style="font-size:20px">handshake</span>
+                                </div>
+                                <div>
+                                    <span class="block text-sm font-medium text-white">Partnerships</span>
+                                    <span class="block text-xs text-gray-400">Collaborate with us for mutual growth</span>
+                                </div>
+                            </a>
+                            <a href="#" class="flex items-center gap-2.5 p-3 rounded-lg hover:bg-white/10 transition-colors">
+                                <span class="material-symbols-outlined text-white/70" style="font-size:18px">supervisor_account</span>
+                                <span class="text-sm font-medium text-white">Leadership</span>
+                            </a>
+                            <a href="#" class="flex items-center gap-2.5 p-3 rounded-lg hover:bg-white/10 transition-colors">
+                                <span class="material-symbols-outlined text-white/70" style="font-size:18px">work</span>
+                                <span class="text-sm font-medium text-white">Careers</span>
+                            </a>
+                            <a href="#" class="flex items-center gap-2.5 p-3 rounded-lg hover:bg-white/10 transition-colors">
+                                <span class="material-symbols-outlined text-white/70" style="font-size:18px">newspaper</span>
+                                <span class="text-sm font-medium text-white">News &amp; Events</span>
+                            </a>
+                        </div>
+                    </div>
+                    <!-- Solutions link -->
+                    <a href="solutions.html" class="flex items-center gap-2.5 p-3 rounded-lg hover:bg-white/10 transition-colors border border-white/10">
+                        <span class="material-symbols-outlined text-primary" style="font-size:18px">apps</span>
+                        <span class="text-sm font-medium text-white">All Solutions</span>
+                    </a>
+                </div>
+                <!-- Mobile CTA -->
+                <div class="flex flex-col gap-3 pt-4 border-t border-white/10">
+                    <a href="#contact"
+                        class="w-full text-center bg-primary hover:bg-primary-dark text-navy-start font-bold py-3 px-6 rounded-lg text-sm transition-all duration-300">
+                        Contact Us
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ============================================================== -->
+    <!-- HERO SECTION (Above the Fold) - Adapted from neural-network-hero -->
+    <!-- ============================================================== -->
+    <section id="hero" class="relative h-screen w-full overflow-hidden">
+        <!-- Shader Background (Three.js canvas injected here) -->
+        <div id="shader-bg" class="absolute inset-0 w-full h-full bg-navy-start" aria-hidden="true">
+            <canvas id="shader-canvas"></canvas>
+            <!-- Overlay gradients for brand tint -->
+            <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-navy-start/50 via-transparent to-navy-start/30"></div>
+        </div>
+
+        <!-- Hero Content -->
+        <div class="relative z-10 mx-auto flex max-w-7xl flex-col items-start gap-6 px-6 pb-24 pt-36 sm:gap-8 sm:pt-44 md:px-10 lg:px-16">
+            <!-- Badge -->
+            <div id="hero-badge" class="hero-animate inline-flex items-center gap-2 rounded-full border border-primary/30 bg-navy-start/60 px-3 py-1.5 backdrop-blur-sm">
+                <span class="text-[10px] font-light uppercase tracking-[0.08em] text-primary/80">Partner</span>
+                <span class="h-1 w-1 rounded-full bg-primary/50"></span>
+                <span class="text-xs font-light tracking-tight text-white/80">Microsoft Inner Circle Partner 2026</span>
+            </div>
+
+            <!-- Title -->
+            <h1 id="hero-title" class="hero-animate max-w-3xl text-left text-5xl font-extralight leading-[1.05] tracking-tight text-white sm:text-6xl md:text-7xl glow-text">
+                Enterprise Solutions Built for Scale
+            </h1>
+
+            <!-- Description -->
+            <p id="hero-desc" class="hero-animate max-w-xl text-left text-base font-light leading-relaxed tracking-tight text-white/70 sm:text-lg">
+                A unified stack of AI-driven platforms designed for precision, scalability, and seamless integration across financial services and beyond.
+            </p>
+
+            <!-- Single CTA Button: Contact Sales -->
+            <div id="hero-cta" class="hero-animate flex flex-wrap items-center gap-3 pt-2">
+                <a href="#contact"
+                   class="bg-primary hover:bg-primary-dark text-navy-start font-bold py-3 px-8 rounded-xl text-sm transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary/50">
+                    Contact Sales
+                </a>
+            </div>
+        </div>
+
+        <!-- Bottom fade -->
+        <div class="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-navy-start to-transparent"></div>
+    </section>
+
+    <!-- ============================================================== -->
+    <!-- SOLUTION ECOSYSTEM SECTION (Below the Fold) -->
+    <!-- ============================================================== -->
+    <section class="aurora-gradient py-24 lg:py-32 w-full relative">
+        <!-- Subtle gradient orb -->
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[900px] bg-primary/20 rounded-full blur-[150px] pointer-events-none z-0"></div>
+        
+        <div class="max-w-7xl mx-auto px-6 lg:px-12 relative z-10">
+            <!-- Section Header -->
+            <div class="text-center mb-16 max-w-3xl mx-auto">
+                <span class="text-primary font-bold tracking-widest uppercase text-sm mb-3 block">Solution Ecosystem</span>
+                <h2 class="font-serif text-4xl lg:text-6xl mb-6 pb-2 text-white leading-tight">
+                    Structured Intelligence
+                </h2>
+                <p class="text-gray-400 text-lg leading-relaxed">
+                    A unified stack of AI-driven financial platforms designed for precision, scalability, and seamless integration.
+                </p>
+            </div>
+
+            <!-- Products Grid -->
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Microsoft Dynamics 365 -->
+                <div class="group bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-primary transition-all duration-300 relative overflow-hidden flex flex-col">
+                    <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" style="background: linear-gradient(135deg, rgba(195, 183, 152, 0.08) 0%, rgba(195, 183, 152, 0.05) 100%);"></div>
+                    <div class="relative z-10 flex flex-col flex-grow">
+                        <div class="flex items-end gap-4 mb-4">
+                            <div class="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 transition-all duration-300" style="background: linear-gradient(135deg, rgba(195, 183, 152, 0.2) 0%, rgba(195, 183, 152, 0.1) 100%);">
+                                <span class="material-symbols-outlined text-primary transition-colors" style="font-size: 28px;">database</span>
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="font-serif text-lg font-bold text-white leading-tight">
+                                    Microsoft Dynamics 365
+                                </h3>
+                            </div>
+                        </div>
+                        <p class="text-gray-400 text-sm leading-relaxed mb-4">
+                            Complete ERP and CRM solutions including AX, GP, and Business Central for streamlined operations.
+                        </p>
+                        <div class="mt-auto">
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <span class="px-2 py-1 rounded-md text-xs font-medium bg-white/10 text-gray-300">Finance & Operations</span>
+                                <span class="px-2 py-1 rounded-md text-xs font-medium bg-white/10 text-gray-300">Sales & Marketing</span>
+                                <span class="px-2 py-1 rounded-md text-xs font-medium bg-white/10 text-gray-300">Customer Service</span>
+                            </div>
+                            <a href="#" class="inline-flex items-center gap-1 text-sm font-medium text-primary hover:text-white transition-colors group/link">
+                                Learn More
+                                <span class="material-symbols-outlined text-base group-hover/link:translate-x-1 transition-transform">arrow_forward</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cloud Solutions -->
+                <div class="group bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-primary transition-all duration-300 relative overflow-hidden flex flex-col">
+                    <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" style="background: linear-gradient(135deg, rgba(195, 183, 152, 0.08) 0%, rgba(0, 1, 58, 0.05) 100%);"></div>
+                    <div class="relative z-10 flex flex-col flex-grow">
+                        <div class="flex items-end gap-4 mb-4">
+                            <div class="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 transition-all duration-300" style="background: linear-gradient(135deg, rgba(195, 183, 152, 0.2) 0%, rgba(195, 183, 152, 0.1) 100%);">
+                                <span class="material-symbols-outlined text-primary transition-colors" style="font-size: 28px;">cloud</span>
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="font-serif text-lg font-bold text-white leading-tight">
+                                    Cloud Solutions
+                                </h3>
+                            </div>
+                        </div>
+                        <p class="text-gray-400 text-sm leading-relaxed mb-4">
+                            Azure infrastructure, Office 365, and cloud migration services for modern business agility.
+                        </p>
+                        <div class="mt-auto">
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <span class="px-2 py-1 rounded-md text-xs font-medium bg-white/10 text-gray-300">Azure Migration</span>
+                                <span class="px-2 py-1 rounded-md text-xs font-medium bg-white/10 text-gray-300">Office 365</span>
+                                <span class="px-2 py-1 rounded-md text-xs font-medium bg-white/10 text-gray-300">Hybrid Cloud</span>
+                            </div>
+                            <a href="#" class="inline-flex items-center gap-1 text-sm font-medium text-primary hover:text-white transition-colors group/link">
+                                Learn More
+                                <span class="material-symbols-outlined text-base group-hover/link:translate-x-1 transition-transform">arrow_forward</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CRM & xRM Solutions -->
+                <div class="group bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-primary transition-all duration-300 relative overflow-hidden flex flex-col">
+                    <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" style="background: linear-gradient(135deg, rgba(195, 183, 152, 0.08) 0%, rgba(0, 1, 58, 0.05) 100%);"></div>
+                    <div class="relative z-10 flex flex-col flex-grow">
+                        <div class="flex items-end gap-4 mb-4">
+                            <div class="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 transition-all duration-300" style="background: linear-gradient(135deg, rgba(195, 183, 152, 0.2) 0%, rgba(195, 183, 152, 0.1) 100%);">
+                                <span class="material-symbols-outlined text-primary transition-colors" style="font-size: 28px;">group</span>
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="font-serif text-lg font-bold text-white leading-tight">
+                                    CRM & xRM Solutions
+                                </h3>
+                            </div>
+                        </div>
+                        <p class="text-gray-400 text-sm leading-relaxed mb-4">
+                            Customer relationship management tailored for financial institutions and investment firms.
+                        </p>
+                        <div class="mt-auto">
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <span class="px-2 py-1 rounded-md text-xs font-medium bg-white/10 text-gray-300">Lead Management</span>
+                                <span class="px-2 py-1 rounded-md text-xs font-medium bg-white/10 text-gray-300">Client Portal</span>
+                                <span class="px-2 py-1 rounded-md text-xs font-medium bg-white/10 text-gray-300">Analytics</span>
+                            </div>
+                            <a href="#" class="inline-flex items-center gap-1 text-sm font-medium text-primary hover:text-white transition-colors group/link">
+                                Learn More
+                                <span class="material-symbols-outlined text-base group-hover/link:translate-x-1 transition-transform">arrow_forward</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Industry Solutions -->
+                <div class="group bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-primary transition-all duration-300 relative overflow-hidden flex flex-col">
+                    <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" style="background: linear-gradient(135deg, rgba(195, 183, 152, 0.08) 0%, rgba(0, 1, 58, 0.05) 100%);"></div>
+                    <div class="relative z-10 flex flex-col flex-grow">
+                        <div class="flex items-end gap-4 mb-4">
+                            <div class="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 transition-all duration-300" style="background: linear-gradient(135deg, rgba(195, 183, 152, 0.2) 0%, rgba(195, 183, 152, 0.1) 100%);">
+                                <span class="material-symbols-outlined text-primary transition-colors" style="font-size: 28px;">apartment</span>
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="font-serif text-lg font-bold text-white leading-tight">
+                                    Industry Solutions
+                                </h3>
+                            </div>
+                        </div>
+                        <p class="text-gray-400 text-sm leading-relaxed mb-4">
+                            Specialized vertical products for Property Management, Maintenance, and Payroll.
+                        </p>
+                        <div class="mt-auto">
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <span class="px-2 py-1 rounded-md text-xs font-medium bg-white/10 text-gray-300">Property Management</span>
+                                <span class="px-2 py-1 rounded-md text-xs font-medium bg-white/10 text-gray-300">HR & Payroll</span>
+                                <span class="px-2 py-1 rounded-md text-xs font-medium bg-white/10 text-gray-300">Asset Management</span>
+                            </div>
+                            <a href="#" class="inline-flex items-center gap-1 text-sm font-medium text-primary hover:text-white transition-colors group/link">
+                                Learn More
+                                <span class="material-symbols-outlined text-base group-hover/link:translate-x-1 transition-transform">arrow_forward</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Co-Pilot Integration -->
+                <div class="group bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-primary transition-all duration-300 relative overflow-hidden flex flex-col">
+                    <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" style="background: linear-gradient(135deg, rgba(195, 183, 152, 0.08) 0%, rgba(0, 1, 58, 0.05) 100%);"></div>
+                    <div class="relative z-10 flex flex-col flex-grow">
+                        <div class="flex items-end gap-4 mb-4">
+                            <div class="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 transition-all duration-300" style="background: linear-gradient(135deg, rgba(195, 183, 152, 0.2) 0%, rgba(195, 183, 152, 0.1) 100%);">
+                                <span class="material-symbols-outlined text-primary transition-colors" style="font-size: 28px;">settings</span>
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="font-serif text-lg font-bold text-white leading-tight">
+                                    Co-Pilot Integration
+                                </h3>
+                            </div>
+                        </div>
+                        <p class="text-gray-400 text-sm leading-relaxed mb-4">
+                            AI-powered productivity tools leveraging Microsoft Copilot for enhanced decision making.
+                        </p>
+                        <div class="mt-auto">
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <span class="px-2 py-1 rounded-md text-xs font-medium bg-white/10 text-gray-300">AI Assistance</span>
+                                <span class="px-2 py-1 rounded-md text-xs font-medium bg-white/10 text-gray-300">Automation</span>
+                                <span class="px-2 py-1 rounded-md text-xs font-medium bg-white/10 text-gray-300">Insights</span>
+                            </div>
+                            <a href="#" class="inline-flex items-center gap-1 text-sm font-medium text-primary hover:text-white transition-colors group/link">
+                                Learn More
+                                <span class="material-symbols-outlined text-base group-hover/link:translate-x-1 transition-transform">arrow_forward</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Infrastructure & Security -->
+                <div class="group bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-primary transition-all duration-300 relative overflow-hidden flex flex-col">
+                    <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" style="background: linear-gradient(135deg, rgba(195, 183, 152, 0.08) 0%, rgba(0, 1, 58, 0.05) 100%);"></div>
+                    <div class="relative z-10 flex flex-col flex-grow">
+                        <div class="flex items-end gap-4 mb-4">
+                            <div class="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 transition-all duration-300" style="background: linear-gradient(135deg, rgba(195, 183, 152, 0.2) 0%, rgba(195, 183, 152, 0.1) 100%);">
+                                <span class="material-symbols-outlined text-primary transition-colors" style="font-size: 28px;">shield</span>
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="font-serif text-lg font-bold text-white leading-tight">
+                                    Infrastructure & Security
+                                </h3>
+                            </div>
+                        </div>
+                        <p class="text-gray-400 text-sm leading-relaxed mb-4">
+                            Enterprise-grade Hyper-V infrastructure with comprehensive security solutions.
+                        </p>
+                        <div class="mt-auto">
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <span class="px-2 py-1 rounded-md text-xs font-medium bg-white/10 text-gray-300">Network Security</span>
+                                <span class="px-2 py-1 rounded-md text-xs font-medium bg-white/10 text-gray-300">Compliance</span>
+                                <span class="px-2 py-1 rounded-md text-xs font-medium bg-white/10 text-gray-300">Monitoring</span>
+                            </div>
+                            <a href="#" class="inline-flex items-center gap-1 text-sm font-medium text-primary hover:text-white transition-colors group/link">
+                                Learn More
+                                <span class="material-symbols-outlined text-base group-hover/link:translate-x-1 transition-transform">arrow_forward</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================== -->
+    <!-- CASE STUDIES SECTION -->
+    <!-- ============================================================== -->
+    <section class="aurora-gradient py-24 lg:py-32 w-full relative" aria-labelledby="case-studies-heading">
+        <!-- Subtle gradient orb -->
+        <div class="absolute top-1/3 right-0 w-[600px] h-[600px] bg-primary/10 rounded-full blur-[150px] pointer-events-none z-0"></div>
+
+        <div class="max-w-7xl mx-auto px-6 lg:px-12 relative z-10">
+            <!-- Header -->
+            <div class="flex flex-col gap-4 text-center max-w-2xl mx-auto mb-20">
+                <span class="text-primary font-bold tracking-widest uppercase text-sm block">Case Studies</span>
+                <h2 id="case-studies-heading" class="font-serif text-4xl lg:text-5xl text-white leading-tight">
+                    Real Results with Global iTS
+                </h2>
+                <p class="text-gray-400 text-lg leading-relaxed">
+                    From ERP modernization to cloud migration -- Global iTS powers enterprises with speed, clarity, and consistency.
+                </p>
+            </div>
+
+            <!-- Case Studies -->
+            <div class="flex flex-col gap-20">
+
+                <!-- Case Study 1: Banking - Dynamics 365 -->
+                <div class="grid gap-12 lg:grid-cols-3 xl:gap-24 items-center border-b border-white/10 pb-12">
+                    <!-- Left: Image + Quote -->
+                    <div class="flex flex-col sm:flex-row gap-10 lg:col-span-2 lg:border-r lg:pr-12 xl:pr-16 text-left border-white/10">
+                        <img
+                            src="https://images.unsplash.com/photo-1551434678-e076c223a692?w=600&h=800&fit=crop"
+                            alt="Banking team collaborating"
+                            class="aspect-[29/35] h-auto w-full max-w-60 rounded-2xl object-cover ring-1 ring-white/10 hover:scale-105 transition-all duration-300"
+                            loading="lazy"
+                            decoding="async"
+                        />
+                        <figure class="flex flex-col justify-between gap-8 text-left">
+                            <blockquote class="text-left">
+                                <h3 class="text-lg sm:text-xl lg:text-xl font-normal text-white leading-relaxed text-left">
+                                    <span class="flex items-center gap-3 mb-3">
+                                        <span class="material-symbols-outlined text-primary" style="font-size: 28px;">monitoring</span>
+                                        Dynamics 365 Transformation
+                                    </span>
+                                    <span class="block text-gray-400 text-sm sm:text-base lg:text-lg mt-2">
+                                        With Global iTS, our finance team finally works in sync. The Dynamics 365 implementation streamlined operations and we process transactions 40% faster.
+                                    </span>
+                                </h3>
+                            </blockquote>
+                            <figcaption class="flex items-center gap-6 mt-4 text-left">
+                                <div class="flex flex-col gap-1">
+                                    <span class="text-md font-medium text-white">Ahmed Al-Rashid</span>
+                                    <span class="text-sm text-gray-400">CTO, National Banking Corp</span>
+                                </div>
+                            </figcaption>
+                        </figure>
+                    </div>
+                    <!-- Right: Metrics -->
+                    <div class="grid grid-cols-1 gap-10 self-center text-left">
+                        <div class="flex flex-col gap-2 text-left p-6">
+                            <p class="text-2xl font-medium text-white sm:text-4xl countup-metric" data-target="40" data-suffix="%" aria-label="Faster Delivery 40%">
+                                0%
+                            </p>
+                            <p class="font-medium text-white text-left">Faster Delivery</p>
+                            <p class="text-gray-400 text-left">Transaction processing speed</p>
+                        </div>
+                        <div class="flex flex-col gap-2 text-left p-6">
+                            <p class="text-2xl font-medium text-white sm:text-4xl countup-metric" data-target="95" data-suffix="%" aria-label="System Uptime 95%">
+                                0%
+                            </p>
+                            <p class="font-medium text-white text-left">System Uptime</p>
+                            <p class="text-gray-400 text-left">Post-migration reliability</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Case Study 2: Insurance - Cloud Migration (reversed) -->
+                <div class="grid gap-12 lg:grid-cols-3 xl:gap-24 items-center border-b border-white/10 pb-12">
+                    <!-- Left: Image + Quote (order-2 on lg) -->
+                    <div class="flex flex-col sm:flex-row gap-10 lg:col-span-2 lg:order-2 lg:border-l lg:pl-12 xl:pl-16 lg:pr-0 text-left border-white/10">
+                        <img
+                            src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=600&h=800&fit=crop"
+                            alt="Business meeting"
+                            class="aspect-[29/35] h-auto w-full max-w-60 rounded-2xl object-cover ring-1 ring-white/10 hover:scale-105 transition-all duration-300"
+                            loading="lazy"
+                            decoding="async"
+                        />
+                        <figure class="flex flex-col justify-between gap-8 text-left">
+                            <blockquote class="text-left">
+                                <h3 class="text-lg sm:text-xl lg:text-xl font-normal text-white leading-relaxed text-left">
+                                    <span class="flex items-center gap-3 mb-3">
+                                        <span class="material-symbols-outlined text-primary" style="font-size: 28px;">dashboard</span>
+                                        Cloud-First Operations
+                                    </span>
+                                    <span class="block text-gray-400 text-sm sm:text-base lg:text-lg mt-2">
+                                        Global iTS gave us a unified cloud platform. Our ops team reduced context switching and improved clarity across all regional offices.
+                                    </span>
+                                </h3>
+                            </blockquote>
+                            <figcaption class="flex items-center gap-6 mt-4 text-left">
+                                <div class="flex flex-col gap-1">
+                                    <span class="text-md font-medium text-white">Sophia Patel</span>
+                                    <span class="text-sm text-gray-400">Operations Director, Gulf Insurance Group</span>
+                                </div>
+                            </figcaption>
+                        </figure>
+                    </div>
+                    <!-- Right: Metrics (order-1 on lg) -->
+                    <div class="grid grid-cols-1 gap-10 self-center text-left lg:order-1">
+                        <div class="flex flex-col gap-2 text-left p-6">
+                            <p class="text-2xl font-medium text-white sm:text-4xl countup-metric" data-target="3.5" data-suffix="x" data-decimals="1" aria-label="Efficiency Gain 3.5x">
+                                0x
+                            </p>
+                            <p class="font-medium text-white text-left">Efficiency Gain</p>
+                            <p class="text-gray-400 text-left">Across workflows</p>
+                        </div>
+                        <div class="flex flex-col gap-2 text-left p-6">
+                            <p class="text-2xl font-medium text-white sm:text-4xl countup-metric" data-target="70" data-suffix="%" aria-label="Reduced Errors 70%">
+                                0%
+                            </p>
+                            <p class="font-medium text-white text-left">Reduced Errors</p>
+                            <p class="text-gray-400 text-left">In daily reporting</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Case Study 3: Investment - CRM Transformation -->
+                <div class="grid gap-12 lg:grid-cols-3 xl:gap-24 items-center pb-12">
+                    <!-- Left: Image + Quote -->
+                    <div class="flex flex-col sm:flex-row gap-10 lg:col-span-2 lg:border-r lg:pr-12 xl:pr-16 text-left border-white/10">
+                        <img
+                            src="https://images.unsplash.com/photo-1573164713714-d95e436ab8d6?w=600&h=800&fit=crop"
+                            alt="Team collaboration"
+                            class="aspect-[29/35] h-auto w-full max-w-60 rounded-2xl object-cover ring-1 ring-white/10 hover:scale-105 transition-all duration-300"
+                            loading="lazy"
+                            decoding="async"
+                        />
+                        <figure class="flex flex-col justify-between gap-8 text-left">
+                            <blockquote class="text-left">
+                                <h3 class="text-lg sm:text-xl lg:text-xl font-normal text-white leading-relaxed text-left">
+                                    <span class="flex items-center gap-3 mb-3">
+                                        <span class="material-symbols-outlined text-primary" style="font-size: 28px;">groups</span>
+                                        CRM-Driven Growth
+                                    </span>
+                                    <span class="block text-gray-400 text-sm sm:text-base lg:text-lg mt-2">
+                                        The CRM solutions from Global iTS changed how our team manages client relationships. Onboarding is seamless and portfolio tracking is effortless.
+                                    </span>
+                                </h3>
+                            </blockquote>
+                            <figcaption class="flex items-center gap-6 mt-4 text-left">
+                                <div class="flex flex-col gap-1">
+                                    <span class="text-md font-medium text-white">David Liu</span>
+                                    <span class="text-sm text-gray-400">Managing Partner, Pacific Capital Advisors</span>
+                                </div>
+                            </figcaption>
+                        </figure>
+                    </div>
+                    <!-- Right: Metrics -->
+                    <div class="grid grid-cols-1 gap-10 self-center text-left">
+                        <div class="flex flex-col gap-2 text-left p-6">
+                            <p class="text-2xl font-medium text-white sm:text-4xl countup-metric" data-target="2" data-suffix="x" aria-label="Faster Onboarding 2x">
+                                0x
+                            </p>
+                            <p class="font-medium text-white text-left">Faster Onboarding</p>
+                            <p class="text-gray-400 text-left">For new client accounts</p>
+                        </div>
+                        <div class="flex flex-col gap-2 text-left p-6">
+                            <p class="text-2xl font-medium text-white sm:text-4xl countup-metric" data-target="88" data-suffix="%" aria-label="Adoption Rate 88%">
+                                0%
+                            </p>
+                            <p class="font-medium text-white text-left">Adoption Rate</p>
+                            <p class="text-gray-400 text-left">Firm-wide CRM usage</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================== -->
+    <!-- CONTACT SECTION -->
+    <!-- ============================================================== -->
+    <section id="contact" class="bg-white py-24 relative">
+        <div class="max-w-7xl mx-auto px-6 lg:px-12 relative z-10">
+            <div class="grid lg:grid-cols-2 gap-16">
+                <!-- Contact Info -->
+                <div>
+                    <span class="font-semibold text-sm uppercase tracking-wider text-primary">
+                        Get in Touch
+                    </span>
+                    <h2 class="font-serif text-3xl md:text-4xl font-bold mt-3 mb-6 text-gray-900 leading-tight">
+                        Let's Transform Your 
+                        <span class="text-primary">Business Together</span>
+                    </h2>
+                    <p class="text-lg mb-8 text-gray-600">
+                        Ready to accelerate your digital transformation? Our team of experts 
+                        is here to help you navigate the future of finance.
+                    </p>
+
+                    <!-- Contact Details -->
+                    <div class="space-y-4 mb-8">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-lg flex items-center justify-center" style="background-color: rgba(195, 183, 152, 0.2);">
+                                <svg class="w-5 h-5" style="color: #c3b798;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-500">Email</p>
+                                <a href="mailto:info@globalits.bh" class="font-medium hover:text-primary transition-colors text-gray-900">
+                                    info@globalits.bh
+                                </a>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-lg flex items-center justify-center" style="background-color: rgba(195, 183, 152, 0.2);">
+                                <svg class="w-5 h-5" style="color: #c3b798;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-500">Phone</p>
+                                <a href="tel:+97317000000" class="font-medium hover:text-primary transition-colors text-gray-900">
+                                    +973 17 000 000
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Global Offices -->
+                    <div class="p-6 rounded-2xl border bg-gray-50 border-gray-200">
+                        <div class="flex items-center gap-2 mb-4">
+                            <svg class="w-5 h-5" style="color: #c3b798;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                            </svg>
+                            <h4 class="font-bold text-gray-900">Global Offices</h4>
+                        </div>
+                        <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 text-sm">
+                            <div class="flex flex-col"><span class="font-medium text-gray-600">Bahrain (HQ)</span></div>
+                            <div class="flex flex-col"><span class="font-medium text-gray-600">London</span></div>
+                            <div class="flex flex-col"><span class="font-medium text-gray-600">Riyadh</span></div>
+                            <div class="flex flex-col"><span class="font-medium text-gray-600">Oman</span></div>
+                            <div class="flex flex-col"><span class="font-medium text-gray-600">Pakistan</span></div>
+                            <div class="flex flex-col"><span class="font-medium text-gray-600">Egypt</span></div>
+                            <div class="flex flex-col"><span class="font-medium text-gray-600">Kuwait</span></div>
+                            <div class="flex flex-col"><span class="font-medium text-gray-600">India</span></div>
+                            <div class="flex flex-col"><span class="font-medium text-gray-600">UAE</span></div>
+                            <div class="flex flex-col"><span class="font-medium text-gray-600">Qatar</span></div>
+                            <div class="flex flex-col"><span class="font-medium text-gray-600">Singapore</span></div>
+                            <div class="flex flex-col"><span class="font-medium text-gray-600">Jordan</span></div>
+                            <div class="flex flex-col"><span class="font-medium text-gray-600">Saudi Arabia</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contact Form -->
+                <div class="rounded-3xl p-8 md:p-10 border bg-gray-50 border-gray-200 shadow-sm">
+                    <h3 class="font-serif text-xl font-bold mb-6 text-gray-900">
+                        Request a Consultation
+                    </h3>
+                    <form class="space-y-5" id="contactForm">
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium mb-2 text-gray-700">
+                                    First Name
+                                </label>
+                                <input
+                                    type="text"
+                                    name="firstName"
+                                    class="w-full px-4 py-3 rounded-xl border border-gray-300 bg-white focus:outline-none focus:border-primary transition-colors text-gray-900 placeholder-gray-400"
+                                    placeholder="John"
+                                    required
+                                />
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium mb-2 text-gray-700">
+                                    Last Name
+                                </label>
+                                <input
+                                    type="text"
+                                    name="lastName"
+                                    class="w-full px-4 py-3 rounded-xl border border-gray-300 bg-white focus:outline-none focus:border-primary transition-colors text-gray-900 placeholder-gray-400"
+                                    placeholder="Doe"
+                                    required
+                                />
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-2 text-gray-700">
+                                Work Email
+                            </label>
+                            <input
+                                type="email"
+                                name="email"
+                                class="w-full px-4 py-3 rounded-xl border border-gray-300 bg-white focus:outline-none focus:border-primary transition-colors text-gray-900 placeholder-gray-400"
+                                placeholder="john@company.com"
+                                required
+                            />
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-2 text-gray-700">
+                                Company
+                            </label>
+                            <input
+                                type="text"
+                                name="company"
+                                class="w-full px-4 py-3 rounded-xl border border-gray-300 bg-white focus:outline-none focus:border-primary transition-colors text-gray-900 placeholder-gray-400"
+                                placeholder="Your Company"
+                                required
+                            />
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-2 text-gray-700">
+                                How can we help?
+                            </label>
+                            <textarea
+                                name="message"
+                                rows="4"
+                                class="w-full px-4 py-3 rounded-xl border border-gray-300 bg-white focus:outline-none focus:border-primary transition-colors resize-none text-gray-900 placeholder-gray-400"
+                                placeholder="Tell us about your project..."
+                                required
+                            ></textarea>
+                        </div>
+                        <button 
+                            type="submit" 
+                            class="w-full px-6 py-4 rounded-xl font-semibold text-white flex items-center justify-center gap-2 transition-all hover:opacity-90"
+                            style="background: linear-gradient(135deg, #c3b798 0%, #a89b7d 100%);"
+                        >
+                            Send Message
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+                            </svg>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================== -->
+    <!-- FOOTER -->
+    <!-- ============================================================== -->
+    <footer class="aurora-gradient text-white py-20 lg:py-24">
+        <div class="max-w-7xl mx-auto px-6 lg:px-12">
+            <div class="flex w-full flex-col justify-between gap-10 lg:flex-row lg:items-start">
+                <!-- Logo & Description Section -->
+                <div class="flex w-full flex-col gap-6 lg:max-w-md">
+                    <div class="flex items-center">
+                        <a href="index.html">
+                            <img src="https://globaledgeholding.com/wp-content/uploads/2019/07/GitsGedge-logos-4-1.png" alt="Global iTS" class="h-10 w-auto object-contain">
+                        </a>
+                    </div>
+                    <p class="text-sm text-gray-400 leading-relaxed max-w-sm">
+                        Delivering enterprise-grade AI solutions for financial services worldwide. Trusted by leading banks, insurers, and investment firms across the GCC and beyond.
+                    </p>
+                    <ul class="flex items-center space-x-5">
+                        <li>
+                            <a href="#" aria-label="LinkedIn" class="text-gray-400 hover:text-primary transition-colors duration-300">
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                                </svg>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" aria-label="Twitter" class="text-gray-400 hover:text-primary transition-colors duration-300">
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"/>
+                                </svg>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" aria-label="Facebook" class="text-gray-400 hover:text-primary transition-colors duration-300">
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                                </svg>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" aria-label="Instagram" class="text-gray-400 hover:text-primary transition-colors duration-300">
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                                </svg>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Navigation Links Grid -->
+                <div class="grid w-full gap-8 grid-cols-2 md:grid-cols-3 lg:gap-16">
+                    <div>
+                        <h3 class="mb-4 font-bold text-white text-base">Solutions</h3>
+                        <ul class="space-y-3 text-sm text-gray-400">
+                            <li class="hover:text-primary transition-colors"><a href="#">G Bank AI</a></li>
+                            <li class="hover:text-primary transition-colors"><a href="#">G Insure AI</a></li>
+                            <li class="hover:text-primary transition-colors"><a href="#">G Invest AI</a></li>
+                            <li class="hover:text-primary transition-colors"><a href="#">G Risk AI</a></li>
+                            <li class="hover:text-primary transition-colors"><a href="#">G HRMS AI</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="mb-4 font-bold text-white text-base">Company</h3>
+                        <ul class="space-y-3 text-sm text-gray-400">
+                            <li class="hover:text-primary transition-colors"><a href="#">About Us</a></li>
+                            <li class="hover:text-primary transition-colors"><a href="#">Leadership</a></li>
+                            <li class="hover:text-primary transition-colors"><a href="#">Careers</a></li>
+                            <li class="hover:text-primary transition-colors"><a href="#">News & Events</a></li>
+                            <li class="hover:text-primary transition-colors"><a href="#">Contact</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="mb-4 font-bold text-white text-base">Resources</h3>
+                        <ul class="space-y-3 text-sm text-gray-400">
+                            <li class="hover:text-primary transition-colors"><a href="#">Documentation</a></li>
+                            <li class="hover:text-primary transition-colors"><a href="#">Support Center</a></li>
+                            <li class="hover:text-primary transition-colors"><a href="#">Case Studies</a></li>
+                            <li class="hover:text-primary transition-colors"><a href="#">Whitepapers</a></li>
+                            <li class="hover:text-primary transition-colors"><a href="#">Blog</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-12 flex flex-col justify-between gap-4 border-t border-white/10 pt-8 text-xs text-gray-400 md:flex-row md:items-center">
+                <p class="order-2 md:order-1">&copy; 2026 Global iTS. All rights reserved.</p>
+                <ul class="order-1 flex flex-col gap-3 md:order-2 md:flex-row md:gap-6">
+                    <li class="hover:text-primary transition-colors"><a href="#">Terms and Conditions</a></li>
+                    <li class="hover:text-primary transition-colors"><a href="#">Privacy Policy</a></li>
+                    <li class="hover:text-primary transition-colors"><a href="#">Cookie Policy</a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ============================================================== -->
+    <!-- SCRIPTS -->
+    <!-- ============================================================== -->
+
+    <!-- Three.js (for CPPN shader background) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- GSAP (for hero animations) -->
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js"></script>
+
+    <script>
+    // =====================================================================
+    // 1. THREE.JS CPPN SHADER BACKGROUND
+    // =====================================================================
+    (function initShader() {
+        const canvas = document.getElementById('shader-canvas');
+        if (!canvas) return;
+
+        const renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: false });
+        renderer.setClearColor(0x00013a, 1); // Navy fallback so no black edges ever
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        
+        const container = document.getElementById('shader-bg');
+        renderer.setSize(container.offsetWidth, container.offsetHeight);
+
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, container.offsetWidth / container.offsetHeight, 0.1, 1000);
+        camera.position.set(0, 0, 1);
+
+        // Vertex shader
+        const vertexShader = `
+            varying vec2 vUv;
+            void main() {
+                vUv = uv;
+                gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+            }
+        `;
+
+        // Fragment shader (CPPN neural network)
+        const fragmentShader = `
+            #ifdef GL_ES
+            precision lowp float;
+            #endif
+            uniform float iTime;
+            uniform vec2 iResolution;
+            varying vec2 vUv;
+
+            vec4 buf[8];
+
+            vec4 sigmoid(vec4 x) { return 1. / (1. + exp(-x)); }
+
+            vec4 cppn_fn(vec2 coordinate, float in0, float in1, float in2) {
+                buf[6] = vec4(coordinate.x, coordinate.y, 0.3948333106474662 + in0, 0.36 + in1);
+                buf[7] = vec4(0.14 + in2, sqrt(coordinate.x * coordinate.x + coordinate.y * coordinate.y), 0., 0.);
+
+                buf[0] = mat4(vec4(6.5404263, -3.6126034, 0.7590882, -1.13613), vec4(2.4582713, 3.1660357, 1.2219609, 0.06276096), vec4(-5.478085, -6.159632, 1.8701609, -4.7742867), vec4(6.039214, -5.542865, -0.90925294, 3.251348))
+                * buf[6]
+                + mat4(vec4(0.8473259, -5.722911, 3.975766, 1.6522468), vec4(-0.24321538, 0.5839259, -1.7661959, -5.350116), vec4(0.0, 0.0, 0.0, 0.0), vec4(0.0, 0.0, 0.0, 0.0))
+                * buf[7]
+                + vec4(0.21808943, 1.1243913, -1.7969975, 5.0294676);
+
+                buf[1] = mat4(vec4(-3.3522482, -6.0612736, 0.55641043, -4.4719114), vec4(0.8631464, 1.7432913, 5.643898, 1.6106541), vec4(2.4941394, -3.5012043, 1.7184316, 6.357333), vec4(3.310376, 8.209261, 1.1355612, -1.165539))
+                * buf[6]
+                + mat4(vec4(5.24046, -13.034365, 0.009859298, 15.870829), vec4(2.987511, 3.129433, -0.89023495, -1.6822904), vec4(0.0, 0.0, 0.0, 0.0), vec4(0.0, 0.0, 0.0, 0.0))
+                * buf[7]
+                + vec4(-5.9457836, -6.573602, -0.8812491, 1.5436668);
+
+                buf[0] = sigmoid(buf[0]);
+                buf[1] = sigmoid(buf[1]);
+
+                buf[2] = mat4(vec4(-15.219568, 8.095543, -2.429353, -1.9381982), vec4(-5.951362, 4.3115187, 2.6393783, 1.274315), vec4(-7.3145227, 6.7297835, 5.2473326, 5.9411426), vec4(5.0796127, 8.979051, -1.7278991, -1.158976))
+                * buf[6]
+                + mat4(vec4(-11.967154, -11.608155, 6.1486754, 11.237008), vec4(2.124141, -6.263192, -1.7050359, -0.7021966), vec4(0.0, 0.0, 0.0, 0.0), vec4(0.0, 0.0, 0.0, 0.0))
+                * buf[7]
+                + vec4(-4.17164, -3.2281182, -4.576417, -3.6401186);
+
+                buf[3] = mat4(vec4(3.1832156, -13.738922, 1.879223, 3.233465), vec4(0.64300746, 12.768129, 1.9141049, 0.50990224), vec4(-0.049295485, 4.4807224, 1.4733979, 1.801449), vec4(5.0039253, 13.000481, 3.3991797, -4.5561905))
+                * buf[6]
+                + mat4(vec4(-0.1285731, 7.720628, -3.1425676, 4.742367), vec4(0.6393625, 3.714393, -0.8108378, -0.39174938), vec4(0.0, 0.0, 0.0, 0.0), vec4(0.0, 0.0, 0.0, 0.0))
+                * buf[7]
+                + vec4(-1.1811101, -21.621881, 0.7851888, 1.2329718);
+
+                buf[2] = sigmoid(buf[2]);
+                buf[3] = sigmoid(buf[3]);
+
+                buf[4] = mat4(vec4(5.214916, -7.183024, 2.7228765, 2.6592617), vec4(-5.601878, -25.3591, 4.067988, 0.4602802), vec4(-10.57759, 24.286327, 21.102104, 37.546658), vec4(4.3024497, -1.9625226, 2.3458803, -1.372816))
+                * buf[0]
+                + mat4(vec4(-17.6526, -10.507558, 2.2587414, 12.462782), vec4(6.265566, -502.75443, -12.642513, 0.9112289), vec4(-10.983244, 20.741234, -9.701768, -0.7635988), vec4(5.383626, 1.4819539, -4.1911616, -4.8444734))
+                * buf[1]
+                + mat4(vec4(12.785233, -16.345072, -0.39901125, 1.7955981), vec4(-30.48365, -1.8345358, 1.4542528, -1.1118771), vec4(19.872723, -7.337935, -42.941723, -98.52709), vec4(8.337645, -2.7312303, -2.2927687, -36.142323))
+                * buf[2]
+                + mat4(vec4(-16.298317, 3.5471997, -0.44300047, -9.444417), vec4(57.5077, -35.609753, 16.163465, -4.1534753), vec4(-0.07470326, -3.8656476, -7.0901804, 3.1523974), vec4(-12.559385, -7.077619, 1.490437, -0.8211543))
+                * buf[3]
+                + vec4(-7.67914, 15.927437, 1.3207729, -1.6686112);
+
+                buf[5] = mat4(vec4(-1.4109162, -0.372762, -3.770383, -21.367174), vec4(-6.2103205, -9.35908, 0.92529047, 8.82561), vec4(11.460242, -22.348068, 13.625772, -18.693201), vec4(-0.3429052, -3.9905605, -2.4626114, -0.45033523))
+                * buf[0]
+                + mat4(vec4(7.3481627, -4.3661838, -6.3037653, -3.868115), vec4(1.5462853, 6.5488915, 1.9701879, -0.58291394), vec4(6.5858274, -2.2180402, 3.7127688, -1.3730392), vec4(-5.7973905, 10.134961, -2.3395722, -5.965605))
+                * buf[1]
+                + mat4(vec4(-2.5132585, -6.6685553, -1.4029363, -0.16285264), vec4(-0.37908727, 0.53738135, 4.389061, -1.3024765), vec4(-0.70647055, 2.0111287, -5.1659346, -3.728635), vec4(-13.562562, 10.487719, -0.9173751, -2.6487076))
+                * buf[2]
+                + mat4(vec4(-8.645013, 6.5546675, -6.3944063, -5.5933375), vec4(-0.57783127, -1.077275, 36.91025, 5.736769), vec4(14.283112, 3.7146652, 7.1452246, -4.5958776), vec4(2.7192075, 3.6021907, -4.366337, -2.3653464))
+                * buf[3]
+                + vec4(-5.9000807, -4.329569, 1.2427121, 8.59503);
+
+                buf[4] = sigmoid(buf[4]);
+                buf[5] = sigmoid(buf[5]);
+
+                buf[6] = mat4(vec4(-1.61102, 0.7970257, 1.4675229, 0.20917463), vec4(-28.793737, -7.1390953, 1.5025433, 4.656581), vec4(-10.94861, 39.66238, 0.74318546, -10.095605), vec4(-0.7229728, -1.5483948, 0.7301322, 2.1687684))
+                * buf[0]
+                + mat4(vec4(3.2547753, 21.489103, -1.0194173, -3.3100595), vec4(-3.7316632, -3.3792162, -7.223193, -0.23685838), vec4(13.1804495, 0.7916005, 5.338587, 5.687114), vec4(-4.167605, -17.798311, -6.815736, -1.6451967))
+                * buf[1]
+                + mat4(vec4(0.604885, -7.800309, -7.213122, -2.741014), vec4(-3.522382, -0.12359311, -0.5258442, 0.43852118), vec4(9.6752825, -22.853785, 2.062431, 0.099892326), vec4(-4.3196306, -17.730087, 2.5184598, 5.30267))
+                * buf[2]
+                + mat4(vec4(-6.545563, -15.790176, -6.0438633, -5.415399), vec4(-43.591583, 28.551912, -16.00161, 18.84728), vec4(4.212382, 8.394307, 3.0958717, 8.657522), vec4(-5.0237565, -4.450633, -4.4768, -5.5010443))
+                * buf[3]
+                + mat4(vec4(1.6985557, -67.05806, 6.897715, 1.9004834), vec4(1.8680354, 2.3915145, 2.5231109, 4.081538), vec4(11.158006, 1.7294737, 2.0738268, 7.386411), vec4(-4.256034, -306.24686, 8.258898, -17.132736))
+                * buf[4]
+                + mat4(vec4(1.6889864, -4.5852966, 3.8534803, -6.3482175), vec4(1.3543309, -1.2640043, 9.932754, 2.9079645), vec4(-5.2770967, 0.07150358, -0.13962056, 3.3269649), vec4(28.34703, -4.918278, 6.1044083, 4.085355))
+                * buf[5]
+                + vec4(6.6818056, 12.522166, -3.7075126, -4.104386);
+
+                buf[7] = mat4(vec4(-8.265602, -4.7027016, 5.098234, 0.7509808), vec4(8.6507845, -17.15949, 16.51939, -8.884479), vec4(-4.036479, -2.3946867, -2.6055532, -1.9866527), vec4(-2.2167742, -1.8135649, -5.9759874, 4.8846445))
+                * buf[0]
+                + mat4(vec4(6.7790847, 3.5076547, -2.8191125, -2.7028968), vec4(-5.743024, -0.27844876, 1.4958696, -5.0517144), vec4(13.122226, 15.735168, -2.9397483, -4.101023), vec4(-14.375265, -5.030483, -6.2599335, 2.9848232))
+                * buf[1]
+                + mat4(vec4(4.0950394, -0.94011575, -5.674733, 4.755022), vec4(4.3809423, 4.8310084, 1.7425908, -3.437416), vec4(2.117492, 0.16342592, -104.56341, 16.949184), vec4(-5.22543, -2.994248, 3.8350096, -1.9364246))
+                * buf[2]
+                + mat4(vec4(-5.900337, 1.7946124, -13.604192, -3.8060522), vec4(6.6583457, 31.911177, 25.164474, 91.81147), vec4(11.840538, 4.1503043, -0.7314397, 6.768467), vec4(-6.3967767, 4.034772, 6.1714606, -0.32874924))
+                * buf[3]
+                + mat4(vec4(3.4992442, -196.91893, -8.923708, 2.8142626), vec4(3.4806502, -3.1846354, 5.1725626, 5.1804223), vec4(-2.4009497, 15.585794, 1.2863957, 2.0252278), vec4(-71.25271, -62.441242, -8.138444, 0.50670296))
+                * buf[4]
+                + mat4(vec4(-12.291733, -11.176166, -7.3474145, 4.390294), vec4(10.805477, 5.6337385, -0.9385842, -4.7348723), vec4(-12.869276, -7.039391, 5.3029537, 7.5436664), vec4(1.4593618, 8.91898, 3.5101583, 5.840625))
+                * buf[5]
+                + vec4(2.2415268, -6.705987, -0.98861027, -2.117676);
+
+                buf[6] = sigmoid(buf[6]);
+                buf[7] = sigmoid(buf[7]);
+
+                buf[0] = mat4(vec4(1.6794263, 1.3817469, 2.9625452, 0.0), vec4(-1.8834411, -1.4806935, -3.5924516, 0.0), vec4(-1.3279216, -1.0918057, -2.3124623, 0.0), vec4(0.2662234, 0.23235129, 0.44178495, 0.0))
+                * buf[0]
+                + mat4(vec4(-0.6299101, -0.5945583, -0.9125601, 0.0), vec4(0.17828953, 0.18300213, 0.18182953, 0.0), vec4(-2.96544, -2.5819945, -4.9001055, 0.0), vec4(1.4195864, 1.1868085, 2.5176322, 0.0))
+                * buf[1]
+                + mat4(vec4(-1.2584374, -1.0552157, -2.1688404, 0.0), vec4(-0.7200217, -0.52666044, -1.438251, 0.0), vec4(0.15345335, 0.15196142, 0.272854, 0.0), vec4(0.945728, 0.8861938, 1.2766753, 0.0))
+                * buf[2]
+                + mat4(vec4(-2.4218085, -1.968602, -4.35166, 0.0), vec4(-22.683098, -18.0544, -41.954372, 0.0), vec4(0.63792, 0.5470648, 1.1078634, 0.0), vec4(-1.5489894, -1.3075932, -2.6444845, 0.0))
+                * buf[3]
+                + mat4(vec4(-0.49252132, -0.39877754, -0.91366625, 0.0), vec4(0.95609266, 0.7923952, 1.640221, 0.0), vec4(0.30616966, 0.15693925, 0.8639857, 0.0), vec4(1.1825981, 0.94504964, 2.176963, 0.0))
+                * buf[4]
+                + mat4(vec4(0.35446745, 0.3293795, 0.59547555, 0.0), vec4(-0.58784515, -0.48177817, -1.0614829, 0.0), vec4(2.5271258, 1.9991658, 4.6846647, 0.0), vec4(0.13042648, 0.08864098, 0.30187556, 0.0))
+                * buf[5]
+                + mat4(vec4(-1.7718065, -1.4033192, -3.3355875, 0.0), vec4(3.1664357, 2.638297, 5.378702, 0.0), vec4(-3.1724713, -2.6107926, -5.549295, 0.0), vec4(-2.851368, -2.249092, -5.3013067, 0.0))
+                * buf[6]
+                + mat4(vec4(1.5203838, 1.2212278, 2.8404984, 0.0), vec4(1.5210563, 1.2651345, 2.683903, 0.0), vec4(2.9789467, 2.4364579, 5.2347264, 0.0), vec4(2.2270417, 1.8825914, 3.8028636, 0.0))
+                * buf[7]
+                + vec4(-1.5468478, -3.6171484, 0.24762098, 0.0);
+
+                buf[0] = sigmoid(buf[0]);
+                return vec4(buf[0].x, buf[0].y, buf[0].z, 1.0);
+            }
+
+            void main() {
+                vec2 uv = vUv * 2.0 - 1.0;
+                uv.y *= -1.0;
+
+                // Original speed/frequencies, slightly boosted amplitude so gold is visible
+                vec4 cppn = cppn_fn(uv, 0.18 * sin(0.3 * iTime), 0.18 * sin(0.69 * iTime), 0.18 * sin(0.44 * iTime));
+
+                vec3 navy = vec3(0.0, 0.004, 0.227);    // #00013a
+                vec3 gold = vec3(0.765, 0.718, 0.596);   // #c3b798
+
+                // Max channel captures the brightest value regardless of CPPN's color bias
+                float brightness = max(cppn.r, max(cppn.g, cppn.b));
+
+                // Direct navy → gold mapping
+                vec3 result = mix(navy, gold, brightness);
+
+                gl_FragColor = vec4(result, 1.0);
+            }
+        `;
+
+        const geometry = new THREE.PlaneGeometry(4, 4);
+        const material = new THREE.ShaderMaterial({
+            vertexShader: vertexShader,
+            fragmentShader: fragmentShader,
+            uniforms: {
+                iTime: { value: 0 },
+                iResolution: { value: new THREE.Vector2(container.offsetWidth, container.offsetHeight) }
+            },
+            side: THREE.DoubleSide
+        });
+
+        const mesh = new THREE.Mesh(geometry, material);
+        mesh.position.set(0, -0.75, -0.5);
+        scene.add(mesh);
+
+        const clock = new THREE.Clock();
+
+        function animate() {
+            requestAnimationFrame(animate);
+            material.uniforms.iTime.value = clock.getElapsedTime();
+            renderer.render(scene, camera);
+        }
+
+        // Initial blur-in effect for shader background
+        const shaderBg = document.getElementById('shader-bg');
+        shaderBg.style.filter = 'blur(20px)';
+        shaderBg.style.transform = 'scale(1.1)';
+        shaderBg.style.opacity = '0.7';
+        shaderBg.style.transition = 'filter 1.5s cubic-bezier(0.33,1,0.68,1), transform 1.5s cubic-bezier(0.33,1,0.68,1), opacity 1.5s cubic-bezier(0.33,1,0.68,1)';
+
+        setTimeout(function() {
+            shaderBg.style.filter = 'blur(0px)';
+            shaderBg.style.transform = 'scale(1)';
+            shaderBg.style.opacity = '1';
+        }, 300);
+
+        // Handle resize
+        window.addEventListener('resize', function() {
+            const w = container.offsetWidth;
+            const h = container.offsetHeight;
+            renderer.setSize(w, h);
+            camera.aspect = w / h;
+            camera.updateProjectionMatrix();
+            material.uniforms.iResolution.value.set(w, h);
+        });
+
+        animate();
+    })();
+
+    // =====================================================================
+    // 2. GSAP HERO TEXT ANIMATIONS
+    // =====================================================================
+    (function initHeroAnimations() {
+        const badge = document.getElementById('hero-badge');
+        const title = document.getElementById('hero-title');
+        const desc = document.getElementById('hero-desc');
+        const cta = document.getElementById('hero-cta');
+
+        if (!title) return;
+
+        // Vanilla line splitter (replaces GSAP SplitText which is a paid plugin)
+        function splitIntoLines(el) {
+            const text = el.textContent.trim();
+            const words = text.split(/\s+/);
+            el.innerHTML = '';
+            
+            // Temporarily build to measure line breaks
+            const spans = words.map(function(word) {
+                const span = document.createElement('span');
+                span.style.display = 'inline';
+                span.textContent = word + ' ';
+                el.appendChild(span);
+                return span;
+            });
+
+            // Group by offsetTop to detect lines
+            var lines = [];
+            var currentLine = [];
+            var lastTop = null;
+
+            spans.forEach(function(span) {
+                var top = span.getBoundingClientRect().top;
+                if (lastTop !== null && Math.abs(top - lastTop) > 2) {
+                    lines.push(currentLine);
+                    currentLine = [];
+                }
+                currentLine.push(span.textContent);
+                lastTop = top;
+            });
+            if (currentLine.length) lines.push(currentLine);
+
+            // Replace with line divs
+            el.innerHTML = '';
+            var lineEls = lines.map(function(lineWords) {
+                var div = document.createElement('div');
+                div.style.display = 'block';
+                div.style.overflow = 'hidden';
+                var inner = document.createElement('div');
+                inner.textContent = lineWords.join('');
+                div.appendChild(inner);
+                el.appendChild(div);
+                return inner;
+            });
+
+            return lineEls;
+        }
+
+        // Wait for fonts to load
+        document.fonts.ready.then(function() {
+            var lineEls = splitIntoLines(title);
+
+            // Set initial states
+            gsap.set(lineEls, {
+                filter: 'blur(16px)',
+                yPercent: 30,
+                autoAlpha: 0,
+                scale: 1.06,
+                transformOrigin: '50% 100%'
+            });
+
+            if (badge) gsap.set(badge, { autoAlpha: 0, y: -8 });
+            if (desc) gsap.set(desc, { autoAlpha: 0, y: 8 });
+            if (cta) gsap.set(cta, { autoAlpha: 0, y: 8 });
+
+            // Make visible (they start as visibility:hidden)
+            [badge, title, desc, cta].forEach(function(el) {
+                if (el) el.classList.remove('hero-animate');
+            });
+
+            // Build timeline
+            var tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+
+            if (badge) {
+                tl.to(badge, { autoAlpha: 1, y: 0, duration: 0.5 }, 0.0);
+            }
+
+            tl.to(lineEls, {
+                filter: 'blur(0px)',
+                yPercent: 0,
+                autoAlpha: 1,
+                scale: 1,
+                duration: 0.9,
+                stagger: 0.15
+            }, 0.1);
+
+            if (desc) {
+                tl.to(desc, { autoAlpha: 1, y: 0, duration: 0.5 }, '-=0.55');
+            }
+            if (cta) {
+                tl.to(cta, { autoAlpha: 1, y: 0, duration: 0.5 }, '-=0.35');
+            }
+        });
+    })();
+
+    // =====================================================================
+    // 3. COUNT-UP ANIMATION (replaces react-countup)
+    // =====================================================================
+    (function initCountUp() {
+        var metrics = document.querySelectorAll('.countup-metric');
+        if (!metrics.length) return;
+
+        // Respects reduced motion
+        var prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        function animateValue(el, target, decimals, suffix, duration) {
+            if (prefersReducedMotion) {
+                el.textContent = target.toLocaleString(undefined, {
+                    minimumFractionDigits: decimals,
+                    maximumFractionDigits: decimals
+                }) + suffix;
+                return;
+            }
+
+            var startTime = null;
+            function step(timestamp) {
+                if (!startTime) startTime = timestamp;
+                var progress = Math.min((timestamp - startTime) / (duration * 1000), 1);
+                // Ease out cubic
+                var eased = 1 - Math.pow(1 - progress, 3);
+                var current = eased * target;
+                el.textContent = current.toLocaleString(undefined, {
+                    minimumFractionDigits: decimals,
+                    maximumFractionDigits: decimals
+                }) + suffix;
+                if (progress < 1) {
+                    requestAnimationFrame(step);
+                }
+            }
+            requestAnimationFrame(step);
+        }
+
+        var observer = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
+                if (entry.isIntersecting) {
+                    var el = entry.target;
+                    var target = parseFloat(el.getAttribute('data-target')) || 0;
+                    var suffix = el.getAttribute('data-suffix') || '';
+                    var decimals = parseInt(el.getAttribute('data-decimals')) || 0;
+                    animateValue(el, target, decimals, suffix, 1.6);
+                    observer.unobserve(el);
+                }
+            });
+        }, { threshold: 0.3 });
+
+        metrics.forEach(function(el) { observer.observe(el); });
+    })();
+
+    // =====================================================================
+    // 4. NAVBAR: Dropdowns, Scroll, Mobile Menu
+    // =====================================================================
+    (function initNav() {
+        var nav = document.getElementById('main-nav');
+        var mobileMenu = document.getElementById('mobile-menu');
+        var mobileToggle = document.getElementById('mobile-toggle');
+        var menuIcon = document.getElementById('menu-toggle-icon');
+        var menuPath = document.getElementById('menu-path-animated');
+        var mobileOpen = false;
+        var activeDropdown = null;
+        var dropdownNames = ['products', 'company'];
+
+        // ── Scroll detection ──────────────────────────────
+        function onScroll() {
+            if (window.scrollY > 10) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+        }
+        window.addEventListener('scroll', onScroll, { passive: true });
+        onScroll();
+
+        // ── Toggle dropdown ───────────────────────────────
+        window.toggleDropdown = function(name) {
+            if (activeDropdown === name) {
+                closeAllDropdowns();
+                return;
+            }
+            closeAllDropdowns();
+            var container = document.getElementById('dropdown-' + name);
+            if (!container) return;
+            var panel = container.querySelector('.nav-dropdown-panel');
+            var chevron = container.querySelector('.nav-chevron');
+            if (panel) panel.classList.add('open');
+            if (chevron) chevron.classList.add('open');
+            activeDropdown = name;
+        };
+
+        function closeAllDropdowns() {
+            dropdownNames.forEach(function(name) {
+                var container = document.getElementById('dropdown-' + name);
+                if (!container) return;
+                var panel = container.querySelector('.nav-dropdown-panel');
+                var chevron = container.querySelector('.nav-chevron');
+                if (panel) panel.classList.remove('open');
+                if (chevron) chevron.classList.remove('open');
+            });
+            activeDropdown = null;
+        }
+
+        // Close on click outside
+        document.addEventListener('click', function(e) {
+            var insideDropdown = false;
+            dropdownNames.forEach(function(name) {
+                if (e.target.closest('#dropdown-' + name)) insideDropdown = true;
+            });
+            if (!insideDropdown) closeAllDropdowns();
+        });
+
+        // Close on Escape
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeAllDropdowns();
+                if (mobileOpen) window.toggleMobileMenu();
+            }
+        });
+
+        // ── Mobile menu ───────────────────────────────────
+        window.toggleMobileMenu = function() {
+            mobileOpen = !mobileOpen;
+            if (mobileOpen) {
+                mobileMenu.classList.add('open');
+                menuIcon.classList.add('-rotate-45');
+                if (menuPath) {
+                    menuPath.style.strokeDasharray = '20 300';
+                    menuPath.style.strokeDashoffset = '-32.42px';
+                }
+                document.body.style.overflow = 'hidden';
+            } else {
+                mobileMenu.classList.remove('open');
+                menuIcon.classList.remove('-rotate-45');
+                if (menuPath) {
+                    menuPath.style.strokeDasharray = '12 63';
+                    menuPath.style.strokeDashoffset = '0';
+                }
+                document.body.style.overflow = '';
+            }
+            if (mobileToggle) mobileToggle.setAttribute('aria-expanded', String(mobileOpen));
+        };
+    })();
+    </script>
+
+</body>
+
+</html>
