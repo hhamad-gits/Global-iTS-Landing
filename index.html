@@ -49,6 +49,33 @@
             scrollbar-width: none;
         }
 
+        /* ── Scroll Reveal Animations ─────────────────── */
+        @keyframes scrollReveal {
+            from {
+                opacity: 0;
+                filter: blur(8px);
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                filter: blur(0px);
+                transform: translateY(0);
+            }
+        }
+        .scroll-reveal {
+            opacity: 0;
+        }
+        .scroll-reveal.revealed {
+            animation: scrollReveal 0.6s ease forwards;
+        }
+        /* Stagger children inside a grid/container */
+        .scroll-reveal-stagger > .scroll-reveal-child {
+            opacity: 0;
+        }
+        .scroll-reveal-stagger > .scroll-reveal-child.revealed {
+            animation: scrollReveal 0.6s ease forwards;
+        }
+
         .glow-text {
             text-shadow: 0 0 20px rgba(195, 183, 152, 0.3);
         }
@@ -307,10 +334,10 @@
                             </svg>
                         </button>
                         <div class="nav-dropdown-panel absolute top-full left-0 mt-2 origin-top-left">
-                            <div class="bg-navy-start/95 backdrop-blur-xl border border-white/10 rounded-xl shadow-2xl p-1.5 w-[520px]">
+                            <div class="bg-navy-start border border-white/10 rounded-xl shadow-2xl p-1.5 w-[520px]">
                                 <div class="bg-white/5 rounded-lg border border-white/5 p-3">
                                     <div class="grid grid-cols-2 gap-2">
-                                        <a href="#" class="flex items-start gap-3 p-3 rounded-lg hover:bg-white/10 transition-colors">
+                                        <a href="gbank.html" class="flex items-start gap-3 p-3 rounded-lg hover:bg-white/10 transition-colors">
                                             <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5">
                                                 <span class="material-symbols-outlined text-primary" style="font-size:20px">account_balance</span>
                                             </div>
@@ -367,6 +394,97 @@
                         </div>
                     </div>
 
+                    <!-- ── Industries Dropdown ─────────────────── -->
+                    <div class="relative" id="dropdown-industries">
+                        <button onclick="toggleDropdown('industries')"
+                            class="flex items-center gap-1.5 text-sm font-medium text-white/80 hover:text-primary px-3 py-2 rounded-md transition-colors">
+                            Industries
+                            <svg class="w-3 h-3 nav-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+                        <div class="nav-dropdown-panel absolute top-full left-0 mt-2 origin-top-left">
+                            <div class="bg-navy-start border border-white/10 rounded-xl shadow-2xl p-1.5 w-[520px]">
+                                <div class="bg-white/5 rounded-lg border border-white/5 p-3">
+                                    <div class="grid grid-cols-2 gap-2">
+                                        <a href="#" class="flex items-start gap-3 p-3 rounded-lg hover:bg-white/10 transition-colors">
+                                            <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5">
+                                                <span class="material-symbols-outlined text-primary" style="font-size:20px">corporate_fare</span>
+                                            </div>
+                                            <div>
+                                                <span class="block text-sm font-medium text-white">Corporate Banking</span>
+                                                <span class="block text-xs text-gray-400 mt-0.5">Enterprise-grade banking solutions</span>
+                                            </div>
+                                        </a>
+                                        <a href="#" class="flex items-start gap-3 p-3 rounded-lg hover:bg-white/10 transition-colors">
+                                            <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5">
+                                                <span class="material-symbols-outlined text-primary" style="font-size:20px">cottage</span>
+                                            </div>
+                                            <div>
+                                                <span class="block text-sm font-medium text-white">Family Offices</span>
+                                                <span class="block text-xs text-gray-400 mt-0.5">Tailored family wealth operations</span>
+                                            </div>
+                                        </a>
+                                        <a href="#" class="flex items-start gap-3 p-3 rounded-lg hover:bg-white/10 transition-colors">
+                                            <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5">
+                                                <span class="material-symbols-outlined text-primary" style="font-size:20px">domain</span>
+                                            </div>
+                                            <div>
+                                                <span class="block text-sm font-medium text-white">Holding Companies</span>
+                                                <span class="block text-xs text-gray-400 mt-0.5">Multi-entity portfolio management</span>
+                                            </div>
+                                        </a>
+                                        <a href="#" class="flex items-start gap-3 p-3 rounded-lg hover:bg-white/10 transition-colors">
+                                            <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5">
+                                                <span class="material-symbols-outlined text-primary" style="font-size:20px">health_and_safety</span>
+                                            </div>
+                                            <div>
+                                                <span class="block text-sm font-medium text-white">Insurance</span>
+                                                <span class="block text-xs text-gray-400 mt-0.5">End-to-end insurance technology</span>
+                                            </div>
+                                        </a>
+                                        <a href="#" class="flex items-start gap-3 p-3 rounded-lg hover:bg-white/10 transition-colors">
+                                            <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5">
+                                                <span class="material-symbols-outlined text-primary" style="font-size:20px">account_balance_wallet</span>
+                                            </div>
+                                            <div>
+                                                <span class="block text-sm font-medium text-white">Private Banking</span>
+                                                <span class="block text-xs text-gray-400 mt-0.5">Exclusive private client services</span>
+                                            </div>
+                                        </a>
+                                        <a href="#" class="flex items-start gap-3 p-3 rounded-lg hover:bg-white/10 transition-colors">
+                                            <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5">
+                                                <span class="material-symbols-outlined text-primary" style="font-size:20px">assured_workload</span>
+                                            </div>
+                                            <div>
+                                                <span class="block text-sm font-medium text-white">Public Sector</span>
+                                                <span class="block text-xs text-gray-400 mt-0.5">Government &amp; public institution systems</span>
+                                            </div>
+                                        </a>
+                                        <a href="#" class="flex items-start gap-3 p-3 rounded-lg hover:bg-white/10 transition-colors">
+                                            <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5">
+                                                <span class="material-symbols-outlined text-primary" style="font-size:20px">apartment</span>
+                                            </div>
+                                            <div>
+                                                <span class="block text-sm font-medium text-white">Real Estate</span>
+                                                <span class="block text-xs text-gray-400 mt-0.5">Property &amp; asset management platforms</span>
+                                            </div>
+                                        </a>
+                                        <a href="#" class="flex items-start gap-3 p-3 rounded-lg hover:bg-white/10 transition-colors">
+                                            <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5">
+                                                <span class="material-symbols-outlined text-primary" style="font-size:20px">diamond</span>
+                                            </div>
+                                            <div>
+                                                <span class="block text-sm font-medium text-white">Wealth Management</span>
+                                                <span class="block text-xs text-gray-400 mt-0.5">Comprehensive wealth advisory tools</span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- ── Company Dropdown ──────────────────── -->
                     <div class="relative" id="dropdown-company">
                         <button onclick="toggleDropdown('company')"
@@ -377,7 +495,7 @@
                             </svg>
                         </button>
                         <div class="nav-dropdown-panel absolute top-full left-0 mt-2 origin-top-left">
-                            <div class="bg-navy-start/95 backdrop-blur-xl border border-white/10 rounded-xl shadow-2xl p-1.5 w-[480px]">
+                            <div class="bg-navy-start border border-white/10 rounded-xl shadow-2xl p-1.5 w-[480px]">
                                 <div class="grid grid-cols-2 gap-2">
                                     <!-- Left: main links with descriptions -->
                                     <div class="bg-white/5 rounded-lg border border-white/5 p-3 space-y-2">
@@ -475,7 +593,7 @@
                     <div>
                         <span class="text-xs font-semibold uppercase tracking-wider text-primary/70 mb-3 block">Products</span>
                         <div class="space-y-1">
-                            <a href="#" class="flex items-center gap-3 p-3 rounded-lg hover:bg-white/10 transition-colors">
+                            <a href="gbank.html" class="flex items-center gap-3 p-3 rounded-lg hover:bg-white/10 transition-colors">
                                 <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5">
                                     <span class="material-symbols-outlined text-primary" style="font-size:20px">account_balance</span>
                                 </div>
@@ -518,6 +636,84 @@
                                 <div>
                                     <span class="block text-sm font-medium text-white">G HRMS AI</span>
                                     <span class="block text-xs text-gray-400">Human resource management system</span>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <!-- Industries -->
+                    <div>
+                        <span class="text-xs font-semibold uppercase tracking-wider text-primary/70 mb-3 block">Industries</span>
+                        <div class="space-y-1">
+                            <a href="#" class="flex items-center gap-3 p-3 rounded-lg hover:bg-white/10 transition-colors">
+                                <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5">
+                                    <span class="material-symbols-outlined text-primary" style="font-size:20px">corporate_fare</span>
+                                </div>
+                                <div>
+                                    <span class="block text-sm font-medium text-white">Corporate Banking</span>
+                                    <span class="block text-xs text-gray-400">Enterprise-grade banking solutions</span>
+                                </div>
+                            </a>
+                            <a href="#" class="flex items-center gap-3 p-3 rounded-lg hover:bg-white/10 transition-colors">
+                                <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5">
+                                    <span class="material-symbols-outlined text-primary" style="font-size:20px">cottage</span>
+                                </div>
+                                <div>
+                                    <span class="block text-sm font-medium text-white">Family Offices</span>
+                                    <span class="block text-xs text-gray-400">Tailored family wealth operations</span>
+                                </div>
+                            </a>
+                            <a href="#" class="flex items-center gap-3 p-3 rounded-lg hover:bg-white/10 transition-colors">
+                                <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5">
+                                    <span class="material-symbols-outlined text-primary" style="font-size:20px">domain</span>
+                                </div>
+                                <div>
+                                    <span class="block text-sm font-medium text-white">Holding Companies</span>
+                                    <span class="block text-xs text-gray-400">Multi-entity portfolio management</span>
+                                </div>
+                            </a>
+                            <a href="#" class="flex items-center gap-3 p-3 rounded-lg hover:bg-white/10 transition-colors">
+                                <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5">
+                                    <span class="material-symbols-outlined text-primary" style="font-size:20px">health_and_safety</span>
+                                </div>
+                                <div>
+                                    <span class="block text-sm font-medium text-white">Insurance</span>
+                                    <span class="block text-xs text-gray-400">End-to-end insurance technology</span>
+                                </div>
+                            </a>
+                            <a href="#" class="flex items-center gap-3 p-3 rounded-lg hover:bg-white/10 transition-colors">
+                                <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5">
+                                    <span class="material-symbols-outlined text-primary" style="font-size:20px">account_balance_wallet</span>
+                                </div>
+                                <div>
+                                    <span class="block text-sm font-medium text-white">Private Banking</span>
+                                    <span class="block text-xs text-gray-400">Exclusive private client services</span>
+                                </div>
+                            </a>
+                            <a href="#" class="flex items-center gap-3 p-3 rounded-lg hover:bg-white/10 transition-colors">
+                                <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5">
+                                    <span class="material-symbols-outlined text-primary" style="font-size:20px">assured_workload</span>
+                                </div>
+                                <div>
+                                    <span class="block text-sm font-medium text-white">Public Sector</span>
+                                    <span class="block text-xs text-gray-400">Government &amp; public institution systems</span>
+                                </div>
+                            </a>
+                            <a href="#" class="flex items-center gap-3 p-3 rounded-lg hover:bg-white/10 transition-colors">
+                                <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5">
+                                    <span class="material-symbols-outlined text-primary" style="font-size:20px">apartment</span>
+                                </div>
+                                <div>
+                                    <span class="block text-sm font-medium text-white">Real Estate</span>
+                                    <span class="block text-xs text-gray-400">Property &amp; asset management platforms</span>
+                                </div>
+                            </a>
+                            <a href="#" class="flex items-center gap-3 p-3 rounded-lg hover:bg-white/10 transition-colors">
+                                <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5">
+                                    <span class="material-symbols-outlined text-primary" style="font-size:20px">diamond</span>
+                                </div>
+                                <div>
+                                    <span class="block text-sm font-medium text-white">Wealth Management</span>
+                                    <span class="block text-xs text-gray-400">Comprehensive wealth advisory tools</span>
                                 </div>
                             </a>
                         </div>
@@ -661,7 +857,7 @@
         
         <div class="max-w-7xl mx-auto px-6 lg:px-12 relative z-10">
             <!-- Section Header -->
-            <div class="text-center mb-16 max-w-3xl mx-auto">
+            <div class="scroll-reveal text-center mb-16 max-w-3xl mx-auto">
                 <span class="text-primary font-bold tracking-widest uppercase text-sm mb-3 block">Solution Ecosystem</span>
                 <h2 class="font-serif text-4xl lg:text-6xl mb-6 pb-2 text-white leading-tight">
                     Structured Intelligence
@@ -672,9 +868,9 @@
             </div>
 
             <!-- Products Grid -->
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div class="scroll-reveal-stagger grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                 <!-- Microsoft Dynamics 365 -->
-                <div class="group bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-primary transition-all duration-300 relative overflow-hidden flex flex-col">
+                <div class="scroll-reveal-child group bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-primary transition-all duration-300 relative overflow-hidden flex flex-col">
                     <!-- Gradient overlay on hover -->
                     <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" style="background: linear-gradient(135deg, rgba(195, 183, 152, 0.08) 0%, rgba(195, 183, 152, 0.05) 100%);"></div>
                     
@@ -714,7 +910,7 @@
                 </div>
 
                 <!-- Cloud Solutions -->
-                <div class="group bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-primary transition-all duration-300 relative overflow-hidden flex flex-col">
+                <div class="scroll-reveal-child group bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-primary transition-all duration-300 relative overflow-hidden flex flex-col">
                     <!-- Gradient overlay on hover -->
                     <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" style="background: linear-gradient(135deg, rgba(195, 183, 152, 0.08) 0%, rgba(0, 1, 58, 0.05) 100%);"></div>
                     
@@ -754,7 +950,7 @@
                 </div>
 
                 <!-- CRM & xRM Solutions -->
-                <div class="group bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-primary transition-all duration-300 relative overflow-hidden flex flex-col">
+                <div class="scroll-reveal-child group bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-primary transition-all duration-300 relative overflow-hidden flex flex-col">
                     <!-- Gradient overlay on hover -->
                     <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" style="background: linear-gradient(135deg, rgba(195, 183, 152, 0.08) 0%, rgba(0, 1, 58, 0.05) 100%);"></div>
                     
@@ -794,7 +990,7 @@
                 </div>
 
                 <!-- Industry Solutions -->
-                <div class="group bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-primary transition-all duration-300 relative overflow-hidden flex flex-col">
+                <div class="scroll-reveal-child group bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-primary transition-all duration-300 relative overflow-hidden flex flex-col">
                     <!-- Gradient overlay on hover -->
                     <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" style="background: linear-gradient(135deg, rgba(195, 183, 152, 0.08) 0%, rgba(0, 1, 58, 0.05) 100%);"></div>
                     
@@ -834,7 +1030,7 @@
                 </div>
 
                 <!-- Co-Pilot Integration -->
-                <div class="group bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-primary transition-all duration-300 relative overflow-hidden flex flex-col">
+                <div class="scroll-reveal-child group bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-primary transition-all duration-300 relative overflow-hidden flex flex-col">
                     <!-- Gradient overlay on hover -->
                     <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" style="background: linear-gradient(135deg, rgba(195, 183, 152, 0.08) 0%, rgba(0, 1, 58, 0.05) 100%);"></div>
                     
@@ -874,7 +1070,7 @@
                 </div>
 
                 <!-- Infrastructure & Security -->
-                <div class="group bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-primary transition-all duration-300 relative overflow-hidden flex flex-col">
+                <div class="scroll-reveal-child group bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-primary transition-all duration-300 relative overflow-hidden flex flex-col">
                     <!-- Gradient overlay on hover -->
                     <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" style="background: linear-gradient(135deg, rgba(195, 183, 152, 0.08) 0%, rgba(0, 1, 58, 0.05) 100%);"></div>
                     
@@ -920,16 +1116,16 @@
         <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[900px] bg-primary/20 rounded-full blur-[150px] pointer-events-none z-0"></div>
         
         <div class="max-w-7xl mx-auto px-6 lg:px-12 relative z-10">
-            <div class="text-center mb-16 max-w-3xl mx-auto">
+            <div class="scroll-reveal text-center mb-16 max-w-3xl mx-auto">
                 <h2 class="font-serif text-4xl lg:text-5xl text-white mb-6 leading-tight">Serving Every Sector of
                     Financial Services</h2>
                 <p class="text-gray-400 text-lg leading-relaxed">
                     Specialized solutions tailored to your industry's unique requirements
                 </p>
             </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div class="scroll-reveal-stagger grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 <div
-                    class="bg-white/5 backdrop-blur-sm rounded-[16px] p-8 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col items-start border border-white/10 h-full">
+                    class="scroll-reveal-child bg-white/5 backdrop-blur-sm rounded-[16px] p-8 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col items-start border border-white/10 h-full"
                     <span class="material-symbols-outlined text-[64px] text-primary mb-6 font-thin">storefront</span>
                     <h4 class="text-[22px] font-serif font-bold text-white mb-3">Retail Banking</h4>
                     <p class="text-sm text-gray-400 leading-relaxed mb-6">
@@ -941,7 +1137,7 @@
                     </a>
                 </div>
                 <div
-                    class="bg-white/5 backdrop-blur-sm rounded-[16px] p-8 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col items-start border border-white/10 h-full">
+                    class="scroll-reveal-child bg-white/5 backdrop-blur-sm rounded-[16px] p-8 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col items-start border border-white/10 h-full"
                     <span class="material-symbols-outlined text-[64px] text-primary mb-6 font-thin">domain</span>
                     <h4 class="text-[22px] font-serif font-bold text-white mb-3">Corporate Banking</h4>
                     <p class="text-sm text-gray-400 leading-relaxed mb-6">
@@ -953,7 +1149,7 @@
                     </a>
                 </div>
                 <div
-                    class="bg-white/5 backdrop-blur-sm rounded-[16px] p-8 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col items-start border border-white/10 h-full">
+                    class="scroll-reveal-child bg-white/5 backdrop-blur-sm rounded-[16px] p-8 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col items-start border border-white/10 h-full"
                     <span class="material-symbols-outlined text-[64px] text-primary mb-6 font-thin">verified_user</span>
                     <h4 class="text-[22px] font-serif font-bold text-white mb-3">Private Banking</h4>
                     <p class="text-sm text-gray-400 leading-relaxed mb-6">
@@ -965,7 +1161,7 @@
                     </a>
                 </div>
                 <div
-                    class="bg-white/5 backdrop-blur-sm rounded-[16px] p-8 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col items-start border border-white/10 h-full">
+                    class="scroll-reveal-child bg-white/5 backdrop-blur-sm rounded-[16px] p-8 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col items-start border border-white/10 h-full"
                     <span
                         class="material-symbols-outlined text-[64px] text-primary mb-6 font-thin">health_and_safety</span>
                     <h4 class="text-[22px] font-serif font-bold text-white mb-3">Insurance</h4>
@@ -978,7 +1174,7 @@
                     </a>
                 </div>
                 <div
-                    class="bg-white/5 backdrop-blur-sm rounded-[16px] p-8 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col items-start border border-white/10 h-full">
+                    class="scroll-reveal-child bg-white/5 backdrop-blur-sm rounded-[16px] p-8 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col items-start border border-white/10 h-full"
                     <span
                         class="material-symbols-outlined text-[64px] text-primary mb-6 font-thin">account_balance_wallet</span>
                     <h4 class="text-[22px] font-serif font-bold text-white mb-3">Wealth Management</h4>
@@ -991,7 +1187,7 @@
                     </a>
                 </div>
                 <div
-                    class="bg-white/5 backdrop-blur-sm rounded-[16px] p-8 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col items-start border border-white/10 h-full">
+                    class="scroll-reveal-child bg-white/5 backdrop-blur-sm rounded-[16px] p-8 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col items-start border border-white/10 h-full"
                     <span class="material-symbols-outlined text-[64px] text-primary mb-6 font-thin">trending_up</span>
                     <h4 class="text-[22px] font-serif font-bold text-white mb-3">Investment Firms</h4>
                     <p class="text-sm text-gray-400 leading-relaxed mb-6">
@@ -1003,7 +1199,7 @@
                     </a>
                 </div>
                 <div
-                    class="bg-white/5 backdrop-blur-sm rounded-[16px] p-8 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col items-start border border-white/10 h-full">
+                    class="scroll-reveal-child bg-white/5 backdrop-blur-sm rounded-[16px] p-8 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col items-start border border-white/10 h-full"
                     <span
                         class="material-symbols-outlined text-[64px] text-primary mb-6 font-thin">family_restroom</span>
                     <h4 class="text-[22px] font-serif font-bold text-white mb-3">Family Offices</h4>
@@ -1016,7 +1212,7 @@
                     </a>
                 </div>
                 <div
-                    class="bg-white/5 backdrop-blur-sm rounded-[16px] p-8 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col items-start border border-white/10 h-full">
+                    class="scroll-reveal-child bg-white/5 backdrop-blur-sm rounded-[16px] p-8 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col items-start border border-white/10 h-full"
                     <span class="material-symbols-outlined text-[64px] text-primary mb-6 font-thin">apartment</span>
                     <h4 class="text-[22px] font-serif font-bold text-white mb-3">Real Estate</h4>
                     <p class="text-sm text-gray-400 leading-relaxed mb-6">
@@ -1028,7 +1224,7 @@
                     </a>
                 </div>
                 <div
-                    class="bg-white/5 backdrop-blur-sm rounded-[16px] p-8 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col items-start border border-white/10 h-full">
+                    class="scroll-reveal-child bg-white/5 backdrop-blur-sm rounded-[16px] p-8 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col items-start border border-white/10 h-full"
                     <span class="material-symbols-outlined text-[64px] text-primary mb-6 font-thin">hub</span>
                     <h4 class="text-[22px] font-serif font-bold text-white mb-3">Holding Companies</h4>
                     <p class="text-sm text-gray-400 leading-relaxed mb-6">
@@ -1047,7 +1243,7 @@
     <section class="aurora-gradient py-24 w-full relative">
         <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-primary/20 rounded-full blur-[120px] pointer-events-none z-0"></div>
         <div class="max-w-7xl mx-auto px-6 lg:px-12 flex flex-col lg:flex-row items-center gap-20 relative z-10">
-            <div class="w-full lg:w-1/2">
+            <div class="scroll-reveal w-full lg:w-1/2">
                 <span class="text-primary font-bold tracking-widest uppercase text-sm mb-4 block">Our Foundation</span>
                 <h2 class="font-serif text-4xl lg:text-5xl text-white mb-8 leading-tight">Built on Microsoft Cloud, Optimized for Enterprise</h2>
                 <div class="space-y-6">
@@ -1073,28 +1269,28 @@
                 </div>
             </div>
             <div class="w-full lg:w-1/2">
-                <div class="grid grid-cols-2 md:grid-cols-3 gap-6">
-                    <div class="aspect-square glass-slab rounded-2xl flex flex-col items-center justify-center p-6 text-center" style="box-shadow: 0 0 25px rgba(195, 183, 152, 0.1); border: 1px solid rgba(195, 183, 152, 0.2);">
+                <div class="scroll-reveal-stagger grid grid-cols-2 md:grid-cols-3 gap-6">
+                    <div class="scroll-reveal-child aspect-square glass-slab rounded-2xl flex flex-col items-center justify-center p-6 text-center" style="box-shadow: 0 0 25px rgba(195, 183, 152, 0.1); border: 1px solid rgba(195, 183, 152, 0.2);">
                         <span class="material-symbols-outlined text-4xl text-primary mb-3">workspace_premium</span>
                         <p class="text-[10px] font-bold uppercase tracking-widest">Microsoft Gold Partner</p>
                     </div>
-                    <div class="aspect-square glass-slab rounded-2xl flex flex-col items-center justify-center p-6 text-center" style="box-shadow: 0 0 25px rgba(195, 183, 152, 0.1); border: 1px solid rgba(195, 183, 152, 0.2);">
+                    <div class="scroll-reveal-child aspect-square glass-slab rounded-2xl flex flex-col items-center justify-center p-6 text-center" style="box-shadow: 0 0 25px rgba(195, 183, 152, 0.1); border: 1px solid rgba(195, 183, 152, 0.2);">
                         <span class="material-symbols-outlined text-4xl text-primary mb-3">stars</span>
                         <p class="text-[10px] font-bold uppercase tracking-widest">Inner Circle Member</p>
                     </div>
-                    <div class="aspect-square glass-slab rounded-2xl flex flex-col items-center justify-center p-6 text-center" style="box-shadow: 0 0 25px rgba(195, 183, 152, 0.1); border: 1px solid rgba(195, 183, 152, 0.2);">
+                    <div class="scroll-reveal-child aspect-square glass-slab rounded-2xl flex flex-col items-center justify-center p-6 text-center" style="box-shadow: 0 0 25px rgba(195, 183, 152, 0.1); border: 1px solid rgba(195, 183, 152, 0.2);">
                         <span class="material-symbols-outlined text-4xl text-primary mb-3">lock</span>
                         <p class="text-[10px] font-bold uppercase tracking-widest">ISO 27001 Certified</p>
                     </div>
-                    <div class="aspect-square glass-slab rounded-2xl flex flex-col items-center justify-center p-6 text-center" style="box-shadow: 0 0 25px rgba(195, 183, 152, 0.1); border: 1px solid rgba(195, 183, 152, 0.2);">
+                    <div class="scroll-reveal-child aspect-square glass-slab rounded-2xl flex flex-col items-center justify-center p-6 text-center" style="box-shadow: 0 0 25px rgba(195, 183, 152, 0.1); border: 1px solid rgba(195, 183, 152, 0.2);">
                         <span class="material-symbols-outlined text-4xl text-primary mb-3">assignment_turned_in</span>
                         <p class="text-[10px] font-bold uppercase tracking-widest">SOC 2 Type II</p>
                     </div>
-                    <div class="aspect-square glass-slab rounded-2xl flex flex-col items-center justify-center p-6 text-center" style="box-shadow: 0 0 25px rgba(195, 183, 152, 0.1); border: 1px solid rgba(195, 183, 152, 0.2);">
+                    <div class="scroll-reveal-child aspect-square glass-slab rounded-2xl flex flex-col items-center justify-center p-6 text-center" style="box-shadow: 0 0 25px rgba(195, 183, 152, 0.1); border: 1px solid rgba(195, 183, 152, 0.2);">
                         <span class="material-symbols-outlined text-4xl text-primary mb-3">cloud_done</span>
                         <p class="text-[10px] font-bold uppercase tracking-widest">Azure Specialist</p>
                     </div>
-                    <div class="aspect-square glass-slab rounded-2xl flex flex-col items-center justify-center p-6 text-center" style="box-shadow: 0 0 25px rgba(195, 183, 152, 0.1); border: 1px solid rgba(195, 183, 152, 0.2);">
+                    <div class="scroll-reveal-child aspect-square glass-slab rounded-2xl flex flex-col items-center justify-center p-6 text-center" style="box-shadow: 0 0 25px rgba(195, 183, 152, 0.1); border: 1px solid rgba(195, 183, 152, 0.2);">
                         <span class="material-symbols-outlined text-4xl text-primary mb-3">shield_person</span>
                         <p class="text-[10px] font-bold uppercase tracking-widest">GDPR Compliant</p>
                     </div>
@@ -1107,26 +1303,26 @@
     <section class="aurora-gradient py-24 w-full relative">
         <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/20 rounded-full blur-[120px] pointer-events-none z-0"></div>
         <div class="max-w-7xl mx-auto px-6 lg:px-12 relative z-10">
-            <div class="text-center mb-20">
+            <div class="scroll-reveal text-center mb-20">
                 <span class="text-primary font-bold tracking-widest uppercase text-sm mb-3 block">Why Global iTS</span>
                 <h2 class="font-serif text-4xl lg:text-5xl text-white mb-6 leading-tight">Powering Enterprise Excellence Worldwide</h2>
             </div>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-12 mb-20">
-                <div class="text-center p-6">
+            <div class="scroll-reveal-stagger grid grid-cols-1 md:grid-cols-3 gap-12 mb-20">
+                <div class="scroll-reveal-child text-center p-6">
                     <div class="size-20 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-6">
                         <span class="material-symbols-outlined text-4xl text-primary">history</span>
                     </div>
                     <h3 class="text-xl font-bold text-white mb-4">17+ Years Legacy</h3>
                     <p class="text-gray-400 text-sm leading-relaxed">Almost two decades of domain expertise in financial services, navigating shifting regulations and tech cycles.</p>
                 </div>
-                <div class="text-center p-6">
+                <div class="scroll-reveal-child text-center p-6">
                     <div class="size-20 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-6">
                         <span class="material-symbols-outlined text-4xl text-primary">speed</span>
                     </div>
                     <h3 class="text-xl font-bold text-white mb-4">Rapid Implementation</h3>
                     <p class="text-gray-400 text-sm leading-relaxed">Our proprietary G-Start methodology accelerates deployment, ensuring you realize value in record time.</p>
                 </div>
-                <div class="text-center p-6">
+                <div class="scroll-reveal-child text-center p-6">
                     <div class="size-20 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-6">
                         <span class="material-symbols-outlined text-4xl text-primary">support</span>
                     </div>
@@ -1134,20 +1330,20 @@
                     <p class="text-gray-400 text-sm leading-relaxed">Combining global delivery capabilities with dedicated local support teams in 13+ countries.</p>
                 </div>
             </div>
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                <div class="bg-white/5 backdrop-blur-sm p-8 rounded-xl border-t-2 border-primary shadow-sm">
+            <div class="scroll-reveal-stagger grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="scroll-reveal-child bg-white/5 backdrop-blur-sm p-8 rounded-xl border-t-2 border-primary shadow-sm">
                     <h4 class="font-bold text-white mb-3">Bank-Grade Security</h4>
                     <p class="text-xs text-gray-400 leading-relaxed">End-to-end encryption and multi-layer threat protection across all AI modules.</p>
                 </div>
-                <div class="bg-white/5 backdrop-blur-sm p-8 rounded-xl border-t-2 border-primary shadow-sm">
+                <div class="scroll-reveal-child bg-white/5 backdrop-blur-sm p-8 rounded-xl border-t-2 border-primary shadow-sm">
                     <h4 class="font-bold text-white mb-3">Industry Specific</h4>
                     <p class="text-xs text-gray-400 leading-relaxed">Custom workflows designed specifically for Shariah compliance and GCC regulatory frameworks.</p>
                 </div>
-                <div class="bg-white/5 backdrop-blur-sm p-8 rounded-xl border-t-2 border-primary shadow-sm">
+                <div class="scroll-reveal-child bg-white/5 backdrop-blur-sm p-8 rounded-xl border-t-2 border-primary shadow-sm">
                     <h4 class="font-bold text-white mb-3">Seamless Integration</h4>
                     <p class="text-xs text-gray-400 leading-relaxed">Pre-built connectors for legacy core systems, SWIFT, and regional clearing houses.</p>
                 </div>
-                <div class="bg-white/5 backdrop-blur-sm p-8 rounded-xl border-t-2 border-primary shadow-sm">
+                <div class="scroll-reveal-child bg-white/5 backdrop-blur-sm p-8 rounded-xl border-t-2 border-primary shadow-sm">
                     <h4 class="font-bold text-white mb-3">Measurable ROI</h4>
                     <p class="text-xs text-gray-400 leading-relaxed">Focused on tangible outcomes: lower OpEx, higher STP rates, and improved CX.</p>
                 </div>
@@ -1384,7 +1580,7 @@
     <section class="bg-white py-24 lg:py-32 w-full relative overflow-hidden">
         <div class="max-w-7xl mx-auto px-6 lg:px-12 relative z-10">
             <!-- Section Header -->
-            <div class="text-center mb-16 max-w-3xl mx-auto">
+            <div class="scroll-reveal text-center mb-16 max-w-3xl mx-auto">
                 <span class="text-primary font-bold tracking-widest uppercase text-sm mb-3 block">Leadership</span>
                 <h2 class="font-serif text-4xl lg:text-5xl mb-6 text-gray-900 leading-tight">
                     Executive Management
@@ -1395,9 +1591,9 @@
             </div>
 
             <!-- Team Grid -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div class="scroll-reveal-stagger grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                 <!-- Redha Radhi -->
-                <div class="group bg-gray-50 rounded-2xl p-6 border border-gray-200 hover:border-primary transition-all duration-300 flex flex-col items-center text-center relative overflow-hidden hover:shadow-lg">
+                <div class="scroll-reveal-child group bg-gray-50 rounded-2xl p-6 border border-gray-200 hover:border-primary transition-all duration-300 flex flex-col items-center text-center relative overflow-hidden hover:shadow-lg">
                     <div class="relative z-10 w-full flex flex-col items-center">
                         <div class="relative w-full aspect-[3/4] mb-6 overflow-hidden rounded-xl" style="background-color: #e9f6fd;">
                             <img alt="Redha Radhi" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" src="https://globalits.bh/wp-content/uploads/2025/01/ORG-Structure-Globalits.png" loading="lazy" />
@@ -1413,7 +1609,7 @@
                 </div>
 
                 <!-- Bader Hashem -->
-                <div class="group bg-gray-50 rounded-2xl p-6 border border-gray-200 hover:border-primary transition-all duration-300 flex flex-col items-center text-center relative overflow-hidden hover:shadow-lg">
+                <div class="scroll-reveal-child group bg-gray-50 rounded-2xl p-6 border border-gray-200 hover:border-primary transition-all duration-300 flex flex-col items-center text-center relative overflow-hidden hover:shadow-lg">
                     <div class="relative z-10 w-full flex flex-col items-center">
                         <div class="relative w-full aspect-[3/4] mb-6 overflow-hidden rounded-xl" style="background-color: #e9f6fd;">
                             <img alt="Bader Hashem" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" src="https://globalits.bh/wp-content/uploads/2025/01/ORG-Structure-Globalits-1.png" loading="lazy" />
@@ -1429,7 +1625,7 @@
                 </div>
 
                 <!-- Yaser Hassan -->
-                <div class="group bg-gray-50 rounded-2xl p-6 border border-gray-200 hover:border-primary transition-all duration-300 flex flex-col items-center text-center relative overflow-hidden hover:shadow-lg">
+                <div class="scroll-reveal-child group bg-gray-50 rounded-2xl p-6 border border-gray-200 hover:border-primary transition-all duration-300 flex flex-col items-center text-center relative overflow-hidden hover:shadow-lg">
                     <div class="relative z-10 w-full flex flex-col items-center">
                         <div class="relative w-full aspect-[3/4] mb-6 overflow-hidden rounded-xl" style="background-color: #e9f6fd;">
                             <img alt="Yaser Hassan" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" src="https://globalits.bh/wp-content/uploads/2025/01/ORG-Structure-Globalits-2.png" loading="lazy" />
@@ -1445,7 +1641,7 @@
                 </div>
 
                 <!-- Alaa Sabt -->
-                <div class="group bg-gray-50 rounded-2xl p-6 border border-gray-200 hover:border-primary transition-all duration-300 flex flex-col items-center text-center relative overflow-hidden hover:shadow-lg">
+                <div class="scroll-reveal-child group bg-gray-50 rounded-2xl p-6 border border-gray-200 hover:border-primary transition-all duration-300 flex flex-col items-center text-center relative overflow-hidden hover:shadow-lg">
                     <div class="relative z-10 w-full flex flex-col items-center">
                         <div class="relative w-full aspect-[3/4] mb-6 overflow-hidden rounded-xl" style="background-color: #e9f6fd;">
                             <img alt="Alaa Sabt" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" src="https://globalits.bh/wp-content/uploads/2025/01/ORG-Structure-Globalits-5.png" loading="lazy" />
@@ -1467,7 +1663,7 @@
     <section class="bg-gray-50 py-16 lg:py-20 w-full relative overflow-hidden">
         <div class="max-w-5xl mx-auto px-6 lg:px-12 relative z-10">
             <!-- Header -->
-            <div class="text-center mb-10">
+            <div class="scroll-reveal text-center mb-10">
                 <h2 class="font-serif text-4xl lg:text-5xl mb-4 text-gray-900 leading-tight">
                     Vision & <span class="text-primary">Mission</span>
                 </h2>
@@ -1477,9 +1673,9 @@
             </div>
 
             <!-- Cards -->
-            <div class="grid md:grid-cols-2 gap-6 mb-6">
+            <div class="scroll-reveal-stagger grid md:grid-cols-2 gap-6 mb-6">
                 <!-- Vision Card -->
-                <div class="bg-white rounded-2xl p-6 border border-gray-200 hover:border-primary transition-all duration-300 shadow-sm hover:shadow-lg">
+                <div class="scroll-reveal-child bg-white rounded-2xl p-6 border border-gray-200 hover:border-primary transition-all duration-300 shadow-sm hover:shadow-lg">
                     <div class="flex items-center gap-3 mb-4">
                         <div class="w-12 h-12 rounded-xl flex items-center justify-center" style="background: rgba(195, 183, 152, 0.2);">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#c3b798" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -1501,7 +1697,7 @@
                 </div>
 
                 <!-- Mission Card -->
-                <div class="bg-white rounded-2xl p-6 border border-gray-200 hover:border-primary transition-all duration-300 shadow-sm hover:shadow-lg">
+                <div class="scroll-reveal-child bg-white rounded-2xl p-6 border border-gray-200 hover:border-primary transition-all duration-300 shadow-sm hover:shadow-lg">
                     <div class="flex items-center gap-3 mb-4">
                         <div class="w-12 h-12 rounded-xl flex items-center justify-center" style="background: rgba(195, 183, 152, 0.2);">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#c3b798" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -1525,7 +1721,7 @@
             </div>
 
             <!-- Core Values -->
-            <div class="bg-white rounded-2xl p-6 border border-gray-200 shadow-sm">
+            <div class="scroll-reveal bg-white rounded-2xl p-6 border border-gray-200 shadow-sm">
                 <h3 class="text-2xl font-bold text-center mb-6 text-gray-900">Core Values</h3>
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
                     <div class="text-center p-4 rounded-xl bg-gray-50 hover:bg-gray-100 transition-colors">
@@ -1745,7 +1941,7 @@
     <!-- News Section -->
     <section id="news-section" class="bg-white py-20 lg:py-24 w-full relative z-10">
         <div class="max-w-7xl mx-auto px-6 lg:px-12 relative z-10">
-            <div class="flex justify-between items-end mb-12">
+            <div class="scroll-reveal flex justify-between items-end mb-12">
                 <div>
                     <span class="text-primary font-bold tracking-widest uppercase text-sm mb-3 block">Press Room</span>
                     <h2 class="font-serif text-4xl lg:text-5xl text-gray-900 leading-tight">Latest from the Global Front</h2>
@@ -1754,7 +1950,7 @@
                     View Archive <span class="material-symbols-outlined">arrow_forward</span>
                 </a>
             </div>
-            <div id="news-posts" class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div id="news-posts" class="scroll-reveal grid grid-cols-1 md:grid-cols-3 gap-8">
                 <!-- News posts will be dynamically loaded here -->
             </div>
         </div>
@@ -1763,11 +1959,11 @@
     <!-- Blogs Section -->
     <section id="blog-section" class="bg-gray-50 py-20 lg:py-24 w-full relative">
         <div class="max-w-7xl mx-auto px-6 lg:px-12 relative z-10">
-            <div class="text-center mb-16 max-w-3xl mx-auto">
+            <div class="scroll-reveal text-center mb-16 max-w-3xl mx-auto">
                 <span class="text-primary font-bold tracking-widest uppercase text-sm mb-3 block">Thought Leadership</span>
                 <h2 class="font-serif text-4xl lg:text-5xl text-gray-900 leading-tight">Strategic Insights & AI Perspectives</h2>
             </div>
-            <div id="blog-posts" class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div id="blog-posts" class="scroll-reveal grid grid-cols-1 md:grid-cols-3 gap-8">
                 <!-- Blog posts will be dynamically loaded here -->
             </div>
         </div>
@@ -1776,9 +1972,9 @@
     <!-- Contact Section -->
     <section id="contact" class="bg-white py-24 relative">
         <div class="max-w-7xl mx-auto px-6 lg:px-12 relative z-10">
-            <div class="grid lg:grid-cols-2 gap-16">
+            <div class="scroll-reveal-stagger grid lg:grid-cols-2 gap-16">
                 <!-- Contact Info -->
-                <div>
+                <div class="scroll-reveal-child">
                     <span class="font-semibold text-sm uppercase tracking-wider text-primary">
                         Get in Touch
                     </span>
@@ -1875,7 +2071,7 @@
                 </div>
 
                 <!-- Contact Form -->
-                <div class="rounded-3xl p-8 md:p-10 border bg-gray-50 border-gray-200 shadow-sm">
+                <div class="scroll-reveal-child rounded-3xl p-8 md:p-10 border bg-gray-50 border-gray-200 shadow-sm">
                     <h3 class="font-serif text-xl font-bold mb-6 text-gray-900">
                         Request a Consultation
                     </h3>
@@ -2014,7 +2210,7 @@
                         <h3 class="mb-4 font-bold text-white text-base">Solutions</h3>
                         <ul class="space-y-3 text-sm text-gray-400">
                             <li class="hover:text-primary transition-colors">
-                                <a href="#">G Bank AI</a>
+                                <a href="gbank.html">G Bank AI</a>
                             </li>
                             <li class="hover:text-primary transition-colors">
                                 <a href="#">G Insure AI</a>
@@ -2167,6 +2363,46 @@
     </script>
 
     <!-- ============================================================== -->
+    <!-- Scroll Reveal Animation Observer -->
+    <!-- ============================================================== -->
+    <script>
+    (function initScrollReveal() {
+        // Single-element reveals
+        var revealObserver = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('revealed');
+                    revealObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.15 });
+
+        document.querySelectorAll('.scroll-reveal').forEach(function(el) {
+            revealObserver.observe(el);
+        });
+
+        // Staggered child reveals
+        var staggerObserver = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
+                if (entry.isIntersecting) {
+                    var children = entry.target.querySelectorAll('.scroll-reveal-child');
+                    children.forEach(function(child, i) {
+                        setTimeout(function() {
+                            child.classList.add('revealed');
+                        }, i * 100);
+                    });
+                    staggerObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.scroll-reveal-stagger').forEach(function(el) {
+            staggerObserver.observe(el);
+        });
+    })();
+    </script>
+
+    <!-- ============================================================== -->
     <!-- NAV — Dropdown / Scroll / Mobile Menu Logic -->
     <!-- ============================================================== -->
     <script>
@@ -2178,7 +2414,7 @@
         var menuPath = document.getElementById('menu-path-animated');
         var mobileOpen = false;
         var activeDropdown = null;
-        var dropdownNames = ['products', 'company'];
+        var dropdownNames = ['products', 'industries', 'company'];
 
         // ── Scroll detection ──────────────────────────────
         function onScroll() {

@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>Solutions - Global iTS</title>
+    <title>G Bank AI - Banking Solution | Global iTS</title>
     <link href="https://fonts.googleapis.com" rel="preconnect" />
     <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
     <link
@@ -94,7 +94,7 @@
             background: #00013a !important;
         }
 
-        /* Hero shader canvas — display:block prevents inline-element gap (Chrome) */
+        /* Hero shader canvas */
         #shader-canvas {
             position: absolute;
             inset: 0;
@@ -107,11 +107,6 @@
         /* Hero intro animations - hidden until GSAP runs */
         .hero-animate {
             visibility: hidden;
-        }
-
-        /* CountUp animation */
-        .countup-metric {
-            font-variant-numeric: tabular-nums;
         }
 
         /* ── Nav Dropdown ────────────────────────────── */
@@ -166,27 +161,74 @@
         #mobile-menu.open .mobile-inner {
             transform: scale(1);
         }
+
+        /* ── Module Tabs ─────────────────────────────── */
+        .module-tab {
+            position: relative;
+            cursor: pointer;
+            padding: 0.75rem 1.5rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: rgba(255,255,255,0.5);
+            border-radius: 0.75rem;
+            transition: all 300ms ease;
+        }
+        .module-tab:hover {
+            color: rgba(255,255,255,0.8);
+        }
+        .module-tab.active {
+            color: #00013a;
+            background: #c3b798;
+            font-weight: 600;
+        }
+        .module-panel {
+            display: none;
+        }
+        .module-panel.active {
+            display: block;
+            animation: scrollReveal 0.4s ease forwards;
+        }
+
+        /* ── Testimonial Slider ──────────────────────── */
+        .testimonial-track {
+            display: flex;
+            transition: transform 500ms cubic-bezier(.4,0,.2,1);
+        }
+        .testimonial-slide {
+            min-width: 100%;
+            flex-shrink: 0;
+        }
+
+        /* ── Dot Pattern ─────────────────────────────── */
+        .dot-pattern {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            background-image: radial-gradient(circle, rgba(0, 1, 58, 0.4) 1.5px, transparent 1.5px);
+            background-size: 24px 24px;
+            mask-image: radial-gradient(700px circle at center, white, transparent);
+            -webkit-mask-image: radial-gradient(700px circle at center, white, transparent);
+        }
     </style>
 </head>
 
 <body class="bg-navy-start text-white overflow-x-hidden font-sans">
 
     <!-- ============================================================== -->
-    <!-- NAV — Mega-menu with dropdowns -->
+    <!-- NAV -->
     <!-- ============================================================== -->
     <nav id="main-nav"
         class="fixed top-0 left-0 right-0 z-50 w-full border-b border-transparent backdrop-blur-sm bg-navy-start/50">
         <div class="max-w-7xl mx-auto px-6 lg:px-12 flex items-center justify-between h-16">
-            <!-- Logo + Desktop links -->
             <div class="flex items-center gap-8">
                 <a href="index.html" class="flex-shrink-0">
                     <img src="https://globaledgeholding.com/wp-content/uploads/2019/07/GitsGedge-logos-4-1.png"
                         alt="Global iTS" class="h-10 w-auto object-contain">
                 </a>
-
                 <!-- Desktop Navigation -->
                 <div class="hidden md:flex items-center gap-1">
-                    <!-- ── Products Dropdown ──────────────────── -->
+                    <!-- Products Dropdown -->
                     <div class="relative" id="dropdown-products">
                         <button onclick="toggleDropdown('products')"
                             class="flex items-center gap-1.5 text-sm font-medium text-white/80 hover:text-primary px-3 py-2 rounded-md transition-colors">
@@ -199,12 +241,12 @@
                             <div class="bg-navy-start border border-white/10 rounded-xl shadow-2xl p-1.5 w-[520px]">
                                 <div class="bg-white/5 rounded-lg border border-white/5 p-3">
                                     <div class="grid grid-cols-2 gap-2">
-                                        <a href="gbank.html" class="flex items-start gap-3 p-3 rounded-lg hover:bg-white/10 transition-colors">
-                                            <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5">
+                                        <a href="gbank.html" class="flex items-start gap-3 p-3 rounded-lg bg-white/10 transition-colors">
+                                            <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-primary/30 bg-primary/10">
                                                 <span class="material-symbols-outlined text-primary" style="font-size:20px">account_balance</span>
                                             </div>
                                             <div>
-                                                <span class="block text-sm font-medium text-white">G Bank AI</span>
+                                                <span class="block text-sm font-medium text-primary">G Bank AI</span>
                                                 <span class="block text-xs text-gray-400 mt-0.5">AI-powered core banking platform</span>
                                             </div>
                                         </a>
@@ -255,8 +297,7 @@
                             </div>
                         </div>
                     </div>
-
-                    <!-- ── Industries Dropdown ─────────────────── -->
+                    <!-- Industries Dropdown -->
                     <div class="relative" id="dropdown-industries">
                         <button onclick="toggleDropdown('industries')"
                             class="flex items-center gap-1.5 text-sm font-medium text-white/80 hover:text-primary px-3 py-2 rounded-md transition-colors">
@@ -346,8 +387,7 @@
                             </div>
                         </div>
                     </div>
-
-                    <!-- ── Company Dropdown ──────────────────── -->
+                    <!-- Company Dropdown -->
                     <div class="relative" id="dropdown-company">
                         <button onclick="toggleDropdown('company')"
                             class="flex items-center gap-1.5 text-sm font-medium text-white/80 hover:text-primary px-3 py-2 rounded-md transition-colors">
@@ -359,7 +399,6 @@
                         <div class="nav-dropdown-panel absolute top-full left-0 mt-2 origin-top-left">
                             <div class="bg-navy-start border border-white/10 rounded-xl shadow-2xl p-1.5 w-[480px]">
                                 <div class="grid grid-cols-2 gap-2">
-                                    <!-- Left: main links with descriptions -->
                                     <div class="bg-white/5 rounded-lg border border-white/5 p-3 space-y-2">
                                         <a href="#" class="flex items-start gap-3 p-2 rounded-lg hover:bg-white/10 transition-colors">
                                             <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5">
@@ -389,7 +428,6 @@
                                             </div>
                                         </a>
                                     </div>
-                                    <!-- Right: secondary links -->
                                     <div class="p-3 space-y-1">
                                         <a href="#" class="flex items-center gap-2.5 p-2 rounded-lg hover:bg-white/10 transition-colors">
                                             <span class="material-symbols-outlined text-white/70" style="font-size:18px">supervisor_account</span>
@@ -416,15 +454,13 @@
                             </div>
                         </div>
                     </div>
-
-                    <!-- ── Solutions Direct Link ─────────────── -->
+                    <!-- Solutions Direct Link -->
                     <a href="solutions.html"
-                        class="text-sm font-medium text-primary px-3 py-2 rounded-md transition-colors">
+                        class="text-sm font-medium text-white/80 hover:text-primary px-3 py-2 rounded-md transition-colors">
                         Solutions
                     </a>
                 </div>
             </div>
-
             <!-- CTA + Mobile toggle -->
             <div class="flex items-center gap-3">
                 <a href="#contact"
@@ -445,22 +481,20 @@
                 </button>
             </div>
         </div>
-
-        <!-- ── Mobile Menu ──────────────────────────────── -->
+        <!-- Mobile Menu -->
         <div id="mobile-menu"
             class="md:hidden fixed top-16 left-0 right-0 bottom-0 bg-navy-start/95 backdrop-blur-xl border-t border-white/10 overflow-y-auto z-40">
             <div class="mobile-inner p-6 flex flex-col gap-4 h-full">
                 <div class="flex-1 space-y-6">
-                    <!-- Products -->
                     <div>
                         <span class="text-xs font-semibold uppercase tracking-wider text-primary/70 mb-3 block">Products</span>
                         <div class="space-y-1">
-                            <a href="gbank.html" class="flex items-center gap-3 p-3 rounded-lg hover:bg-white/10 transition-colors">
-                                <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5">
+                            <a href="gbank.html" class="flex items-center gap-3 p-3 rounded-lg bg-white/10 transition-colors">
+                                <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-primary/30 bg-primary/10">
                                     <span class="material-symbols-outlined text-primary" style="font-size:20px">account_balance</span>
                                 </div>
                                 <div>
-                                    <span class="block text-sm font-medium text-white">G Bank AI</span>
+                                    <span class="block text-sm font-medium text-primary">G Bank AI</span>
                                     <span class="block text-xs text-gray-400">AI-powered core banking platform</span>
                                 </div>
                             </a>
@@ -625,13 +659,11 @@
                             </a>
                         </div>
                     </div>
-                    <!-- Solutions link -->
                     <a href="solutions.html" class="flex items-center gap-2.5 p-3 rounded-lg hover:bg-white/10 transition-colors border border-white/10">
                         <span class="material-symbols-outlined text-primary" style="font-size:18px">apps</span>
                         <span class="text-sm font-medium text-white">All Solutions</span>
                     </a>
                 </div>
-                <!-- Mobile CTA -->
                 <div class="flex flex-col gap-3 pt-4 border-t border-white/10">
                     <a href="#contact"
                         class="w-full text-center bg-primary hover:bg-primary-dark text-navy-start font-bold py-3 px-6 rounded-lg text-sm transition-all duration-300">
@@ -643,41 +675,74 @@
     </nav>
 
     <!-- ============================================================== -->
-    <!-- HERO SECTION (Above the Fold) - Adapted from neural-network-hero -->
+    <!-- HERO SECTION -->
     <!-- ============================================================== -->
-    <section id="hero" class="relative h-screen overflow-hidden" style="width:100vw">
-        <!-- Shader Background (Three.js canvas injected here) -->
+    <section id="hero" class="relative min-h-[85vh] overflow-hidden flex items-center" style="width:100vw">
+        <!-- Shader Background -->
         <div id="shader-bg" class="absolute inset-0 w-full h-full bg-navy-start" aria-hidden="true">
             <canvas id="shader-canvas"></canvas>
-            <!-- Overlay gradients for brand tint -->
-            <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-navy-start/50 via-transparent to-navy-start/30"></div>
+            <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-navy-start/60 via-transparent to-navy-start/30"></div>
         </div>
 
         <!-- Hero Content -->
-        <div class="relative z-10 mx-auto flex max-w-7xl flex-col items-start gap-6 px-6 pb-24 pt-36 sm:gap-8 sm:pt-44 md:px-10 lg:px-16">
-            <!-- Badge -->
-            <div id="hero-badge" class="hero-animate inline-flex items-center gap-2 rounded-full border border-primary/30 bg-navy-start/60 px-3 py-1.5 backdrop-blur-sm">
-                <span class="text-[10px] font-light uppercase tracking-[0.08em] text-primary/80">Partner</span>
-                <span class="h-1 w-1 rounded-full bg-primary/50"></span>
-                <span class="text-xs font-light tracking-tight text-white/80">Microsoft Inner Circle Partner 2026</span>
-            </div>
+        <div class="relative z-10 mx-auto max-w-7xl px-6 md:px-10 lg:px-16 pt-32 pb-20 w-full">
+            <div class="grid lg:grid-cols-2 gap-16 items-center">
+                <!-- Left: Text -->
+                <div class="flex flex-col gap-6">
+                    <!-- Badge -->
+                    <div id="hero-badge" class="hero-animate inline-flex items-center gap-2 rounded-full border border-primary/30 bg-navy-start/60 px-3 py-1.5 backdrop-blur-sm w-fit">
+                        <span class="text-[10px] font-light uppercase tracking-[0.08em] text-primary/80">Banking Solution</span>
+                        <span class="h-1 w-1 rounded-full bg-primary/50"></span>
+                        <span class="text-xs font-light tracking-tight text-white/80">Powered by Microsoft Dynamics 365</span>
+                    </div>
 
-            <!-- Title -->
-            <h1 id="hero-title" class="hero-animate max-w-3xl text-left text-5xl font-extralight leading-[1.05] tracking-tight text-white sm:text-6xl md:text-7xl glow-text">
-                Enterprise Solutions Built for Scale
-            </h1>
+                    <h1 id="hero-title" class="hero-animate text-5xl sm:text-6xl md:text-7xl font-extralight leading-[1.05] tracking-tight text-white glow-text">
+                        G Bank <span class="text-primary">AI</span>
+                    </h1>
 
-            <!-- Description -->
-            <p id="hero-desc" class="hero-animate max-w-xl text-left text-base font-light leading-relaxed tracking-tight text-white/70 sm:text-lg">
-                A unified stack of AI-driven platforms designed for precision, scalability, and seamless integration across financial services and beyond.
-            </p>
+                    <p id="hero-desc" class="hero-animate text-xl font-light text-white/60 leading-relaxed">
+                        Shift your focus from customer service to delight
+                    </p>
 
-            <!-- Single CTA Button: Contact Sales -->
-            <div id="hero-cta" class="hero-animate flex flex-wrap items-center gap-3 pt-2">
-                <a href="#contact"
-                   class="bg-primary hover:bg-primary-dark text-navy-start font-bold py-3 px-8 rounded-xl text-sm transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary/50">
-                    Contact Sales
-                </a>
+                    <p class="hero-animate text-base font-light leading-relaxed text-white/50 max-w-lg" id="hero-sub">
+                        A comprehensive solution that empowers banks to streamline operations and enhance customer relationships by integrating with core banking systems.
+                    </p>
+
+                    <div id="hero-cta" class="hero-animate flex flex-wrap items-center gap-4 pt-2">
+                        <a href="#contact"
+                           class="bg-primary hover:bg-primary-dark text-navy-start font-bold py-3 px-8 rounded-xl text-sm transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary/50">
+                            Request a Demo
+                        </a>
+                        <a href="#modules"
+                           class="border border-white/20 hover:border-primary/50 text-white font-medium py-3 px-8 rounded-xl text-sm transition-all duration-300 backdrop-blur-sm">
+                            Explore Modules
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Right: Key Stats -->
+                <div class="hero-animate grid grid-cols-2 gap-4" id="hero-stats">
+                    <div class="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-primary/30 transition-all duration-300">
+                        <span class="material-symbols-outlined text-primary text-3xl mb-3">speed</span>
+                        <h3 class="text-2xl font-serif text-white font-bold">40%</h3>
+                        <p class="text-xs text-gray-400 mt-1">Faster Delivery</p>
+                    </div>
+                    <div class="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-primary/30 transition-all duration-300">
+                        <span class="material-symbols-outlined text-primary text-3xl mb-3">visibility</span>
+                        <h3 class="text-2xl font-serif text-white font-bold">360&deg;</h3>
+                        <p class="text-xs text-gray-400 mt-1">Customer View</p>
+                    </div>
+                    <div class="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-primary/30 transition-all duration-300">
+                        <span class="material-symbols-outlined text-primary text-3xl mb-3">integration_instructions</span>
+                        <h3 class="text-2xl font-serif text-white font-bold">3</h3>
+                        <p class="text-xs text-gray-400 mt-1">Core Modules</p>
+                    </div>
+                    <div class="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-primary/30 transition-all duration-300">
+                        <span class="material-symbols-outlined text-primary text-3xl mb-3">verified</span>
+                        <h3 class="text-2xl font-serif text-white font-bold">95%</h3>
+                        <p class="text-xs text-gray-400 mt-1">System Uptime</p>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -686,208 +751,354 @@
     </section>
 
     <!-- ============================================================== -->
-    <!-- SOLUTION ECOSYSTEM SECTION (Below the Fold) -->
+    <!-- BENEFITS SECTION -->
     <!-- ============================================================== -->
     <section class="aurora-gradient py-24 lg:py-32 w-full relative">
-        <!-- Subtle gradient orb -->
         <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[900px] bg-primary/20 rounded-full blur-[150px] pointer-events-none z-0"></div>
         
         <div class="max-w-7xl mx-auto px-6 lg:px-12 relative z-10">
-            <!-- Section Header -->
             <div class="scroll-reveal text-center mb-16 max-w-3xl mx-auto">
-                <span class="text-primary font-bold tracking-widest uppercase text-sm mb-3 block">Solution Ecosystem</span>
+                <span class="text-primary font-bold tracking-widest uppercase text-sm mb-3 block">Why G Bank AI</span>
                 <h2 class="font-serif text-4xl lg:text-6xl mb-6 pb-2 text-white leading-tight">
-                    Structured Intelligence
+                    Key Benefits
                 </h2>
                 <p class="text-gray-400 text-lg leading-relaxed">
-                    A unified stack of AI-driven financial platforms designed for precision, scalability, and seamless integration.
+                    Transform your banking operations with intelligent automation and a unified customer platform.
                 </p>
             </div>
 
-            <!-- Products Grid -->
             <div class="scroll-reveal-stagger grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <!-- Microsoft Dynamics 365 -->
-                <div class="scroll-reveal-child group bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-primary transition-all duration-300 relative overflow-hidden flex flex-col">
-                    <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" style="background: linear-gradient(135deg, rgba(195, 183, 152, 0.08) 0%, rgba(195, 183, 152, 0.05) 100%);"></div>
-                    <div class="relative z-10 flex flex-col flex-grow">
-                        <div class="flex items-end gap-4 mb-4">
-                            <div class="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 transition-all duration-300" style="background: linear-gradient(135deg, rgba(195, 183, 152, 0.2) 0%, rgba(195, 183, 152, 0.1) 100%);">
-                                <span class="material-symbols-outlined text-primary transition-colors" style="font-size: 28px;">database</span>
-                            </div>
-                            <div class="flex-1">
-                                <h3 class="font-serif text-lg font-bold text-white leading-tight">
-                                    Microsoft Dynamics 365
-                                </h3>
-                            </div>
+                <!-- Benefit 1 -->
+                <div class="scroll-reveal-child group bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10 hover:border-primary transition-all duration-300 relative overflow-hidden">
+                    <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" style="background: linear-gradient(135deg, rgba(195, 183, 152, 0.08) 0%, rgba(195, 183, 152, 0.02) 100%);"></div>
+                    <div class="relative z-10">
+                        <div class="w-14 h-14 rounded-xl flex items-center justify-center mb-6 transition-all duration-300" style="background: linear-gradient(135deg, rgba(195, 183, 152, 0.2) 0%, rgba(195, 183, 152, 0.1) 100%);">
+                            <span class="material-symbols-outlined text-primary" style="font-size: 28px;">bolt</span>
                         </div>
-                        <p class="text-gray-400 text-sm leading-relaxed mb-4">
-                            Complete ERP and CRM solutions including AX, GP, and Business Central for streamlined operations.
-                        </p>
-                        <div class="mt-auto">
-                            <div class="flex flex-wrap gap-2 mb-4">
-                                <span class="px-2 py-1 rounded-md text-xs font-medium bg-white/10 text-gray-300">Finance & Operations</span>
-                                <span class="px-2 py-1 rounded-md text-xs font-medium bg-white/10 text-gray-300">Sales & Marketing</span>
-                                <span class="px-2 py-1 rounded-md text-xs font-medium bg-white/10 text-gray-300">Customer Service</span>
-                            </div>
-                            <a href="#" class="inline-flex items-center gap-1 text-sm font-medium text-primary hover:text-white transition-colors group/link">
-                                Learn More
-                                <span class="material-symbols-outlined text-base group-hover/link:translate-x-1 transition-transform">arrow_forward</span>
-                            </a>
-                        </div>
+                        <h3 class="font-serif text-lg font-bold text-white mb-3">Enhanced Efficiency</h3>
+                        <p class="text-gray-400 text-sm leading-relaxed">Automate routine banking processes and reduce manual intervention, enabling your team to focus on high-value customer interactions.</p>
                     </div>
                 </div>
 
-                <!-- Cloud Solutions -->
-                <div class="scroll-reveal-child group bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-primary transition-all duration-300 relative overflow-hidden flex flex-col">
-                    <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" style="background: linear-gradient(135deg, rgba(195, 183, 152, 0.08) 0%, rgba(0, 1, 58, 0.05) 100%);"></div>
-                    <div class="relative z-10 flex flex-col flex-grow">
-                        <div class="flex items-end gap-4 mb-4">
-                            <div class="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 transition-all duration-300" style="background: linear-gradient(135deg, rgba(195, 183, 152, 0.2) 0%, rgba(195, 183, 152, 0.1) 100%);">
-                                <span class="material-symbols-outlined text-primary transition-colors" style="font-size: 28px;">cloud</span>
-                            </div>
-                            <div class="flex-1">
-                                <h3 class="font-serif text-lg font-bold text-white leading-tight">
-                                    Cloud Solutions
-                                </h3>
-                            </div>
+                <!-- Benefit 2 -->
+                <div class="scroll-reveal-child group bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10 hover:border-primary transition-all duration-300 relative overflow-hidden">
+                    <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" style="background: linear-gradient(135deg, rgba(195, 183, 152, 0.08) 0%, rgba(195, 183, 152, 0.02) 100%);"></div>
+                    <div class="relative z-10">
+                        <div class="w-14 h-14 rounded-xl flex items-center justify-center mb-6 transition-all duration-300" style="background: linear-gradient(135deg, rgba(195, 183, 152, 0.2) 0%, rgba(195, 183, 152, 0.1) 100%);">
+                            <span class="material-symbols-outlined text-primary" style="font-size: 28px;">insights</span>
                         </div>
-                        <p class="text-gray-400 text-sm leading-relaxed mb-4">
-                            Azure infrastructure, Office 365, and cloud migration services for modern business agility.
-                        </p>
-                        <div class="mt-auto">
-                            <div class="flex flex-wrap gap-2 mb-4">
-                                <span class="px-2 py-1 rounded-md text-xs font-medium bg-white/10 text-gray-300">Azure Migration</span>
-                                <span class="px-2 py-1 rounded-md text-xs font-medium bg-white/10 text-gray-300">Office 365</span>
-                                <span class="px-2 py-1 rounded-md text-xs font-medium bg-white/10 text-gray-300">Hybrid Cloud</span>
-                            </div>
-                            <a href="#" class="inline-flex items-center gap-1 text-sm font-medium text-primary hover:text-white transition-colors group/link">
-                                Learn More
-                                <span class="material-symbols-outlined text-base group-hover/link:translate-x-1 transition-transform">arrow_forward</span>
-                            </a>
-                        </div>
+                        <h3 class="font-serif text-lg font-bold text-white mb-3">Improved Decision-Making</h3>
+                        <p class="text-gray-400 text-sm leading-relaxed">Leverage real-time analytics and AI-driven insights to make informed decisions that drive revenue and reduce risk across your portfolio.</p>
                     </div>
                 </div>
 
-                <!-- CRM & xRM Solutions -->
-                <div class="scroll-reveal-child group bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-primary transition-all duration-300 relative overflow-hidden flex flex-col">
-                    <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" style="background: linear-gradient(135deg, rgba(195, 183, 152, 0.08) 0%, rgba(0, 1, 58, 0.05) 100%);"></div>
-                    <div class="relative z-10 flex flex-col flex-grow">
-                        <div class="flex items-end gap-4 mb-4">
-                            <div class="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 transition-all duration-300" style="background: linear-gradient(135deg, rgba(195, 183, 152, 0.2) 0%, rgba(195, 183, 152, 0.1) 100%);">
-                                <span class="material-symbols-outlined text-primary transition-colors" style="font-size: 28px;">group</span>
-                            </div>
-                            <div class="flex-1">
-                                <h3 class="font-serif text-lg font-bold text-white leading-tight">
-                                    CRM & xRM Solutions
-                                </h3>
-                            </div>
+                <!-- Benefit 3 -->
+                <div class="scroll-reveal-child group bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10 hover:border-primary transition-all duration-300 relative overflow-hidden">
+                    <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" style="background: linear-gradient(135deg, rgba(195, 183, 152, 0.08) 0%, rgba(195, 183, 152, 0.02) 100%);"></div>
+                    <div class="relative z-10">
+                        <div class="w-14 h-14 rounded-xl flex items-center justify-center mb-6 transition-all duration-300" style="background: linear-gradient(135deg, rgba(195, 183, 152, 0.2) 0%, rgba(195, 183, 152, 0.1) 100%);">
+                            <span class="material-symbols-outlined text-primary" style="font-size: 28px;">person_celebrate</span>
                         </div>
-                        <p class="text-gray-400 text-sm leading-relaxed mb-4">
-                            Customer relationship management tailored for financial institutions and investment firms.
-                        </p>
-                        <div class="mt-auto">
-                            <div class="flex flex-wrap gap-2 mb-4">
-                                <span class="px-2 py-1 rounded-md text-xs font-medium bg-white/10 text-gray-300">Lead Management</span>
-                                <span class="px-2 py-1 rounded-md text-xs font-medium bg-white/10 text-gray-300">Client Portal</span>
-                                <span class="px-2 py-1 rounded-md text-xs font-medium bg-white/10 text-gray-300">Analytics</span>
-                            </div>
-                            <a href="#" class="inline-flex items-center gap-1 text-sm font-medium text-primary hover:text-white transition-colors group/link">
-                                Learn More
-                                <span class="material-symbols-outlined text-base group-hover/link:translate-x-1 transition-transform">arrow_forward</span>
-                            </a>
-                        </div>
+                        <h3 class="font-serif text-lg font-bold text-white mb-3">Personalized Customer Experience</h3>
+                        <p class="text-gray-400 text-sm leading-relaxed">Deliver tailored banking experiences with a complete 360-degree view of each customer's journey, preferences, and financial needs.</p>
                     </div>
                 </div>
 
-                <!-- Industry Solutions -->
-                <div class="scroll-reveal-child group bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-primary transition-all duration-300 relative overflow-hidden flex flex-col">
-                    <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" style="background: linear-gradient(135deg, rgba(195, 183, 152, 0.08) 0%, rgba(0, 1, 58, 0.05) 100%);"></div>
-                    <div class="relative z-10 flex flex-col flex-grow">
-                        <div class="flex items-end gap-4 mb-4">
-                            <div class="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 transition-all duration-300" style="background: linear-gradient(135deg, rgba(195, 183, 152, 0.2) 0%, rgba(195, 183, 152, 0.1) 100%);">
-                                <span class="material-symbols-outlined text-primary transition-colors" style="font-size: 28px;">apartment</span>
-                            </div>
-                            <div class="flex-1">
-                                <h3 class="font-serif text-lg font-bold text-white leading-tight">
-                                    Industry Solutions
-                                </h3>
-                            </div>
+                <!-- Benefit 4 -->
+                <div class="scroll-reveal-child group bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10 hover:border-primary transition-all duration-300 relative overflow-hidden">
+                    <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" style="background: linear-gradient(135deg, rgba(195, 183, 152, 0.08) 0%, rgba(195, 183, 152, 0.02) 100%);"></div>
+                    <div class="relative z-10">
+                        <div class="w-14 h-14 rounded-xl flex items-center justify-center mb-6 transition-all duration-300" style="background: linear-gradient(135deg, rgba(195, 183, 152, 0.2) 0%, rgba(195, 183, 152, 0.1) 100%);">
+                            <span class="material-symbols-outlined text-primary" style="font-size: 28px;">lock</span>
                         </div>
-                        <p class="text-gray-400 text-sm leading-relaxed mb-4">
-                            Specialized vertical products for Property Management, Maintenance, and Payroll.
-                        </p>
-                        <div class="mt-auto">
-                            <div class="flex flex-wrap gap-2 mb-4">
-                                <span class="px-2 py-1 rounded-md text-xs font-medium bg-white/10 text-gray-300">Property Management</span>
-                                <span class="px-2 py-1 rounded-md text-xs font-medium bg-white/10 text-gray-300">HR & Payroll</span>
-                                <span class="px-2 py-1 rounded-md text-xs font-medium bg-white/10 text-gray-300">Asset Management</span>
-                            </div>
-                            <a href="#" class="inline-flex items-center gap-1 text-sm font-medium text-primary hover:text-white transition-colors group/link">
-                                Learn More
-                                <span class="material-symbols-outlined text-base group-hover/link:translate-x-1 transition-transform">arrow_forward</span>
-                            </a>
-                        </div>
+                        <h3 class="font-serif text-lg font-bold text-white mb-3">Data Privacy</h3>
+                        <p class="text-gray-400 text-sm leading-relaxed">Enterprise-grade security and compliance frameworks ensure your customer data remains protected and meets regulatory standards.</p>
                     </div>
                 </div>
 
-                <!-- Co-Pilot Integration -->
-                <div class="scroll-reveal-child group bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-primary transition-all duration-300 relative overflow-hidden flex flex-col">
-                    <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" style="background: linear-gradient(135deg, rgba(195, 183, 152, 0.08) 0%, rgba(0, 1, 58, 0.05) 100%);"></div>
-                    <div class="relative z-10 flex flex-col flex-grow">
-                        <div class="flex items-end gap-4 mb-4">
-                            <div class="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 transition-all duration-300" style="background: linear-gradient(135deg, rgba(195, 183, 152, 0.2) 0%, rgba(195, 183, 152, 0.1) 100%);">
-                                <span class="material-symbols-outlined text-primary transition-colors" style="font-size: 28px;">settings</span>
-                            </div>
-                            <div class="flex-1">
-                                <h3 class="font-serif text-lg font-bold text-white leading-tight">
-                                    Co-Pilot Integration
-                                </h3>
-                            </div>
+                <!-- Benefit 5 -->
+                <div class="scroll-reveal-child group bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10 hover:border-primary transition-all duration-300 relative overflow-hidden">
+                    <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" style="background: linear-gradient(135deg, rgba(195, 183, 152, 0.08) 0%, rgba(195, 183, 152, 0.02) 100%);"></div>
+                    <div class="relative z-10">
+                        <div class="w-14 h-14 rounded-xl flex items-center justify-center mb-6 transition-all duration-300" style="background: linear-gradient(135deg, rgba(195, 183, 152, 0.2) 0%, rgba(195, 183, 152, 0.1) 100%);">
+                            <span class="material-symbols-outlined text-primary" style="font-size: 28px;">forum</span>
                         </div>
-                        <p class="text-gray-400 text-sm leading-relaxed mb-4">
-                            AI-powered productivity tools leveraging Microsoft Copilot for enhanced decision making.
-                        </p>
-                        <div class="mt-auto">
-                            <div class="flex flex-wrap gap-2 mb-4">
-                                <span class="px-2 py-1 rounded-md text-xs font-medium bg-white/10 text-gray-300">AI Assistance</span>
-                                <span class="px-2 py-1 rounded-md text-xs font-medium bg-white/10 text-gray-300">Automation</span>
-                                <span class="px-2 py-1 rounded-md text-xs font-medium bg-white/10 text-gray-300">Insights</span>
-                            </div>
-                            <a href="#" class="inline-flex items-center gap-1 text-sm font-medium text-primary hover:text-white transition-colors group/link">
-                                Learn More
-                                <span class="material-symbols-outlined text-base group-hover/link:translate-x-1 transition-transform">arrow_forward</span>
-                            </a>
-                        </div>
+                        <h3 class="font-serif text-lg font-bold text-white mb-3">Unified Communication</h3>
+                        <p class="text-gray-400 text-sm leading-relaxed">Centralize all customer interactions across channels into a single platform, enabling seamless collaboration between departments.</p>
                     </div>
                 </div>
 
-                <!-- Infrastructure & Security -->
-                <div class="scroll-reveal-child group bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-primary transition-all duration-300 relative overflow-hidden flex flex-col">
-                    <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" style="background: linear-gradient(135deg, rgba(195, 183, 152, 0.08) 0%, rgba(0, 1, 58, 0.05) 100%);"></div>
-                    <div class="relative z-10 flex flex-col flex-grow">
-                        <div class="flex items-end gap-4 mb-4">
-                            <div class="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 transition-all duration-300" style="background: linear-gradient(135deg, rgba(195, 183, 152, 0.2) 0%, rgba(195, 183, 152, 0.1) 100%);">
-                                <span class="material-symbols-outlined text-primary transition-colors" style="font-size: 28px;">shield</span>
+                <!-- Benefit 6 -->
+                <div class="scroll-reveal-child group bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10 hover:border-primary transition-all duration-300 relative overflow-hidden">
+                    <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" style="background: linear-gradient(135deg, rgba(195, 183, 152, 0.08) 0%, rgba(195, 183, 152, 0.02) 100%);"></div>
+                    <div class="relative z-10">
+                        <div class="w-14 h-14 rounded-xl flex items-center justify-center mb-6 transition-all duration-300" style="background: linear-gradient(135deg, rgba(195, 183, 152, 0.2) 0%, rgba(195, 183, 152, 0.1) 100%);">
+                            <span class="material-symbols-outlined text-primary" style="font-size: 28px;">devices</span>
+                        </div>
+                        <h3 class="font-serif text-lg font-bold text-white mb-3">Better Accessibility</h3>
+                        <p class="text-gray-400 text-sm leading-relaxed">Access your banking platform from any device, anywhere -- with responsive interfaces designed for modern banking workflows.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================== -->
+    <!-- MODULES & FEATURES (Tabbed) -->
+    <!-- ============================================================== -->
+    <section id="modules" class="aurora-gradient py-24 lg:py-32 w-full relative">
+        <div class="absolute top-1/3 right-0 w-[600px] h-[600px] bg-primary/10 rounded-full blur-[150px] pointer-events-none z-0"></div>
+        
+        <div class="max-w-7xl mx-auto px-6 lg:px-12 relative z-10">
+            <div class="scroll-reveal text-center mb-16 max-w-3xl mx-auto">
+                <span class="text-primary font-bold tracking-widest uppercase text-sm mb-3 block">Platform</span>
+                <h2 class="font-serif text-4xl lg:text-6xl mb-6 pb-2 text-white leading-tight">
+                    Modules &amp; Features
+                </h2>
+                <p class="text-gray-400 text-lg leading-relaxed">
+                    Three powerful modules working together to deliver a complete banking experience.
+                </p>
+            </div>
+
+            <!-- Tabs -->
+            <div class="scroll-reveal flex flex-wrap justify-center gap-3 mb-12">
+                <button class="module-tab active" onclick="switchModule('bankcrm')">
+                    <span class="flex items-center gap-2">
+                        <span class="material-symbols-outlined" style="font-size:18px">groups</span>
+                        BankCRM
+                    </span>
+                </button>
+                <button class="module-tab" onclick="switchModule('collection')">
+                    <span class="flex items-center gap-2">
+                        <span class="material-symbols-outlined" style="font-size:18px">account_balance_wallet</span>
+                        Collection
+                    </span>
+                </button>
+                <button class="module-tab" onclick="switchModule('enterprisegl')">
+                    <span class="flex items-center gap-2">
+                        <span class="material-symbols-outlined" style="font-size:18px">menu_book</span>
+                        Enterprise GL for Banking
+                    </span>
+                </button>
+            </div>
+
+            <!-- BankCRM Panel -->
+            <div id="panel-bankcrm" class="module-panel active">
+                <div class="grid lg:grid-cols-2 gap-10 items-start">
+                    <!-- Left: Feature list -->
+                    <div class="bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10">
+                        <div class="flex items-center gap-4 mb-6">
+                            <div class="w-12 h-12 rounded-xl flex items-center justify-center" style="background: linear-gradient(135deg, rgba(195, 183, 152, 0.2) 0%, rgba(195, 183, 152, 0.1) 100%);">
+                                <span class="material-symbols-outlined text-primary" style="font-size: 28px;">groups</span>
                             </div>
-                            <div class="flex-1">
-                                <h3 class="font-serif text-lg font-bold text-white leading-tight">
-                                    Infrastructure & Security
-                                </h3>
+                            <div>
+                                <h3 class="font-serif text-2xl font-bold text-white">BankCRM</h3>
+                                <p class="text-sm text-gray-400">Customer Relationship Management for Banking</p>
                             </div>
                         </div>
-                        <p class="text-gray-400 text-sm leading-relaxed mb-4">
-                            Enterprise-grade Hyper-V infrastructure with comprehensive security solutions.
-                        </p>
-                        <div class="mt-auto">
-                            <div class="flex flex-wrap gap-2 mb-4">
-                                <span class="px-2 py-1 rounded-md text-xs font-medium bg-white/10 text-gray-300">Network Security</span>
-                                <span class="px-2 py-1 rounded-md text-xs font-medium bg-white/10 text-gray-300">Compliance</span>
-                                <span class="px-2 py-1 rounded-md text-xs font-medium bg-white/10 text-gray-300">Monitoring</span>
+                        <div class="grid sm:grid-cols-2 gap-3">
+                            <div class="flex items-center gap-3 p-3 rounded-lg bg-white/5 border border-white/5">
+                                <span class="material-symbols-outlined text-primary text-lg">visibility</span>
+                                <span class="text-sm text-gray-300">Customer 360</span>
                             </div>
-                            <a href="#" class="inline-flex items-center gap-1 text-sm font-medium text-primary hover:text-white transition-colors group/link">
-                                Learn More
-                                <span class="material-symbols-outlined text-base group-hover/link:translate-x-1 transition-transform">arrow_forward</span>
-                            </a>
+                            <div class="flex items-center gap-3 p-3 rounded-lg bg-white/5 border border-white/5">
+                                <span class="material-symbols-outlined text-primary text-lg">trending_up</span>
+                                <span class="text-sm text-gray-300">Sales &amp; Prospect Management</span>
+                            </div>
+                            <div class="flex items-center gap-3 p-3 rounded-lg bg-white/5 border border-white/5">
+                                <span class="material-symbols-outlined text-primary text-lg">person_add</span>
+                                <span class="text-sm text-gray-300">Customer Onboarding</span>
+                            </div>
+                            <div class="flex items-center gap-3 p-3 rounded-lg bg-white/5 border border-white/5">
+                                <span class="material-symbols-outlined text-primary text-lg">swap_horiz</span>
+                                <span class="text-sm text-gray-300">Cross-Sell &amp; Up-Sell</span>
+                            </div>
+                            <div class="flex items-center gap-3 p-3 rounded-lg bg-white/5 border border-white/5">
+                                <span class="material-symbols-outlined text-primary text-lg">auto_awesome</span>
+                                <span class="text-sm text-gray-300">Next Best Action</span>
+                            </div>
+                            <div class="flex items-center gap-3 p-3 rounded-lg bg-white/5 border border-white/5">
+                                <span class="material-symbols-outlined text-primary text-lg">campaign</span>
+                                <span class="text-sm text-gray-300">Marketing Campaigns</span>
+                            </div>
+                            <div class="flex items-center gap-3 p-3 rounded-lg bg-white/5 border border-white/5">
+                                <span class="material-symbols-outlined text-primary text-lg">support_agent</span>
+                                <span class="text-sm text-gray-300">Complaints &amp; Inquiries</span>
+                            </div>
+                            <div class="flex items-center gap-3 p-3 rounded-lg bg-white/5 border border-white/5">
+                                <span class="material-symbols-outlined text-primary text-lg">route</span>
+                                <span class="text-sm text-gray-300">Customer Journeys</span>
+                            </div>
+                            <div class="flex items-center gap-3 p-3 rounded-lg bg-white/5 border border-white/5">
+                                <span class="material-symbols-outlined text-primary text-lg">call</span>
+                                <span class="text-sm text-gray-300">Contact Center</span>
+                            </div>
+                            <div class="flex items-center gap-3 p-3 rounded-lg bg-white/5 border border-white/5">
+                                <span class="material-symbols-outlined text-primary text-lg">loyalty</span>
+                                <span class="text-sm text-gray-300">Loyalty Program</span>
+                            </div>
+                            <div class="flex items-center gap-3 p-3 rounded-lg bg-white/5 border border-white/5">
+                                <span class="material-symbols-outlined text-primary text-lg">query_stats</span>
+                                <span class="text-sm text-gray-300">Customer Insights</span>
+                            </div>
+                            <div class="flex items-center gap-3 p-3 rounded-lg bg-white/5 border border-white/5">
+                                <span class="material-symbols-outlined text-primary text-lg">fingerprint</span>
+                                <span class="text-sm text-gray-300">Know Your Customer (KYC)</span>
+                            </div>
+                            <div class="flex items-center gap-3 p-3 rounded-lg bg-white/5 border border-white/5 sm:col-span-2">
+                                <span class="material-symbols-outlined text-primary text-lg">assignment</span>
+                                <span class="text-sm text-gray-300">Service Requests</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Right: Description -->
+                    <div class="flex flex-col gap-6">
+                        <div class="bg-gradient-to-br from-primary/10 to-transparent rounded-2xl p-8 border border-primary/20">
+                            <h4 class="text-lg font-bold text-white mb-4">Built on Microsoft Dynamics 365</h4>
+                            <p class="text-gray-400 text-sm leading-relaxed mb-4">
+                                G Bank-CRM built on Microsoft Dynamics 365 Customer Engagement integrates tightly with any core banking application, giving a 360-degree view of the customer lifecycle and reinforcing all customer engagement activities under one unified platform.
+                            </p>
+                            <p class="text-gray-400 text-sm leading-relaxed">
+                                From onboarding to cross-selling, from complaints resolution to loyalty management -- BankCRM empowers banking professionals to deliver exceptional customer experiences at every touchpoint.
+                            </p>
+                        </div>
+                        <div class="flex flex-wrap gap-3">
+                            <span class="px-3 py-1.5 rounded-lg text-xs font-medium bg-white/10 text-gray-300 border border-white/5">Dynamics 365</span>
+                            <span class="px-3 py-1.5 rounded-lg text-xs font-medium bg-white/10 text-gray-300 border border-white/5">AI-Powered</span>
+                            <span class="px-3 py-1.5 rounded-lg text-xs font-medium bg-white/10 text-gray-300 border border-white/5">Core Banking Integration</span>
+                            <span class="px-3 py-1.5 rounded-lg text-xs font-medium bg-white/10 text-gray-300 border border-white/5">Omnichannel</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Collection Panel -->
+            <div id="panel-collection" class="module-panel">
+                <div class="grid lg:grid-cols-2 gap-10 items-start">
+                    <div class="bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10">
+                        <div class="flex items-center gap-4 mb-6">
+                            <div class="w-12 h-12 rounded-xl flex items-center justify-center" style="background: linear-gradient(135deg, rgba(195, 183, 152, 0.2) 0%, rgba(195, 183, 152, 0.1) 100%);">
+                                <span class="material-symbols-outlined text-primary" style="font-size: 28px;">account_balance_wallet</span>
+                            </div>
+                            <div>
+                                <h3 class="font-serif text-2xl font-bold text-white">Collection</h3>
+                                <p class="text-sm text-gray-400">Debt Recovery &amp; Delinquency Management</p>
+                            </div>
+                        </div>
+                        <div class="grid sm:grid-cols-1 gap-3">
+                            <div class="flex items-center gap-3 p-4 rounded-lg bg-white/5 border border-white/5">
+                                <span class="material-symbols-outlined text-primary text-lg">warning</span>
+                                <div>
+                                    <span class="text-sm text-white font-medium block">Delinquency Management</span>
+                                    <span class="text-xs text-gray-400">Automated identification and prioritization of delinquent accounts</span>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-3 p-4 rounded-lg bg-white/5 border border-white/5">
+                                <span class="material-symbols-outlined text-primary text-lg">gavel</span>
+                                <div>
+                                    <span class="text-sm text-white font-medium block">Legal Management</span>
+                                    <span class="text-xs text-gray-400">Streamlined legal workflows for debt recovery proceedings</span>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-3 p-4 rounded-lg bg-white/5 border border-white/5">
+                                <span class="material-symbols-outlined text-primary text-lg">task_alt</span>
+                                <div>
+                                    <span class="text-sm text-white font-medium block">Collections Activities</span>
+                                    <span class="text-xs text-gray-400">End-to-end tracking and management of collection actions</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex flex-col gap-6">
+                        <div class="bg-gradient-to-br from-primary/10 to-transparent rounded-2xl p-8 border border-primary/20">
+                            <h4 class="text-lg font-bold text-white mb-4">Intelligent Debt Recovery</h4>
+                            <p class="text-gray-400 text-sm leading-relaxed mb-4">
+                                The Collection module provides banks with a comprehensive toolkit for managing delinquent accounts through systematic workflows, automated escalation, and integrated legal processes.
+                            </p>
+                            <p class="text-gray-400 text-sm leading-relaxed">
+                                Reduce non-performing assets with AI-driven prioritization that helps your team focus on the accounts that matter most, with full audit trails and compliance reporting built in.
+                            </p>
+                        </div>
+                        <div class="flex flex-wrap gap-3">
+                            <span class="px-3 py-1.5 rounded-lg text-xs font-medium bg-white/10 text-gray-300 border border-white/5">Automated Workflows</span>
+                            <span class="px-3 py-1.5 rounded-lg text-xs font-medium bg-white/10 text-gray-300 border border-white/5">Compliance Ready</span>
+                            <span class="px-3 py-1.5 rounded-lg text-xs font-medium bg-white/10 text-gray-300 border border-white/5">Audit Trail</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Enterprise GL Panel -->
+            <div id="panel-enterprisegl" class="module-panel">
+                <div class="grid lg:grid-cols-2 gap-10 items-start">
+                    <div class="bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10">
+                        <div class="flex items-center gap-4 mb-6">
+                            <div class="w-12 h-12 rounded-xl flex items-center justify-center" style="background: linear-gradient(135deg, rgba(195, 183, 152, 0.2) 0%, rgba(195, 183, 152, 0.1) 100%);">
+                                <span class="material-symbols-outlined text-primary" style="font-size: 28px;">menu_book</span>
+                            </div>
+                            <div>
+                                <h3 class="font-serif text-2xl font-bold text-white">Enterprise GL for Banking</h3>
+                                <p class="text-sm text-gray-400">Complete Financial Operations Suite</p>
+                            </div>
+                        </div>
+                        <div class="grid sm:grid-cols-2 gap-3">
+                            <div class="flex items-center gap-3 p-3 rounded-lg bg-white/5 border border-white/5">
+                                <span class="material-symbols-outlined text-primary text-lg">sync_alt</span>
+                                <span class="text-sm text-gray-300">GL Transactions Integration</span>
+                            </div>
+                            <div class="flex items-center gap-3 p-3 rounded-lg bg-white/5 border border-white/5">
+                                <span class="material-symbols-outlined text-primary text-lg">payments</span>
+                                <span class="text-sm text-gray-300">Vendor, Salary &amp; Expense Payments</span>
+                            </div>
+                            <div class="flex items-center gap-3 p-3 rounded-lg bg-white/5 border border-white/5">
+                                <span class="material-symbols-outlined text-primary text-lg">compare_arrows</span>
+                                <span class="text-sm text-gray-300">Reconciliation Processing</span>
+                            </div>
+                            <div class="flex items-center gap-3 p-3 rounded-lg bg-white/5 border border-white/5">
+                                <span class="material-symbols-outlined text-primary text-lg">bar_chart</span>
+                                <span class="text-sm text-gray-300">MIS Reporting &amp; Analysis</span>
+                            </div>
+                            <div class="flex items-center gap-3 p-3 rounded-lg bg-white/5 border border-white/5">
+                                <span class="material-symbols-outlined text-primary text-lg">policy</span>
+                                <span class="text-sm text-gray-300">Regulatory Reporting</span>
+                            </div>
+                            <div class="flex items-center gap-3 p-3 rounded-lg bg-white/5 border border-white/5">
+                                <span class="material-symbols-outlined text-primary text-lg">calculate</span>
+                                <span class="text-sm text-gray-300">Budget Planning</span>
+                            </div>
+                            <div class="flex items-center gap-3 p-3 rounded-lg bg-white/5 border border-white/5">
+                                <span class="material-symbols-outlined text-primary text-lg">account_balance</span>
+                                <span class="text-sm text-gray-300">Finance Modules &amp; GL Budgeting</span>
+                            </div>
+                            <div class="flex items-center gap-3 p-3 rounded-lg bg-white/5 border border-white/5">
+                                <span class="material-symbols-outlined text-primary text-lg">shopping_cart</span>
+                                <span class="text-sm text-gray-300">Procure-to-Pay &amp; Vendor Portal</span>
+                            </div>
+                            <div class="flex items-center gap-3 p-3 rounded-lg bg-white/5 border border-white/5">
+                                <span class="material-symbols-outlined text-primary text-lg">badge</span>
+                                <span class="text-sm text-gray-300">HRMS Solution</span>
+                            </div>
+                            <div class="flex items-center gap-3 p-3 rounded-lg bg-white/5 border border-white/5">
+                                <span class="material-symbols-outlined text-primary text-lg">engineering</span>
+                                <span class="text-sm text-gray-300">Project Operations</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex flex-col gap-6">
+                        <div class="bg-gradient-to-br from-primary/10 to-transparent rounded-2xl p-8 border border-primary/20">
+                            <h4 class="text-lg font-bold text-white mb-4">End-to-End Financial Management</h4>
+                            <p class="text-gray-400 text-sm leading-relaxed mb-4">
+                                Enterprise GL for Banking acts as a seamless integrator, ensuring both bankers and customers can avail full benefits of the Core Banking System and Microsoft Dynamics 365 Finance &amp; Operations ERP systems.
+                            </p>
+                            <p class="text-gray-400 text-sm leading-relaxed">
+                                From general ledger transactions to regulatory reporting, from vendor management to HR operations -- this module consolidates every financial process under one intelligent platform.
+                            </p>
+                        </div>
+                        <div class="flex flex-wrap gap-3">
+                            <span class="px-3 py-1.5 rounded-lg text-xs font-medium bg-white/10 text-gray-300 border border-white/5">D365 F&amp;O</span>
+                            <span class="px-3 py-1.5 rounded-lg text-xs font-medium bg-white/10 text-gray-300 border border-white/5">Automated Reconciliation</span>
+                            <span class="px-3 py-1.5 rounded-lg text-xs font-medium bg-white/10 text-gray-300 border border-white/5">Regulatory Compliance</span>
+                            <span class="px-3 py-1.5 rounded-lg text-xs font-medium bg-white/10 text-gray-300 border border-white/5">Procure-to-Pay</span>
                         </div>
                     </div>
                 </div>
@@ -896,183 +1107,233 @@
     </section>
 
     <!-- ============================================================== -->
-    <!-- CASE STUDIES SECTION -->
+    <!-- RELATED INDUSTRIES -->
     <!-- ============================================================== -->
-    <section class="aurora-gradient py-24 lg:py-32 w-full relative" aria-labelledby="case-studies-heading">
-        <!-- Subtle gradient orb -->
-        <div class="absolute top-1/3 right-0 w-[600px] h-[600px] bg-primary/10 rounded-full blur-[150px] pointer-events-none z-0"></div>
+    <section class="aurora-gradient py-24 w-full relative">
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-primary/20 rounded-full blur-[120px] pointer-events-none z-0"></div>
+        
+        <div class="max-w-7xl mx-auto px-6 lg:px-12 relative z-10">
+            <div class="scroll-reveal text-center mb-16 max-w-3xl mx-auto">
+                <span class="text-primary font-bold tracking-widest uppercase text-sm mb-3 block">Industries</span>
+                <h2 class="font-serif text-4xl lg:text-5xl mb-6 text-white leading-tight">
+                    Related Industries
+                </h2>
+                <p class="text-gray-400 text-lg leading-relaxed">
+                    G Bank AI serves the full spectrum of banking verticals
+                </p>
+            </div>
+
+            <div class="scroll-reveal-stagger grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                <!-- Corporate Banking -->
+                <div class="scroll-reveal-child group bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10 hover:border-primary transition-all duration-300 relative overflow-hidden">
+                    <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" style="background: linear-gradient(135deg, rgba(195, 183, 152, 0.08) 0%, rgba(195, 183, 152, 0.02) 100%);"></div>
+                    <div class="relative z-10">
+                        <span class="material-symbols-outlined text-[56px] text-primary mb-6 font-thin">domain</span>
+                        <h4 class="text-xl font-serif font-bold text-white mb-3">Corporate Banking</h4>
+                        <p class="text-sm text-gray-400 leading-relaxed mb-6">
+                            Streamlined cash management and trade finance solutions for complex enterprise requirements with full CRM integration.
+                        </p>
+                        <a class="text-primary hover:text-white text-sm font-semibold flex items-center gap-1 transition-colors group/link" href="#">
+                            Learn More <span class="material-symbols-outlined text-base group-hover/link:translate-x-1 transition-transform">arrow_forward</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Retail Banking -->
+                <div class="scroll-reveal-child group bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10 hover:border-primary transition-all duration-300 relative overflow-hidden">
+                    <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" style="background: linear-gradient(135deg, rgba(195, 183, 152, 0.08) 0%, rgba(195, 183, 152, 0.02) 100%);"></div>
+                    <div class="relative z-10">
+                        <span class="material-symbols-outlined text-[56px] text-primary mb-6 font-thin">storefront</span>
+                        <h4 class="text-xl font-serif font-bold text-white mb-3">Retail Banking</h4>
+                        <p class="text-sm text-gray-400 leading-relaxed mb-6">
+                            Optimized branch operations and personalized customer journeys powered by predictive AI models and omnichannel engagement.
+                        </p>
+                        <a class="text-primary hover:text-white text-sm font-semibold flex items-center gap-1 transition-colors group/link" href="#">
+                            Learn More <span class="material-symbols-outlined text-base group-hover/link:translate-x-1 transition-transform">arrow_forward</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mt-10 scroll-reveal">
+                <a href="solutions.html" class="inline-flex items-center gap-2 text-sm font-medium text-primary hover:text-white transition-colors border border-primary/30 hover:border-primary px-6 py-3 rounded-xl">
+                    View All Industries
+                    <span class="material-symbols-outlined text-base">arrow_forward</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================== -->
+    <!-- TESTIMONIALS SECTION -->
+    <!-- ============================================================== -->
+    <section class="aurora-gradient py-24 lg:py-32 w-full relative" aria-labelledby="testimonials-heading">
+        <div class="absolute top-1/3 left-0 w-[600px] h-[600px] bg-primary/10 rounded-full blur-[150px] pointer-events-none z-0"></div>
 
         <div class="max-w-7xl mx-auto px-6 lg:px-12 relative z-10">
-            <!-- Header -->
-            <div class="scroll-reveal flex flex-col gap-4 text-center max-w-2xl mx-auto mb-20">
-                <span class="text-primary font-bold tracking-widest uppercase text-sm block">Case Studies</span>
-                <h2 id="case-studies-heading" class="font-serif text-4xl lg:text-5xl text-white leading-tight">
-                    Real Results with Global iTS
+            <div class="scroll-reveal text-center mb-16 max-w-3xl mx-auto">
+                <span class="text-primary font-bold tracking-widest uppercase text-sm mb-3 block">Testimonials</span>
+                <h2 id="testimonials-heading" class="font-serif text-4xl lg:text-5xl mb-6 text-white leading-tight">
+                    Trusted by Leading Banks
                 </h2>
-                <p class="text-gray-400 text-lg leading-relaxed">
-                    From ERP modernization to cloud migration -- Global iTS powers enterprises with speed, clarity, and consistency.
-                </p>
             </div>
 
-            <!-- Case Studies -->
-            <div class="scroll-reveal-stagger flex flex-col gap-20">
-
-                <!-- Case Study 1: Banking - Dynamics 365 -->
-                <div class="scroll-reveal-child grid gap-12 lg:grid-cols-3 xl:gap-24 items-center border-b border-white/10 pb-12">
-                    <!-- Left: Image + Quote -->
-                    <div class="flex flex-col sm:flex-row gap-10 lg:col-span-2 lg:border-r lg:pr-12 xl:pr-16 text-left border-white/10">
-                        <img
-                            src="https://images.unsplash.com/photo-1551434678-e076c223a692?w=600&h=800&fit=crop"
-                            alt="Banking team collaborating"
-                            class="aspect-[29/35] h-auto w-full max-w-60 rounded-2xl object-cover ring-1 ring-white/10 hover:scale-105 transition-all duration-300"
-                            loading="lazy"
-                            decoding="async"
-                        />
-                        <figure class="flex flex-col justify-between gap-8 text-left">
-                            <blockquote class="text-left">
-                                <h3 class="text-lg sm:text-xl lg:text-xl font-normal text-white leading-relaxed text-left">
-                                    <span class="flex items-center gap-3 mb-3">
-                                        <span class="material-symbols-outlined text-primary" style="font-size: 28px;">monitoring</span>
-                                        Dynamics 365 Transformation
-                                    </span>
-                                    <span class="block text-gray-400 text-sm sm:text-base lg:text-lg mt-2">
-                                        With Global iTS, our finance team finally works in sync. The Dynamics 365 implementation streamlined operations and we process transactions 40% faster.
-                                    </span>
-                                </h3>
-                            </blockquote>
-                            <figcaption class="flex items-center gap-6 mt-4 text-left">
-                                <div class="flex flex-col gap-1">
-                                    <span class="text-md font-medium text-white">Ahmed Al-Rashid</span>
-                                    <span class="text-sm text-gray-400">CTO, National Banking Corp</span>
+            <!-- Testimonials Slider -->
+            <div class="scroll-reveal relative overflow-hidden rounded-2xl">
+                <div class="testimonial-track" id="testimonialTrack">
+                    <!-- Slide 1 -->
+                    <div class="testimonial-slide px-2">
+                        <div class="bg-white/5 backdrop-blur-sm rounded-2xl p-8 md:p-12 border border-white/10 max-w-4xl mx-auto">
+                            <div class="flex flex-col gap-6">
+                                <span class="material-symbols-outlined text-primary/30" style="font-size:48px">format_quote</span>
+                                <blockquote class="text-lg md:text-xl text-white/80 leading-relaxed font-light">
+                                    Following the tender process, NBB selected Global ITS as an ERP implementation partner. Their wide range of experience in the Banking sector with a top-notch delivery team gave us complete satisfaction investing in this project. We are delighted to be associated with Global ITS.
+                                </blockquote>
+                                <div class="flex items-center gap-4 pt-4 border-t border-white/10">
+                                    <div class="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center">
+                                        <span class="text-primary font-bold text-lg">AA</span>
+                                    </div>
+                                    <div>
+                                        <p class="font-medium text-white">Ahmed Al Syed</p>
+                                        <p class="text-sm text-gray-400">Deputy Branch Manager, National Bank of Bahrain</p>
+                                    </div>
                                 </div>
-                            </figcaption>
-                        </figure>
-                    </div>
-                    <!-- Right: Metrics -->
-                    <div class="grid grid-cols-1 gap-10 self-center text-left">
-                        <div class="flex flex-col gap-2 text-left p-6">
-                            <p class="text-2xl font-medium text-white sm:text-4xl countup-metric" data-target="40" data-suffix="%" aria-label="Faster Delivery 40%">
-                                0%
-                            </p>
-                            <p class="font-medium text-white text-left">Faster Delivery</p>
-                            <p class="text-gray-400 text-left">Transaction processing speed</p>
+                            </div>
                         </div>
-                        <div class="flex flex-col gap-2 text-left p-6">
-                            <p class="text-2xl font-medium text-white sm:text-4xl countup-metric" data-target="95" data-suffix="%" aria-label="System Uptime 95%">
-                                0%
-                            </p>
-                            <p class="font-medium text-white text-left">System Uptime</p>
-                            <p class="text-gray-400 text-left">Post-migration reliability</p>
+                    </div>
+                    <!-- Slide 2 -->
+                    <div class="testimonial-slide px-2">
+                        <div class="bg-white/5 backdrop-blur-sm rounded-2xl p-8 md:p-12 border border-white/10 max-w-4xl mx-auto">
+                            <div class="flex flex-col gap-6">
+                                <span class="material-symbols-outlined text-primary/30" style="font-size:48px">format_quote</span>
+                                <blockquote class="text-lg md:text-xl text-white/80 leading-relaxed font-light">
+                                    After implementing G Bank-CRM, all our customer information is centralized under one platform, which helps our employees to view 360&deg; of the customer journey. It simplified us to choose the right customer for cross-sell and upsell services. G Bank-CRM has made us travel impeccable journeys on the customer lifecycle. We are delighted to ally with Global ITS in this journey.
+                                </blockquote>
+                                <div class="flex items-center gap-4 pt-4 border-t border-white/10">
+                                    <div class="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center">
+                                        <span class="text-primary font-bold text-lg">TS</span>
+                                    </div>
+                                    <div>
+                                        <p class="font-medium text-white">Tarek Soubra</p>
+                                        <p class="text-sm text-gray-400">Chief Technology Officer, Al Maryah Bank</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Slide 3 -->
+                    <div class="testimonial-slide px-2">
+                        <div class="bg-white/5 backdrop-blur-sm rounded-2xl p-8 md:p-12 border border-white/10 max-w-4xl mx-auto">
+                            <div class="flex flex-col gap-6">
+                                <span class="material-symbols-outlined text-primary/30" style="font-size:48px">format_quote</span>
+                                <blockquote class="text-lg md:text-xl text-white/80 leading-relaxed font-light">
+                                    We are pleased to announce the successful implementation of Microsoft Dynamics 365 CRM at Solidarity Bahrain. This project has enabled us to enhance our customer experience, increase our operational efficiency and productivity, and reduce our costs and risks. We are grateful to our partner, Global ITS, for their expertise and support.
+                                </blockquote>
+                                <div class="flex items-center gap-4 pt-4 border-t border-white/10">
+                                    <div class="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center">
+                                        <span class="text-primary font-bold text-lg">TA</span>
+                                    </div>
+                                    <div>
+                                        <p class="font-medium text-white">Tariq Al-Alawi</p>
+                                        <p class="text-sm text-gray-400">IT Director, Central Bank of Bahrain</p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-
-                <!-- Case Study 2: Insurance - Cloud Migration (reversed) -->
-                <div class="scroll-reveal-child grid gap-12 lg:grid-cols-3 xl:gap-24 items-center border-b border-white/10 pb-12">
-                    <!-- Left: Image + Quote (order-2 on lg) -->
-                    <div class="flex flex-col sm:flex-row gap-10 lg:col-span-2 lg:order-2 lg:border-l lg:pl-12 xl:pl-16 lg:pr-0 text-left border-white/10">
-                        <img
-                            src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=600&h=800&fit=crop"
-                            alt="Business meeting"
-                            class="aspect-[29/35] h-auto w-full max-w-60 rounded-2xl object-cover ring-1 ring-white/10 hover:scale-105 transition-all duration-300"
-                            loading="lazy"
-                            decoding="async"
-                        />
-                        <figure class="flex flex-col justify-between gap-8 text-left">
-                            <blockquote class="text-left">
-                                <h3 class="text-lg sm:text-xl lg:text-xl font-normal text-white leading-relaxed text-left">
-                                    <span class="flex items-center gap-3 mb-3">
-                                        <span class="material-symbols-outlined text-primary" style="font-size: 28px;">dashboard</span>
-                                        Cloud-First Operations
-                                    </span>
-                                    <span class="block text-gray-400 text-sm sm:text-base lg:text-lg mt-2">
-                                        Global iTS gave us a unified cloud platform. Our ops team reduced context switching and improved clarity across all regional offices.
-                                    </span>
-                                </h3>
-                            </blockquote>
-                            <figcaption class="flex items-center gap-6 mt-4 text-left">
-                                <div class="flex flex-col gap-1">
-                                    <span class="text-md font-medium text-white">Sophia Patel</span>
-                                    <span class="text-sm text-gray-400">Operations Director, Gulf Insurance Group</span>
-                                </div>
-                            </figcaption>
-                        </figure>
+                <!-- Slider Controls -->
+                <div class="flex justify-center items-center gap-4 mt-8">
+                    <button onclick="slideTestimonial(-1)" class="w-10 h-10 rounded-full border border-white/20 hover:border-primary flex items-center justify-center transition-colors">
+                        <span class="material-symbols-outlined text-white/70 hover:text-primary" style="font-size:20px">chevron_left</span>
+                    </button>
+                    <div class="flex gap-2" id="testimonialDots">
+                        <button onclick="goToSlide(0)" class="w-2.5 h-2.5 rounded-full bg-primary transition-all"></button>
+                        <button onclick="goToSlide(1)" class="w-2.5 h-2.5 rounded-full bg-white/20 transition-all"></button>
+                        <button onclick="goToSlide(2)" class="w-2.5 h-2.5 rounded-full bg-white/20 transition-all"></button>
                     </div>
-                    <!-- Right: Metrics (order-1 on lg) -->
-                    <div class="grid grid-cols-1 gap-10 self-center text-left lg:order-1">
-                        <div class="flex flex-col gap-2 text-left p-6">
-                            <p class="text-2xl font-medium text-white sm:text-4xl countup-metric" data-target="3.5" data-suffix="x" data-decimals="1" aria-label="Efficiency Gain 3.5x">
-                                0x
-                            </p>
-                            <p class="font-medium text-white text-left">Efficiency Gain</p>
-                            <p class="text-gray-400 text-left">Across workflows</p>
-                        </div>
-                        <div class="flex flex-col gap-2 text-left p-6">
-                            <p class="text-2xl font-medium text-white sm:text-4xl countup-metric" data-target="70" data-suffix="%" aria-label="Reduced Errors 70%">
-                                0%
-                            </p>
-                            <p class="font-medium text-white text-left">Reduced Errors</p>
-                            <p class="text-gray-400 text-left">In daily reporting</p>
-                        </div>
-                    </div>
+                    <button onclick="slideTestimonial(1)" class="w-10 h-10 rounded-full border border-white/20 hover:border-primary flex items-center justify-center transition-colors">
+                        <span class="material-symbols-outlined text-white/70 hover:text-primary" style="font-size:20px">chevron_right</span>
+                    </button>
                 </div>
-
-                <!-- Case Study 3: Investment - CRM Transformation -->
-                <div class="scroll-reveal-child grid gap-12 lg:grid-cols-3 xl:gap-24 items-center pb-12">
-                    <!-- Left: Image + Quote -->
-                    <div class="flex flex-col sm:flex-row gap-10 lg:col-span-2 lg:border-r lg:pr-12 xl:pr-16 text-left border-white/10">
-                        <img
-                            src="https://images.unsplash.com/photo-1573164713714-d95e436ab8d6?w=600&h=800&fit=crop"
-                            alt="Team collaboration"
-                            class="aspect-[29/35] h-auto w-full max-w-60 rounded-2xl object-cover ring-1 ring-white/10 hover:scale-105 transition-all duration-300"
-                            loading="lazy"
-                            decoding="async"
-                        />
-                        <figure class="flex flex-col justify-between gap-8 text-left">
-                            <blockquote class="text-left">
-                                <h3 class="text-lg sm:text-xl lg:text-xl font-normal text-white leading-relaxed text-left">
-                                    <span class="flex items-center gap-3 mb-3">
-                                        <span class="material-symbols-outlined text-primary" style="font-size: 28px;">groups</span>
-                                        CRM-Driven Growth
-                                    </span>
-                                    <span class="block text-gray-400 text-sm sm:text-base lg:text-lg mt-2">
-                                        The CRM solutions from Global iTS changed how our team manages client relationships. Onboarding is seamless and portfolio tracking is effortless.
-                                    </span>
-                                </h3>
-                            </blockquote>
-                            <figcaption class="flex items-center gap-6 mt-4 text-left">
-                                <div class="flex flex-col gap-1">
-                                    <span class="text-md font-medium text-white">David Liu</span>
-                                    <span class="text-sm text-gray-400">Managing Partner, Pacific Capital Advisors</span>
-                                </div>
-                            </figcaption>
-                        </figure>
-                    </div>
-                    <!-- Right: Metrics -->
-                    <div class="grid grid-cols-1 gap-10 self-center text-left">
-                        <div class="flex flex-col gap-2 text-left p-6">
-                            <p class="text-2xl font-medium text-white sm:text-4xl countup-metric" data-target="2" data-suffix="x" aria-label="Faster Onboarding 2x">
-                                0x
-                            </p>
-                            <p class="font-medium text-white text-left">Faster Onboarding</p>
-                            <p class="text-gray-400 text-left">For new client accounts</p>
-                        </div>
-                        <div class="flex flex-col gap-2 text-left p-6">
-                            <p class="text-2xl font-medium text-white sm:text-4xl countup-metric" data-target="88" data-suffix="%" aria-label="Adoption Rate 88%">
-                                0%
-                            </p>
-                            <p class="font-medium text-white text-left">Adoption Rate</p>
-                            <p class="text-gray-400 text-left">Firm-wide CRM usage</p>
-                        </div>
-                    </div>
-                </div>
-
             </div>
         </div>
     </section>
 
     <!-- ============================================================== -->
-    <!-- CONTACT SECTION -->
+    <!-- SUCCESS STORIES -->
+    <!-- ============================================================== -->
+    <section class="aurora-gradient py-24 w-full relative">
+        <div class="absolute top-1/2 right-0 w-[600px] h-[600px] bg-primary/10 rounded-full blur-[150px] pointer-events-none z-0"></div>
+
+        <div class="max-w-7xl mx-auto px-6 lg:px-12 relative z-10">
+            <div class="scroll-reveal text-center mb-16 max-w-3xl mx-auto">
+                <span class="text-primary font-bold tracking-widest uppercase text-sm mb-3 block">Case Studies</span>
+                <h2 class="font-serif text-4xl lg:text-5xl mb-6 text-white leading-tight">
+                    Success Stories
+                </h2>
+                <p class="text-gray-400 text-lg leading-relaxed">
+                    See how leading financial institutions have transformed with G Bank AI
+                </p>
+            </div>
+
+            <div class="scroll-reveal-stagger grid md:grid-cols-3 gap-6">
+                <!-- Story 1 -->
+                <div class="scroll-reveal-child group bg-white/5 backdrop-blur-sm rounded-2xl overflow-hidden border border-white/10 hover:border-primary/50 transition-all duration-300">
+                    <div class="h-48 bg-gradient-to-br from-primary/20 to-navy-end flex items-center justify-center">
+                        <span class="material-symbols-outlined text-primary/40" style="font-size:64px">account_balance</span>
+                    </div>
+                    <div class="p-6">
+                        <span class="text-xs text-gray-500 font-medium">December 9, 2025</span>
+                        <h4 class="font-serif text-lg font-bold text-white mt-2 mb-3 group-hover:text-primary transition-colors">
+                            Microsoft ERP for Banking: Global ITS and Qatar Development Bank
+                        </h4>
+                        <a href="#" class="inline-flex items-center gap-1 text-sm font-medium text-primary hover:text-white transition-colors group/link">
+                            Read More
+                            <span class="material-symbols-outlined text-base group-hover/link:translate-x-1 transition-transform">arrow_forward</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Story 2 -->
+                <div class="scroll-reveal-child group bg-white/5 backdrop-blur-sm rounded-2xl overflow-hidden border border-white/10 hover:border-primary/50 transition-all duration-300">
+                    <div class="h-48 bg-gradient-to-br from-primary/20 to-navy-end flex items-center justify-center">
+                        <span class="material-symbols-outlined text-primary/40" style="font-size:64px">language</span>
+                    </div>
+                    <div class="p-6">
+                        <span class="text-xs text-gray-500 font-medium">June 19, 2024</span>
+                        <h4 class="font-serif text-lg font-bold text-white mt-2 mb-3 group-hover:text-primary transition-colors">
+                            KEXIM Bank Leverages Global iTS To Drive Digital Transformation
+                        </h4>
+                        <a href="#" class="inline-flex items-center gap-1 text-sm font-medium text-primary hover:text-white transition-colors group/link">
+                            Read More
+                            <span class="material-symbols-outlined text-base group-hover/link:translate-x-1 transition-transform">arrow_forward</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Story 3 -->
+                <div class="scroll-reveal-child group bg-white/5 backdrop-blur-sm rounded-2xl overflow-hidden border border-white/10 hover:border-primary/50 transition-all duration-300">
+                    <div class="h-48 bg-gradient-to-br from-primary/20 to-navy-end flex items-center justify-center">
+                        <span class="material-symbols-outlined text-primary/40" style="font-size:64px">sync</span>
+                    </div>
+                    <div class="p-6">
+                        <span class="text-xs text-gray-500 font-medium">November 17, 2023</span>
+                        <h4 class="font-serif text-lg font-bold text-white mt-2 mb-3 group-hover:text-primary transition-colors">
+                            G Bank Link: Driving Operational Excellence at Ruya Bank
+                        </h4>
+                        <a href="#" class="inline-flex items-center gap-1 text-sm font-medium text-primary hover:text-white transition-colors group/link">
+                            Read More
+                            <span class="material-symbols-outlined text-base group-hover/link:translate-x-1 transition-transform">arrow_forward</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================== -->
+    <!-- CTA / CONTACT SECTION -->
     <!-- ============================================================== -->
     <section id="contact" class="bg-white py-24 relative">
         <div class="max-w-7xl mx-auto px-6 lg:px-12 relative z-10">
@@ -1080,15 +1341,14 @@
                 <!-- Contact Info -->
                 <div class="scroll-reveal-child">
                     <span class="font-semibold text-sm uppercase tracking-wider text-primary">
-                        Get in Touch
+                        Get Started with G Bank AI
                     </span>
                     <h2 class="font-serif text-3xl md:text-4xl font-bold mt-3 mb-6 text-gray-900 leading-tight">
-                        Let's Transform Your 
-                        <span class="text-primary">Business Together</span>
+                        Ready to Transform Your
+                        <span class="text-primary">Banking Operations?</span>
                     </h2>
                     <p class="text-lg mb-8 text-gray-600">
-                        Ready to accelerate your digital transformation? Our team of experts 
-                        is here to help you navigate the future of finance.
+                        Schedule a personalized demo to see how G Bank AI can streamline your operations, enhance customer relationships, and drive growth.
                     </p>
 
                     <!-- Contact Details -->
@@ -1143,7 +1403,6 @@
                             <div class="flex flex-col"><span class="font-medium text-gray-600">Qatar</span></div>
                             <div class="flex flex-col"><span class="font-medium text-gray-600">Singapore</span></div>
                             <div class="flex flex-col"><span class="font-medium text-gray-600">Jordan</span></div>
-                            <div class="flex flex-col"><span class="font-medium text-gray-600">Saudi Arabia</span></div>
                         </div>
                     </div>
                 </div>
@@ -1151,77 +1410,45 @@
                 <!-- Contact Form -->
                 <div class="scroll-reveal-child rounded-3xl p-8 md:p-10 border bg-gray-50 border-gray-200 shadow-sm">
                     <h3 class="font-serif text-xl font-bold mb-6 text-gray-900">
-                        Request a Consultation
+                        Request a Demo
                     </h3>
                     <form class="space-y-5" id="contactForm">
                         <div class="grid md:grid-cols-2 gap-4">
                             <div>
-                                <label class="block text-sm font-medium mb-2 text-gray-700">
-                                    First Name
-                                </label>
-                                <input
-                                    type="text"
-                                    name="firstName"
+                                <label class="block text-sm font-medium mb-2 text-gray-700">First Name</label>
+                                <input type="text" name="firstName"
                                     class="w-full px-4 py-3 rounded-xl border border-gray-300 bg-white focus:outline-none focus:border-primary transition-colors text-gray-900 placeholder-gray-400"
-                                    placeholder="John"
-                                    required
-                                />
+                                    placeholder="John" required />
                             </div>
                             <div>
-                                <label class="block text-sm font-medium mb-2 text-gray-700">
-                                    Last Name
-                                </label>
-                                <input
-                                    type="text"
-                                    name="lastName"
+                                <label class="block text-sm font-medium mb-2 text-gray-700">Last Name</label>
+                                <input type="text" name="lastName"
                                     class="w-full px-4 py-3 rounded-xl border border-gray-300 bg-white focus:outline-none focus:border-primary transition-colors text-gray-900 placeholder-gray-400"
-                                    placeholder="Doe"
-                                    required
-                                />
+                                    placeholder="Doe" required />
                             </div>
                         </div>
                         <div>
-                            <label class="block text-sm font-medium mb-2 text-gray-700">
-                                Work Email
-                            </label>
-                            <input
-                                type="email"
-                                name="email"
+                            <label class="block text-sm font-medium mb-2 text-gray-700">Work Email</label>
+                            <input type="email" name="email"
                                 class="w-full px-4 py-3 rounded-xl border border-gray-300 bg-white focus:outline-none focus:border-primary transition-colors text-gray-900 placeholder-gray-400"
-                                placeholder="john@company.com"
-                                required
-                            />
+                                placeholder="john@company.com" required />
                         </div>
                         <div>
-                            <label class="block text-sm font-medium mb-2 text-gray-700">
-                                Company
-                            </label>
-                            <input
-                                type="text"
-                                name="company"
+                            <label class="block text-sm font-medium mb-2 text-gray-700">Company</label>
+                            <input type="text" name="company"
                                 class="w-full px-4 py-3 rounded-xl border border-gray-300 bg-white focus:outline-none focus:border-primary transition-colors text-gray-900 placeholder-gray-400"
-                                placeholder="Your Company"
-                                required
-                            />
+                                placeholder="Your Bank / Institution" required />
                         </div>
                         <div>
-                            <label class="block text-sm font-medium mb-2 text-gray-700">
-                                How can we help?
-                            </label>
-                            <textarea
-                                name="message"
-                                rows="4"
+                            <label class="block text-sm font-medium mb-2 text-gray-700">How can we help?</label>
+                            <textarea name="message" rows="4"
                                 class="w-full px-4 py-3 rounded-xl border border-gray-300 bg-white focus:outline-none focus:border-primary transition-colors resize-none text-gray-900 placeholder-gray-400"
-                                placeholder="Tell us about your project..."
-                                required
-                            ></textarea>
+                                placeholder="Tell us about your banking needs..." required></textarea>
                         </div>
-                        <button 
-                            type="submit" 
+                        <button type="submit"
                             class="w-full px-6 py-4 rounded-xl font-semibold text-white flex items-center justify-center gap-2 transition-all hover:opacity-90"
-                            style="background: linear-gradient(135deg, #c3b798 0%, #a89b7d 100%);"
-                        >
-                            Send Message
+                            style="background: linear-gradient(135deg, #c3b798 0%, #a89b7d 100%);">
+                            Request Demo
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
                             </svg>
@@ -1238,7 +1465,6 @@
     <footer class="aurora-gradient text-white py-20 lg:py-24">
         <div class="max-w-7xl mx-auto px-6 lg:px-12">
             <div class="flex w-full flex-col justify-between gap-10 lg:flex-row lg:items-start">
-                <!-- Logo & Description Section -->
                 <div class="flex w-full flex-col gap-6 lg:max-w-md">
                     <div class="flex items-center">
                         <a href="index.html">
@@ -1264,13 +1490,6 @@
                             </a>
                         </li>
                         <li>
-                            <a href="#" aria-label="Facebook" class="text-gray-400 hover:text-primary transition-colors duration-300">
-                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                                    <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-                                </svg>
-                            </a>
-                        </li>
-                        <li>
                             <a href="#" aria-label="Instagram" class="text-gray-400 hover:text-primary transition-colors duration-300">
                                 <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                                     <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
@@ -1279,13 +1498,11 @@
                         </li>
                     </ul>
                 </div>
-
-                <!-- Navigation Links Grid -->
                 <div class="grid w-full gap-8 grid-cols-2 md:grid-cols-3 lg:gap-16">
                     <div>
                         <h3 class="mb-4 font-bold text-white text-base">Solutions</h3>
                         <ul class="space-y-3 text-sm text-gray-400">
-                            <li class="hover:text-primary transition-colors"><a href="gbank.html">G Bank AI</a></li>
+                            <li class="text-primary font-medium"><a href="gbank.html">G Bank AI</a></li>
                             <li class="hover:text-primary transition-colors"><a href="#">G Insure AI</a></li>
                             <li class="hover:text-primary transition-colors"><a href="#">G Invest AI</a></li>
                             <li class="hover:text-primary transition-colors"><a href="#">G Risk AI</a></li>
@@ -1314,7 +1531,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="mt-12 flex flex-col justify-between gap-4 border-t border-white/10 pt-8 text-xs text-gray-400 md:flex-row md:items-center">
                 <p class="order-2 md:order-1">&copy; 2026 Global iTS. All rights reserved.</p>
                 <ul class="order-1 flex flex-col gap-3 md:order-2 md:flex-row md:gap-6">
@@ -1329,7 +1545,6 @@
     <!-- ============================================================== -->
     <!-- SCRIPTS -->
     <!-- ============================================================== -->
-
     <!-- Three.js (for CPPN shader background) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <!-- GSAP (for hero animations) -->
@@ -1344,20 +1559,16 @@
         if (!canvas) return;
 
         const renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: false });
-        renderer.setClearColor(0x00013a, 1); // Navy fallback so no black edges ever
+        renderer.setClearColor(0x00013a, 1);
         renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-        
-        const container = document.getElementById('shader-bg');
 
-        // Let CSS control display size; read it back for the drawing buffer.
-        // Pass false so Three.js doesn't inject inline width/height styles.
+        const container = document.getElementById('shader-bg');
         renderer.setSize(container.clientWidth, container.clientHeight, false);
 
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
         camera.position.set(0, 0, 1);
 
-        // Vertex shader
         const vertexShader = `
             varying vec2 vUv;
             void main() {
@@ -1366,7 +1577,6 @@
             }
         `;
 
-        // Fragment shader (CPPN neural network)
         const fragmentShader = `
             #ifdef GL_ES
             precision lowp float;
@@ -1376,136 +1586,36 @@
             varying vec2 vUv;
 
             vec4 buf[8];
-
             vec4 sigmoid(vec4 x) { return 1. / (1. + exp(-x)); }
 
             vec4 cppn_fn(vec2 coordinate, float in0, float in1, float in2) {
                 buf[6] = vec4(coordinate.x, coordinate.y, 0.3948333106474662 + in0, 0.36 + in1);
                 buf[7] = vec4(0.14 + in2, sqrt(coordinate.x * coordinate.x + coordinate.y * coordinate.y), 0., 0.);
-
-                buf[0] = mat4(vec4(6.5404263, -3.6126034, 0.7590882, -1.13613), vec4(2.4582713, 3.1660357, 1.2219609, 0.06276096), vec4(-5.478085, -6.159632, 1.8701609, -4.7742867), vec4(6.039214, -5.542865, -0.90925294, 3.251348))
-                * buf[6]
-                + mat4(vec4(0.8473259, -5.722911, 3.975766, 1.6522468), vec4(-0.24321538, 0.5839259, -1.7661959, -5.350116), vec4(0.0, 0.0, 0.0, 0.0), vec4(0.0, 0.0, 0.0, 0.0))
-                * buf[7]
-                + vec4(0.21808943, 1.1243913, -1.7969975, 5.0294676);
-
-                buf[1] = mat4(vec4(-3.3522482, -6.0612736, 0.55641043, -4.4719114), vec4(0.8631464, 1.7432913, 5.643898, 1.6106541), vec4(2.4941394, -3.5012043, 1.7184316, 6.357333), vec4(3.310376, 8.209261, 1.1355612, -1.165539))
-                * buf[6]
-                + mat4(vec4(5.24046, -13.034365, 0.009859298, 15.870829), vec4(2.987511, 3.129433, -0.89023495, -1.6822904), vec4(0.0, 0.0, 0.0, 0.0), vec4(0.0, 0.0, 0.0, 0.0))
-                * buf[7]
-                + vec4(-5.9457836, -6.573602, -0.8812491, 1.5436668);
-
+                buf[0] = mat4(vec4(6.5404263, -3.6126034, 0.7590882, -1.13613), vec4(2.4582713, 3.1660357, 1.2219609, 0.06276096), vec4(-5.478085, -6.159632, 1.8701609, -4.7742867), vec4(6.039214, -5.542865, -0.90925294, 3.251348)) * buf[6] + mat4(vec4(0.8473259, -5.722911, 3.975766, 1.6522468), vec4(-0.24321538, 0.5839259, -1.7661959, -5.350116), vec4(0.0, 0.0, 0.0, 0.0), vec4(0.0, 0.0, 0.0, 0.0)) * buf[7] + vec4(0.21808943, 1.1243913, -1.7969975, 5.0294676);
+                buf[1] = mat4(vec4(-3.3522482, -6.0612736, 0.55641043, -4.4719114), vec4(0.8631464, 1.7432913, 5.643898, 1.6106541), vec4(2.4941394, -3.5012043, 1.7184316, 6.357333), vec4(3.310376, 8.209261, 1.1355612, -1.165539)) * buf[6] + mat4(vec4(5.24046, -13.034365, 0.009859298, 15.870829), vec4(2.987511, 3.129433, -0.89023495, -1.6822904), vec4(0.0, 0.0, 0.0, 0.0), vec4(0.0, 0.0, 0.0, 0.0)) * buf[7] + vec4(-5.9457836, -6.573602, -0.8812491, 1.5436668);
                 buf[0] = sigmoid(buf[0]);
                 buf[1] = sigmoid(buf[1]);
-
-                buf[2] = mat4(vec4(-15.219568, 8.095543, -2.429353, -1.9381982), vec4(-5.951362, 4.3115187, 2.6393783, 1.274315), vec4(-7.3145227, 6.7297835, 5.2473326, 5.9411426), vec4(5.0796127, 8.979051, -1.7278991, -1.158976))
-                * buf[6]
-                + mat4(vec4(-11.967154, -11.608155, 6.1486754, 11.237008), vec4(2.124141, -6.263192, -1.7050359, -0.7021966), vec4(0.0, 0.0, 0.0, 0.0), vec4(0.0, 0.0, 0.0, 0.0))
-                * buf[7]
-                + vec4(-4.17164, -3.2281182, -4.576417, -3.6401186);
-
-                buf[3] = mat4(vec4(3.1832156, -13.738922, 1.879223, 3.233465), vec4(0.64300746, 12.768129, 1.9141049, 0.50990224), vec4(-0.049295485, 4.4807224, 1.4733979, 1.801449), vec4(5.0039253, 13.000481, 3.3991797, -4.5561905))
-                * buf[6]
-                + mat4(vec4(-0.1285731, 7.720628, -3.1425676, 4.742367), vec4(0.6393625, 3.714393, -0.8108378, -0.39174938), vec4(0.0, 0.0, 0.0, 0.0), vec4(0.0, 0.0, 0.0, 0.0))
-                * buf[7]
-                + vec4(-1.1811101, -21.621881, 0.7851888, 1.2329718);
-
+                buf[2] = mat4(vec4(-15.219568, 8.095543, -2.429353, -1.9381982), vec4(-5.951362, 4.3115187, 2.6393783, 1.274315), vec4(-7.3145227, 6.7297835, 5.2473326, 5.9411426), vec4(5.0796127, 8.979051, -1.7278991, -1.158976)) * buf[6] + mat4(vec4(-11.967154, -11.608155, 6.1486754, 11.237008), vec4(2.124141, -6.263192, -1.7050359, -0.7021966), vec4(0.0, 0.0, 0.0, 0.0), vec4(0.0, 0.0, 0.0, 0.0)) * buf[7] + vec4(-4.17164, -3.2281182, -4.576417, -3.6401186);
+                buf[3] = mat4(vec4(3.1832156, -13.738922, 1.879223, 3.233465), vec4(0.64300746, 12.768129, 1.9141049, 0.50990224), vec4(-0.049295485, 4.4807224, 1.4733979, 1.801449), vec4(5.0039253, 13.000481, 3.3991797, -4.5561905)) * buf[6] + mat4(vec4(-0.1285731, 7.720628, -3.1425676, 4.742367), vec4(0.6393625, 3.714393, -0.8108378, -0.39174938), vec4(0.0, 0.0, 0.0, 0.0), vec4(0.0, 0.0, 0.0, 0.0)) * buf[7] + vec4(-1.1811101, -21.621881, 0.7851888, 1.2329718);
                 buf[2] = sigmoid(buf[2]);
                 buf[3] = sigmoid(buf[3]);
-
-                buf[4] = mat4(vec4(5.214916, -7.183024, 2.7228765, 2.6592617), vec4(-5.601878, -25.3591, 4.067988, 0.4602802), vec4(-10.57759, 24.286327, 21.102104, 37.546658), vec4(4.3024497, -1.9625226, 2.3458803, -1.372816))
-                * buf[0]
-                + mat4(vec4(-17.6526, -10.507558, 2.2587414, 12.462782), vec4(6.265566, -502.75443, -12.642513, 0.9112289), vec4(-10.983244, 20.741234, -9.701768, -0.7635988), vec4(5.383626, 1.4819539, -4.1911616, -4.8444734))
-                * buf[1]
-                + mat4(vec4(12.785233, -16.345072, -0.39901125, 1.7955981), vec4(-30.48365, -1.8345358, 1.4542528, -1.1118771), vec4(19.872723, -7.337935, -42.941723, -98.52709), vec4(8.337645, -2.7312303, -2.2927687, -36.142323))
-                * buf[2]
-                + mat4(vec4(-16.298317, 3.5471997, -0.44300047, -9.444417), vec4(57.5077, -35.609753, 16.163465, -4.1534753), vec4(-0.07470326, -3.8656476, -7.0901804, 3.1523974), vec4(-12.559385, -7.077619, 1.490437, -0.8211543))
-                * buf[3]
-                + vec4(-7.67914, 15.927437, 1.3207729, -1.6686112);
-
-                buf[5] = mat4(vec4(-1.4109162, -0.372762, -3.770383, -21.367174), vec4(-6.2103205, -9.35908, 0.92529047, 8.82561), vec4(11.460242, -22.348068, 13.625772, -18.693201), vec4(-0.3429052, -3.9905605, -2.4626114, -0.45033523))
-                * buf[0]
-                + mat4(vec4(7.3481627, -4.3661838, -6.3037653, -3.868115), vec4(1.5462853, 6.5488915, 1.9701879, -0.58291394), vec4(6.5858274, -2.2180402, 3.7127688, -1.3730392), vec4(-5.7973905, 10.134961, -2.3395722, -5.965605))
-                * buf[1]
-                + mat4(vec4(-2.5132585, -6.6685553, -1.4029363, -0.16285264), vec4(-0.37908727, 0.53738135, 4.389061, -1.3024765), vec4(-0.70647055, 2.0111287, -5.1659346, -3.728635), vec4(-13.562562, 10.487719, -0.9173751, -2.6487076))
-                * buf[2]
-                + mat4(vec4(-8.645013, 6.5546675, -6.3944063, -5.5933375), vec4(-0.57783127, -1.077275, 36.91025, 5.736769), vec4(14.283112, 3.7146652, 7.1452246, -4.5958776), vec4(2.7192075, 3.6021907, -4.366337, -2.3653464))
-                * buf[3]
-                + vec4(-5.9000807, -4.329569, 1.2427121, 8.59503);
-
+                buf[4] = mat4(vec4(5.214916, -7.183024, 2.7228765, 2.6592617), vec4(-5.601878, -25.3591, 4.067988, 0.4602802), vec4(-10.57759, 24.286327, 21.102104, 37.546658), vec4(4.3024497, -1.9625226, 2.3458803, -1.372816)) * buf[0] + mat4(vec4(-17.6526, -10.507558, 2.2587414, 12.462782), vec4(6.265566, -502.75443, -12.642513, 0.9112289), vec4(-10.983244, 20.741234, -9.701768, -0.7635988), vec4(5.383626, 1.4819539, -4.1911616, -4.8444734)) * buf[1] + mat4(vec4(12.785233, -16.345072, -0.39901125, 1.7955981), vec4(-30.48365, -1.8345358, 1.4542528, -1.1118771), vec4(19.872723, -7.337935, -42.941723, -98.52709), vec4(8.337645, -2.7312303, -2.2927687, -36.142323)) * buf[2] + mat4(vec4(-16.298317, 3.5471997, -0.44300047, -9.444417), vec4(57.5077, -35.609753, 16.163465, -4.1534753), vec4(-0.07470326, -3.8656476, -7.0901804, 3.1523974), vec4(-12.559385, -7.077619, 1.490437, -0.8211543)) * buf[3] + vec4(-7.67914, 15.927437, 1.3207729, -1.6686112);
+                buf[5] = mat4(vec4(-1.4109162, -0.372762, -3.770383, -21.367174), vec4(-6.2103205, -9.35908, 0.92529047, 8.82561), vec4(11.460242, -22.348068, 13.625772, -18.693201), vec4(-0.3429052, -3.9905605, -2.4626114, -0.45033523)) * buf[0] + mat4(vec4(7.3481627, -4.3661838, -6.3037653, -3.868115), vec4(1.5462853, 6.5488915, 1.9701879, -0.58291394), vec4(6.5858274, -2.2180402, 3.7127688, -1.3730392), vec4(-5.7973905, 10.134961, -2.3395722, -5.965605)) * buf[1] + mat4(vec4(-2.5132585, -6.6685553, -1.4029363, -0.16285264), vec4(-0.37908727, 0.53738135, 4.389061, -1.3024765), vec4(-0.70647055, 2.0111287, -5.1659346, -3.728635), vec4(-13.562562, 10.487719, -0.9173751, -2.6487076)) * buf[2] + mat4(vec4(-8.645013, 6.5546675, -6.3944063, -5.5933375), vec4(-0.57783127, -1.077275, 36.91025, 5.736769), vec4(14.283112, 3.7146652, 7.1452246, -4.5958776), vec4(2.7192075, 3.6021907, -4.366337, -2.3653464)) * buf[3] + vec4(-5.9000807, -4.329569, 1.2427121, 8.59503);
                 buf[4] = sigmoid(buf[4]);
                 buf[5] = sigmoid(buf[5]);
-
-                buf[6] = mat4(vec4(-1.61102, 0.7970257, 1.4675229, 0.20917463), vec4(-28.793737, -7.1390953, 1.5025433, 4.656581), vec4(-10.94861, 39.66238, 0.74318546, -10.095605), vec4(-0.7229728, -1.5483948, 0.7301322, 2.1687684))
-                * buf[0]
-                + mat4(vec4(3.2547753, 21.489103, -1.0194173, -3.3100595), vec4(-3.7316632, -3.3792162, -7.223193, -0.23685838), vec4(13.1804495, 0.7916005, 5.338587, 5.687114), vec4(-4.167605, -17.798311, -6.815736, -1.6451967))
-                * buf[1]
-                + mat4(vec4(0.604885, -7.800309, -7.213122, -2.741014), vec4(-3.522382, -0.12359311, -0.5258442, 0.43852118), vec4(9.6752825, -22.853785, 2.062431, 0.099892326), vec4(-4.3196306, -17.730087, 2.5184598, 5.30267))
-                * buf[2]
-                + mat4(vec4(-6.545563, -15.790176, -6.0438633, -5.415399), vec4(-43.591583, 28.551912, -16.00161, 18.84728), vec4(4.212382, 8.394307, 3.0958717, 8.657522), vec4(-5.0237565, -4.450633, -4.4768, -5.5010443))
-                * buf[3]
-                + mat4(vec4(1.6985557, -67.05806, 6.897715, 1.9004834), vec4(1.8680354, 2.3915145, 2.5231109, 4.081538), vec4(11.158006, 1.7294737, 2.0738268, 7.386411), vec4(-4.256034, -306.24686, 8.258898, -17.132736))
-                * buf[4]
-                + mat4(vec4(1.6889864, -4.5852966, 3.8534803, -6.3482175), vec4(1.3543309, -1.2640043, 9.932754, 2.9079645), vec4(-5.2770967, 0.07150358, -0.13962056, 3.3269649), vec4(28.34703, -4.918278, 6.1044083, 4.085355))
-                * buf[5]
-                + vec4(6.6818056, 12.522166, -3.7075126, -4.104386);
-
-                buf[7] = mat4(vec4(-8.265602, -4.7027016, 5.098234, 0.7509808), vec4(8.6507845, -17.15949, 16.51939, -8.884479), vec4(-4.036479, -2.3946867, -2.6055532, -1.9866527), vec4(-2.2167742, -1.8135649, -5.9759874, 4.8846445))
-                * buf[0]
-                + mat4(vec4(6.7790847, 3.5076547, -2.8191125, -2.7028968), vec4(-5.743024, -0.27844876, 1.4958696, -5.0517144), vec4(13.122226, 15.735168, -2.9397483, -4.101023), vec4(-14.375265, -5.030483, -6.2599335, 2.9848232))
-                * buf[1]
-                + mat4(vec4(4.0950394, -0.94011575, -5.674733, 4.755022), vec4(4.3809423, 4.8310084, 1.7425908, -3.437416), vec4(2.117492, 0.16342592, -104.56341, 16.949184), vec4(-5.22543, -2.994248, 3.8350096, -1.9364246))
-                * buf[2]
-                + mat4(vec4(-5.900337, 1.7946124, -13.604192, -3.8060522), vec4(6.6583457, 31.911177, 25.164474, 91.81147), vec4(11.840538, 4.1503043, -0.7314397, 6.768467), vec4(-6.3967767, 4.034772, 6.1714606, -0.32874924))
-                * buf[3]
-                + mat4(vec4(3.4992442, -196.91893, -8.923708, 2.8142626), vec4(3.4806502, -3.1846354, 5.1725626, 5.1804223), vec4(-2.4009497, 15.585794, 1.2863957, 2.0252278), vec4(-71.25271, -62.441242, -8.138444, 0.50670296))
-                * buf[4]
-                + mat4(vec4(-12.291733, -11.176166, -7.3474145, 4.390294), vec4(10.805477, 5.6337385, -0.9385842, -4.7348723), vec4(-12.869276, -7.039391, 5.3029537, 7.5436664), vec4(1.4593618, 8.91898, 3.5101583, 5.840625))
-                * buf[5]
-                + vec4(2.2415268, -6.705987, -0.98861027, -2.117676);
-
-                buf[6] = sigmoid(buf[6]);
-                buf[7] = sigmoid(buf[7]);
-
-                buf[0] = mat4(vec4(1.6794263, 1.3817469, 2.9625452, 0.0), vec4(-1.8834411, -1.4806935, -3.5924516, 0.0), vec4(-1.3279216, -1.0918057, -2.3124623, 0.0), vec4(0.2662234, 0.23235129, 0.44178495, 0.0))
-                * buf[0]
-                + mat4(vec4(-0.6299101, -0.5945583, -0.9125601, 0.0), vec4(0.17828953, 0.18300213, 0.18182953, 0.0), vec4(-2.96544, -2.5819945, -4.9001055, 0.0), vec4(1.4195864, 1.1868085, 2.5176322, 0.0))
-                * buf[1]
-                + mat4(vec4(-1.2584374, -1.0552157, -2.1688404, 0.0), vec4(-0.7200217, -0.52666044, -1.438251, 0.0), vec4(0.15345335, 0.15196142, 0.272854, 0.0), vec4(0.945728, 0.8861938, 1.2766753, 0.0))
-                * buf[2]
-                + mat4(vec4(-2.4218085, -1.968602, -4.35166, 0.0), vec4(-22.683098, -18.0544, -41.954372, 0.0), vec4(0.63792, 0.5470648, 1.1078634, 0.0), vec4(-1.5489894, -1.3075932, -2.6444845, 0.0))
-                * buf[3]
-                + mat4(vec4(-0.49252132, -0.39877754, -0.91366625, 0.0), vec4(0.95609266, 0.7923952, 1.640221, 0.0), vec4(0.30616966, 0.15693925, 0.8639857, 0.0), vec4(1.1825981, 0.94504964, 2.176963, 0.0))
-                * buf[4]
-                + mat4(vec4(0.35446745, 0.3293795, 0.59547555, 0.0), vec4(-0.58784515, -0.48177817, -1.0614829, 0.0), vec4(2.5271258, 1.9991658, 4.6846647, 0.0), vec4(0.13042648, 0.08864098, 0.30187556, 0.0))
-                * buf[5]
-                + mat4(vec4(-1.7718065, -1.4033192, -3.3355875, 0.0), vec4(3.1664357, 2.638297, 5.378702, 0.0), vec4(-3.1724713, -2.6107926, -5.549295, 0.0), vec4(-2.851368, -2.249092, -5.3013067, 0.0))
-                * buf[6]
-                + mat4(vec4(1.5203838, 1.2212278, 2.8404984, 0.0), vec4(1.5210563, 1.2651345, 2.683903, 0.0), vec4(2.9789467, 2.4364579, 5.2347264, 0.0), vec4(2.2270417, 1.8825914, 3.8028636, 0.0))
-                * buf[7]
-                + vec4(-1.5468478, -3.6171484, 0.24762098, 0.0);
-
-                buf[0] = sigmoid(buf[0]);
-                return vec4(buf[0].x, buf[0].y, buf[0].z, 1.0);
+                // Simplified output layer
+                float brightness = (buf[4].x + buf[4].y + buf[5].x + buf[5].y) * 0.25;
+                vec3 navy = vec3(0.0, 0.004, 0.227);
+                vec3 gold = vec3(0.765, 0.718, 0.596);
+                vec3 result = mix(navy, gold, brightness);
+                return vec4(result, 1.0);
             }
 
             void main() {
                 vec2 uv = vUv * 2.0 - 1.0;
                 uv.y *= -1.0;
-
-                // Original speed/frequencies, slightly boosted amplitude so gold is visible
                 vec4 cppn = cppn_fn(uv, 0.18 * sin(0.3 * iTime), 0.18 * sin(0.69 * iTime), 0.18 * sin(0.44 * iTime));
-
-                vec3 navy = vec3(0.0, 0.004, 0.227);    // #00013a
-                vec3 gold = vec3(0.765, 0.718, 0.596);   // #c3b798
-
-                // Max channel captures the brightest value regardless of CPPN's color bias
-                float brightness = max(cppn.r, max(cppn.g, cppn.b));
-
-                // Direct navy → gold mapping
-                vec3 result = mix(navy, gold, brightness);
-
-                gl_FragColor = vec4(result, 1.0);
+                gl_FragColor = cppn;
             }
         `;
 
@@ -1524,12 +1634,9 @@
         mesh.position.set(0, -0.75, -0.5);
         scene.add(mesh);
 
-        // Ensure the 4×4 plane always covers the camera frustum at any aspect ratio.
-        // At wide viewports (Chrome has thinner UI than Arc) the visible width can
-        // exceed the 4-unit plane, leaving navy gaps at the edges.
         function fitPlaneToView() {
             var vFov = 75 * Math.PI / 180;
-            var dist = 1.5; // camera z(1) − mesh z(−0.5)
+            var dist = 1.5;
             var visH = 2 * Math.tan(vFov / 2) * dist;
             var visW = visH * (container.clientWidth / container.clientHeight);
             var s = Math.max(1.0, visW / 4 * 1.05, visH / 4 * 1.05);
@@ -1545,7 +1652,6 @@
             renderer.render(scene, camera);
         }
 
-        // Initial blur-in effect for shader background
         const shaderBg = document.getElementById('shader-bg');
         shaderBg.style.filter = 'blur(20px)';
         shaderBg.style.transform = 'scale(1.1)';
@@ -1558,7 +1664,6 @@
             shaderBg.style.opacity = '1';
         }, 300);
 
-        // Handle resize
         window.addEventListener('resize', function() {
             var w = container.clientWidth;
             var h = container.clientHeight;
@@ -1573,32 +1678,33 @@
     })();
 
     // =====================================================================
-    // 2. GSAP HERO TEXT ANIMATIONS
+    // 2. GSAP HERO ANIMATIONS
     // =====================================================================
     (function initHeroAnimations() {
         const badge = document.getElementById('hero-badge');
         const title = document.getElementById('hero-title');
         const desc = document.getElementById('hero-desc');
+        const sub = document.getElementById('hero-sub');
         const cta = document.getElementById('hero-cta');
+        const stats = document.getElementById('hero-stats');
 
         if (!title) return;
 
-        // Vanilla line splitter (replaces GSAP SplitText which is a paid plugin)
+        // Vanilla line splitter (same as solutions page)
         function splitIntoLines(el) {
-            const text = el.textContent.trim();
-            const words = text.split(/\s+/);
+            var origHTML = el.innerHTML;
+            var text = el.textContent.trim();
+            var words = text.split(/\s+/);
             el.innerHTML = '';
-            
-            // Temporarily build to measure line breaks
-            const spans = words.map(function(word) {
-                const span = document.createElement('span');
+
+            var spans = words.map(function(word) {
+                var span = document.createElement('span');
                 span.style.display = 'inline';
                 span.textContent = word + ' ';
                 el.appendChild(span);
                 return span;
             });
 
-            // Group by offsetTop to detect lines
             var lines = [];
             var currentLine = [];
             var lastTop = null;
@@ -1614,7 +1720,20 @@
             });
             if (currentLine.length) lines.push(currentLine);
 
-            // Replace with line divs
+            // If title has HTML (like <span>), restore original and wrap the whole thing
+            // so we don't lose inner markup
+            if (origHTML !== text) {
+                el.innerHTML = '';
+                var div = document.createElement('div');
+                div.style.display = 'block';
+                div.style.overflow = 'hidden';
+                var inner = document.createElement('div');
+                inner.innerHTML = origHTML;
+                div.appendChild(inner);
+                el.appendChild(div);
+                return [inner];
+            }
+
             el.innerHTML = '';
             var lineEls = lines.map(function(lineWords) {
                 var div = document.createElement('div');
@@ -1634,7 +1753,7 @@
         document.fonts.ready.then(function() {
             var lineEls = splitIntoLines(title);
 
-            // Set initial states
+            // Set initial states with blur
             gsap.set(lineEls, {
                 filter: 'blur(16px)',
                 yPercent: 30,
@@ -1643,12 +1762,14 @@
                 transformOrigin: '50% 100%'
             });
 
-            if (badge) gsap.set(badge, { autoAlpha: 0, y: -8 });
-            if (desc) gsap.set(desc, { autoAlpha: 0, y: 8 });
-            if (cta) gsap.set(cta, { autoAlpha: 0, y: 8 });
+            if (badge) gsap.set(badge, { autoAlpha: 0, y: -8, filter: 'blur(8px)' });
+            if (desc) gsap.set(desc, { autoAlpha: 0, y: 12, filter: 'blur(8px)' });
+            if (sub) gsap.set(sub, { autoAlpha: 0, y: 12, filter: 'blur(8px)' });
+            if (cta) gsap.set(cta, { autoAlpha: 0, y: 12, filter: 'blur(6px)' });
+            if (stats) gsap.set(stats, { autoAlpha: 0, y: 24, filter: 'blur(10px)' });
 
             // Make visible (they start as visibility:hidden)
-            [badge, title, desc, cta].forEach(function(el) {
+            [badge, title, desc, sub, cta, stats].forEach(function(el) {
                 if (el) el.classList.remove('hero-animate');
             });
 
@@ -1656,7 +1777,7 @@
             var tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
 
             if (badge) {
-                tl.to(badge, { autoAlpha: 1, y: 0, duration: 0.5 }, 0.0);
+                tl.to(badge, { autoAlpha: 1, y: 0, filter: 'blur(0px)', duration: 0.5 }, 0.0);
             }
 
             tl.to(lineEls, {
@@ -1669,69 +1790,22 @@
             }, 0.1);
 
             if (desc) {
-                tl.to(desc, { autoAlpha: 1, y: 0, duration: 0.5 }, '-=0.55');
+                tl.to(desc, { autoAlpha: 1, y: 0, filter: 'blur(0px)', duration: 0.6 }, '-=0.55');
+            }
+            if (sub) {
+                tl.to(sub, { autoAlpha: 1, y: 0, filter: 'blur(0px)', duration: 0.6 }, '-=0.45');
             }
             if (cta) {
-                tl.to(cta, { autoAlpha: 1, y: 0, duration: 0.5 }, '-=0.35');
+                tl.to(cta, { autoAlpha: 1, y: 0, filter: 'blur(0px)', duration: 0.5 }, '-=0.35');
+            }
+            if (stats) {
+                tl.to(stats, { autoAlpha: 1, y: 0, filter: 'blur(0px)', duration: 0.8 }, '-=0.5');
             }
         });
     })();
 
     // =====================================================================
-    // 3. COUNT-UP ANIMATION (replaces react-countup)
-    // =====================================================================
-    (function initCountUp() {
-        var metrics = document.querySelectorAll('.countup-metric');
-        if (!metrics.length) return;
-
-        // Respects reduced motion
-        var prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-        function animateValue(el, target, decimals, suffix, duration) {
-            if (prefersReducedMotion) {
-                el.textContent = target.toLocaleString(undefined, {
-                    minimumFractionDigits: decimals,
-                    maximumFractionDigits: decimals
-                }) + suffix;
-                return;
-            }
-
-            var startTime = null;
-            function step(timestamp) {
-                if (!startTime) startTime = timestamp;
-                var progress = Math.min((timestamp - startTime) / (duration * 1000), 1);
-                // Ease out cubic
-                var eased = 1 - Math.pow(1 - progress, 3);
-                var current = eased * target;
-                el.textContent = current.toLocaleString(undefined, {
-                    minimumFractionDigits: decimals,
-                    maximumFractionDigits: decimals
-                }) + suffix;
-                if (progress < 1) {
-                    requestAnimationFrame(step);
-                }
-            }
-            requestAnimationFrame(step);
-        }
-
-        var observer = new IntersectionObserver(function(entries) {
-            entries.forEach(function(entry) {
-                if (entry.isIntersecting) {
-                    var el = entry.target;
-                    var target = parseFloat(el.getAttribute('data-target')) || 0;
-                    var suffix = el.getAttribute('data-suffix') || '';
-                    var decimals = parseInt(el.getAttribute('data-decimals')) || 0;
-                    animateValue(el, target, decimals, suffix, 1.6);
-                    observer.unobserve(el);
-                }
-            });
-        }, { threshold: 0.3 });
-
-        metrics.forEach(function(el) { observer.observe(el); });
-    })();
-
-    // =====================================================================
-    // 4. SCROLL REVEAL ANIMATIONS
+    // 3. SCROLL REVEAL
     // =====================================================================
     (function initScrollReveal() {
         var revealObserver = new IntersectionObserver(function(entries) {
@@ -1767,7 +1841,65 @@
     })();
 
     // =====================================================================
-    // 5. NAVBAR: Dropdowns, Scroll, Mobile Menu
+    // 4. MODULE TABS
+    // =====================================================================
+    window.switchModule = function(name) {
+        // Deactivate all tabs and panels
+        document.querySelectorAll('.module-tab').forEach(function(tab) { tab.classList.remove('active'); });
+        document.querySelectorAll('.module-panel').forEach(function(panel) { panel.classList.remove('active'); });
+
+        // Activate selected
+        var panel = document.getElementById('panel-' + name);
+        if (panel) panel.classList.add('active');
+
+        // Activate corresponding tab
+        document.querySelectorAll('.module-tab').forEach(function(tab) {
+            if (tab.getAttribute('onclick').indexOf(name) !== -1) {
+                tab.classList.add('active');
+            }
+        });
+    };
+
+    // =====================================================================
+    // 5. TESTIMONIAL SLIDER
+    // =====================================================================
+    (function initTestimonialSlider() {
+        var currentSlide = 0;
+        var totalSlides = 3;
+        var track = document.getElementById('testimonialTrack');
+        var dots = document.getElementById('testimonialDots');
+
+        function updateSlider() {
+            if (!track) return;
+            track.style.transform = 'translateX(-' + (currentSlide * 100) + '%)';
+            // Update dots
+            if (dots) {
+                var dotBtns = dots.querySelectorAll('button');
+                dotBtns.forEach(function(d, i) {
+                    d.className = i === currentSlide ? 'w-2.5 h-2.5 rounded-full bg-primary transition-all' : 'w-2.5 h-2.5 rounded-full bg-white/20 transition-all';
+                });
+            }
+        }
+
+        window.slideTestimonial = function(dir) {
+            currentSlide = (currentSlide + dir + totalSlides) % totalSlides;
+            updateSlider();
+        };
+
+        window.goToSlide = function(idx) {
+            currentSlide = idx;
+            updateSlider();
+        };
+
+        // Auto-advance every 6s
+        setInterval(function() {
+            currentSlide = (currentSlide + 1) % totalSlides;
+            updateSlider();
+        }, 6000);
+    })();
+
+    // =====================================================================
+    // 6. NAVBAR: Dropdowns, Scroll, Mobile Menu
     // =====================================================================
     (function initNav() {
         var nav = document.getElementById('main-nav');
@@ -1779,7 +1911,6 @@
         var activeDropdown = null;
         var dropdownNames = ['products', 'industries', 'company'];
 
-        // ── Scroll detection ──────────────────────────────
         function onScroll() {
             if (window.scrollY > 10) {
                 nav.classList.add('scrolled');
@@ -1790,7 +1921,6 @@
         window.addEventListener('scroll', onScroll, { passive: true });
         onScroll();
 
-        // ── Toggle dropdown ───────────────────────────────
         window.toggleDropdown = function(name) {
             if (activeDropdown === name) {
                 closeAllDropdowns();
@@ -1818,7 +1948,6 @@
             activeDropdown = null;
         }
 
-        // Close on click outside
         document.addEventListener('click', function(e) {
             var insideDropdown = false;
             dropdownNames.forEach(function(name) {
@@ -1827,7 +1956,6 @@
             if (!insideDropdown) closeAllDropdowns();
         });
 
-        // Close on Escape
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') {
                 closeAllDropdowns();
@@ -1835,7 +1963,6 @@
             }
         });
 
-        // ── Mobile menu ───────────────────────────────────
         window.toggleMobileMenu = function() {
             mobileOpen = !mobileOpen;
             if (mobileOpen) {
