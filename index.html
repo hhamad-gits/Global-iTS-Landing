@@ -17,6 +17,7 @@
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
         rel="stylesheet" />
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
@@ -249,6 +250,46 @@
             opacity: 0.7;
         }
 
+        /* ── Hero Shader Canvas ──────────────────────── */
+        #shader-canvas {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            display: block;
+            z-index: 0;
+        }
+
+        /* ── Hero Slider ─────────────────────────────── */
+        .hero-slider-track {
+            display: flex;
+            transition: transform 700ms cubic-bezier(.4,0,.2,1);
+        }
+        .hero-slide {
+            min-width: 100%;
+            flex-shrink: 0;
+        }
+        .slide-indicator-active {
+            width: 2.5rem;
+            height: 2px;
+            background: #c3b798;
+            transition: all 300ms ease;
+        }
+        .slide-indicator-inactive {
+            width: 1.5rem;
+            height: 2px;
+            background: rgba(255,255,255,0.2);
+            transition: all 300ms ease;
+            cursor: pointer;
+        }
+        .slide-indicator-inactive:hover {
+            background: rgba(255,255,255,0.4);
+        }
+        .video-border {
+            border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 0 0 1px rgba(255,255,255,0.05);
+        }
+
         /* ── Nav Dropdown ────────────────────────────── */
         .nav-dropdown-panel {
             opacity: 0;
@@ -313,7 +354,7 @@
     <!-- NAV — Mega-menu with dropdowns -->
     <!-- ============================================================== -->
     <nav id="main-nav"
-        class="fixed top-0 left-0 right-0 z-50 w-full border-b border-transparent backdrop-blur-sm bg-navy-start/50">
+        class="fixed top-0 left-0 right-0 z-50 w-full border-b border-transparent bg-transparent">
         <div class="max-w-7xl mx-auto px-6 lg:px-12 flex items-center justify-between h-16">
             <!-- Logo + Desktop links -->
             <div class="flex items-center gap-8">
@@ -779,76 +820,89 @@
             </div>
         </div>
     </nav>
-    <section
-        class="relative h-screen w-full flex flex-col pt-20 pb-0 overflow-hidden bg-gradient-to-b from-navy-start to-navy-end">
-        <!-- Background Video -->
-        <video 
-            id="heroVideo"
-            autoplay 
-            loop 
-            muted 
-            playsinline 
-            class="absolute inset-0 w-full h-full object-cover z-0"
-            style="pointer-events: none;">
-            <source src="Copy of Locations Video 2025.mp4" type="video/mp4">
-        </video>
-        
-        <!-- Light overlay for text readability -->
-        <div class="absolute inset-0 bg-black/20 z-[1]"></div>
-        
-        <div class="relative z-10 max-w-7xl mx-auto px-6 lg:px-12 flex flex-col items-center w-full h-full justify-between">
-            <!-- Top Content Section -->
-            <div class="flex flex-col items-center w-full pt-2 hero-content-top">
-                <div class="animate-fade-in-up">
-                    <div class="shiny-badge group">
-                        <span class="shiny-text">
-                            <span>✨ Microsoft Inner Circle Partner 2026</span>
-                            <svg class="shiny-arrow" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 15 15" fill="none">
-                                <path d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z" fill="currentColor" fill-rule="evenodd" clip-rule="evenodd"></path>
-                            </svg>
-                        </span>
+    <section id="hero" class="relative min-h-screen w-full flex flex-col overflow-hidden pt-20" style="width:100vw">
+        <!-- Shader Background -->
+        <div id="shader-bg" class="absolute inset-0 w-full h-full bg-navy-start" aria-hidden="true">
+            <canvas id="shader-canvas"></canvas>
+            <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-navy-start/60 via-transparent to-navy-start/30"></div>
+        </div>
+
+        <!-- Slider Content -->
+        <div class="relative z-10 flex flex-col w-full">
+            <!-- Slider Track -->
+            <div class="overflow-hidden">
+                <div class="hero-slider-track" id="heroSliderTrack">
+                    <!-- Slide 1: Video -->
+                    <div class="hero-slide">
+                        <div class="max-w-7xl mx-auto px-6 lg:px-12 grid lg:grid-cols-2 gap-12 lg:gap-20 items-center w-full py-8 lg:py-10">
+                            <!-- Left: Text -->
+                            <div class="flex flex-col items-start text-left">
+                                <div class="shiny-badge group mb-6">
+                                    <span class="shiny-text">
+                                        <span>Microsoft Inner Circle Partner 2026</span>
+                                        <svg class="shiny-arrow" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 15 15" fill="none">
+                                            <path d="M8.14645 3.14645C8.34171 2.95118 8.65829 2.95118 8.85355 3.14645L12.8536 7.14645C13.0488 7.34171 13.0488 7.65829 12.8536 7.85355L8.85355 11.8536C8.65829 12.0488 8.34171 12.0488 8.14645 11.8536C7.95118 11.6583 7.95118 11.3417 8.14645 11.1464L11.2929 8H2.5C2.22386 8 2 7.77614 2 7.5C2 7.22386 2.22386 7 2.5 7H11.2929L8.14645 3.85355C7.95118 3.65829 7.95118 3.34171 8.14645 3.14645Z" fill="currentColor" fill-rule="evenodd" clip-rule="evenodd"></path>
+                                        </svg>
+                                    </span>
+                                </div>
+                                <h1 class="text-4xl md:text-5xl lg:text-[3.5rem] font-bold text-white leading-[1.15] mb-6 tracking-tight">
+                                    Digitizing Businesses Globally
+                                </h1>
+                                <p class="text-lg text-white/80 font-light max-w-lg leading-relaxed mb-10">
+                                    Proven ERP, CRM, and financial management solutions for global banks, insurers, and investment firms — powered by Microsoft Dynamics 365 and AI.
+                                </p>
+                                <a href="#contact" class="flex items-center justify-center gap-2 bg-primary hover:bg-primary-dark text-navy-start font-semibold py-3.5 px-8 rounded-lg text-sm transition-all duration-300">
+                                    Schedule a Demo
+                                    <span class="material-symbols-outlined text-lg">arrow_right_alt</span>
+                                </a>
+                            </div>
+                            <!-- Right: Video -->
+                            <div class="relative w-full aspect-video lg:aspect-[4/3] flex items-center justify-center">
+                                <div class="relative w-full h-full bg-navy-start rounded-xl overflow-hidden video-border group shadow-2xl">
+                                    <video id="heroVideo" autoplay loop muted playsinline class="w-full h-full object-cover opacity-90">
+                                        <source src="Copy of Locations Video 2025.mp4" type="video/mp4">
+                                    </video>
+                                    <div class="absolute inset-0 bg-gradient-to-t from-navy-start/60 via-transparent to-transparent z-10"></div>
+                                    <div class="absolute bottom-6 left-8 right-8 z-20 flex justify-between items-end">
+                                        <div class="space-y-2">
+                                            <p class="text-white text-sm font-medium">Global Locations 2025</p>
+                                            <div class="flex gap-1">
+                                                <div class="h-1 w-16 bg-primary rounded-full"></div>
+                                                <div class="h-1 w-10 bg-white/20 rounded-full"></div>
+                                            </div>
+                                        </div>
+                                        <div class="px-2 py-1 rounded bg-black/40 backdrop-blur border border-white/10">
+                                            <div class="text-[10px] font-mono text-white/60 tracking-wider">LIVE</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div class="mt-4 max-w-4xl text-center">
-                    <h1
-                        class="font-serif text-3xl md:text-4xl lg:text-[44px] leading-[1.1] text-white glow-text mb-3">
-                        <span
-                            class="text-transparent bg-clip-text bg-gradient-to-r from-white via-white to-primary/80">Digitizing Businesses Globally</span>
-                    </h1>
+                    <!-- Slides 2-4: News (injected dynamically) -->
                 </div>
             </div>
 
-            <!-- Spacer to push stats to bottom -->
-            <div class="flex-1"></div>
-
-            <!-- Statistics Bar - At bottom with higher z-index -->
-            <div class="w-full max-w-4xl mx-auto relative z-20 pb-5">
-                <div
-                    class="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-0 bg-white/5 backdrop-blur-md rounded-xl border border-white/10 p-2 md:p-3 shadow-2xl">
-                    <div class="flex flex-col items-center justify-center text-center md:border-r border-white/10 py-1 px-1">
-                        <span class="material-symbols-outlined text-primary text-2xl mb-1">history</span>
-                        <h3 class="text-2xl font-serif text-white font-bold">17+</h3>
-                        <p class="text-xs text-gray-400 font-medium uppercase tracking-wider mt-0.5">Years Experience</p>
+            <!-- Slider Controls -->
+            <div class="relative z-40 max-w-7xl mx-auto px-6 lg:px-12 w-full pt-6 pb-10">
+                <div class="flex items-center gap-6">
+                    <button onclick="slideHero(-1)" class="w-10 h-10 rounded-full border border-white/20 hover:border-primary hover:bg-white/5 flex items-center justify-center transition-all duration-300">
+                        <span class="material-symbols-outlined text-white/70 hover:text-primary" style="font-size:20px">chevron_left</span>
+                    </button>
+                    <div class="flex items-center gap-2" id="heroSliderDots">
+                        <span class="slide-indicator-active" onclick="goToHeroSlide(0)"></span>
+                        <span class="slide-indicator-inactive" onclick="goToHeroSlide(1)"></span>
+                        <span class="slide-indicator-inactive" onclick="goToHeroSlide(2)"></span>
+                        <span class="slide-indicator-inactive" onclick="goToHeroSlide(3)"></span>
                     </div>
-                    <div class="flex flex-col items-center justify-center text-center md:border-r border-white/10 py-1 px-1">
-                        <span class="material-symbols-outlined text-primary text-2xl mb-1">public</span>
-                        <h3 class="text-2xl font-serif text-white font-bold">13</h3>
-                        <p class="text-xs text-gray-400 font-medium uppercase tracking-wider mt-0.5">Global Locations</p>
-                    </div>
-                    <div class="flex flex-col items-center justify-center text-center md:border-r border-white/10 py-1 px-1">
-                        <span class="material-symbols-outlined text-primary text-2xl mb-1">corporate_fare</span>
-                        <h3 class="text-2xl font-serif text-white font-bold">100+</h3>
-                        <p class="text-xs text-gray-400 font-medium uppercase tracking-wider mt-0.5">Enterprise Clients
-                        </p>
-                    </div>
-                    <div class="flex flex-col items-center justify-center text-center py-1 px-1">
-                        <span class="material-symbols-outlined text-primary text-2xl mb-1">support_agent</span>
-                        <h3 class="text-2xl font-serif text-white font-bold">24/7</h3>
-                        <p class="text-xs text-gray-400 font-medium uppercase tracking-wider mt-0.5">Expert Support</p>
-                    </div>
+                    <button onclick="slideHero(1)" class="w-10 h-10 rounded-full border border-white/20 hover:border-primary hover:bg-white/5 flex items-center justify-center transition-all duration-300">
+                        <span class="material-symbols-outlined text-white/70 hover:text-primary" style="font-size:20px">chevron_right</span>
+                    </button>
                 </div>
             </div>
         </div>
+        <!-- Bottom fade for seamless transition -->
+        <div class="absolute bottom-0 left-0 right-0 h-32 pointer-events-none z-30" style="background: linear-gradient(to bottom, transparent, #00013a);"></div>
     </section>
     <!-- Products Section - Light Mode Card Grid -->
     <section class="aurora-gradient py-24 lg:py-32 w-full relative">
@@ -2348,18 +2402,290 @@
             }
         }
 
+    </script>
+
+    <!-- ============================================================== -->
+    <!-- Hero Shader + Slider -->
+    <!-- ============================================================== -->
+    <script>
+    // CPPN Shader Background
+    (function initShader() {
+        var canvas = document.getElementById('shader-canvas');
+        if (!canvas) return;
+
+        var renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: false });
+        renderer.setClearColor(0x00013a, 1);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+        var container = document.getElementById('shader-bg');
+        renderer.setSize(container.clientWidth, container.clientHeight, false);
+
+        var scene = new THREE.Scene();
+        var camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
+        camera.position.set(0, 0, 1);
+
+        var vertexShader = [
+            'varying vec2 vUv;',
+            'void main() {',
+            '    vUv = uv;',
+            '    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);',
+            '}'
+        ].join('\n');
+
+        var fragmentShader = [
+            '#ifdef GL_ES',
+            'precision lowp float;',
+            '#endif',
+            'uniform float iTime;',
+            'uniform vec2 iResolution;',
+            'varying vec2 vUv;',
+            'vec4 buf[8];',
+            'vec4 sigmoid(vec4 x) { return 1. / (1. + exp(-x)); }',
+            'vec4 cppn_fn(vec2 coordinate, float in0, float in1, float in2) {',
+            '    buf[6] = vec4(coordinate.x, coordinate.y, 0.3948333106474662 + in0, 0.36 + in1);',
+            '    buf[7] = vec4(0.14 + in2, sqrt(coordinate.x * coordinate.x + coordinate.y * coordinate.y), 0., 0.);',
+            '    buf[0] = mat4(vec4(6.5404263, -3.6126034, 0.7590882, -1.13613), vec4(2.4582713, 3.1660357, 1.2219609, 0.06276096), vec4(-5.478085, -6.159632, 1.8701609, -4.7742867), vec4(6.039214, -5.542865, -0.90925294, 3.251348)) * buf[6] + mat4(vec4(0.8473259, -5.722911, 3.975766, 1.6522468), vec4(-0.24321538, 0.5839259, -1.7661959, -5.350116), vec4(0.0, 0.0, 0.0, 0.0), vec4(0.0, 0.0, 0.0, 0.0)) * buf[7] + vec4(0.21808943, 1.1243913, -1.7969975, 5.0294676);',
+            '    buf[1] = mat4(vec4(-3.3522482, -6.0612736, 0.55641043, -4.4719114), vec4(0.8631464, 1.7432913, 5.643898, 1.6106541), vec4(2.4941394, -3.5012043, 1.7184316, 6.357333), vec4(3.310376, 8.209261, 1.1355612, -1.165539)) * buf[6] + mat4(vec4(5.24046, -13.034365, 0.009859298, 15.870829), vec4(2.987511, 3.129433, -0.89023495, -1.6822904), vec4(0.0, 0.0, 0.0, 0.0), vec4(0.0, 0.0, 0.0, 0.0)) * buf[7] + vec4(-5.9457836, -6.573602, -0.8812491, 1.5436668);',
+            '    buf[0] = sigmoid(buf[0]);',
+            '    buf[1] = sigmoid(buf[1]);',
+            '    buf[2] = mat4(vec4(-15.219568, 8.095543, -2.429353, -1.9381982), vec4(-5.951362, 4.3115187, 2.6393783, 1.274315), vec4(-7.3145227, 6.7297835, 5.2473326, 5.9411426), vec4(5.0796127, 8.979051, -1.7278991, -1.158976)) * buf[6] + mat4(vec4(-11.967154, -11.608155, 6.1486754, 11.237008), vec4(2.124141, -6.263192, -1.7050359, -0.7021966), vec4(0.0, 0.0, 0.0, 0.0), vec4(0.0, 0.0, 0.0, 0.0)) * buf[7] + vec4(-4.17164, -3.2281182, -4.576417, -3.6401186);',
+            '    buf[3] = mat4(vec4(3.1832156, -13.738922, 1.879223, 3.233465), vec4(0.64300746, 12.768129, 1.9141049, 0.50990224), vec4(-0.049295485, 4.4807224, 1.4733979, 1.801449), vec4(5.0039253, 13.000481, 3.3991797, -4.5561905)) * buf[6] + mat4(vec4(-0.1285731, 7.720628, -3.1425676, 4.742367), vec4(0.6393625, 3.714393, -0.8108378, -0.39174938), vec4(0.0, 0.0, 0.0, 0.0), vec4(0.0, 0.0, 0.0, 0.0)) * buf[7] + vec4(-1.1811101, -21.621881, 0.7851888, 1.2329718);',
+            '    buf[2] = sigmoid(buf[2]);',
+            '    buf[3] = sigmoid(buf[3]);',
+            '    buf[4] = mat4(vec4(5.214916, -7.183024, 2.7228765, 2.6592617), vec4(-5.601878, -25.3591, 4.067988, 0.4602802), vec4(-10.57759, 24.286327, 21.102104, 37.546658), vec4(4.3024497, -1.9625226, 2.3458803, -1.372816)) * buf[0] + mat4(vec4(-17.6526, -10.507558, 2.2587414, 12.462782), vec4(6.265566, -502.75443, -12.642513, 0.9112289), vec4(-10.983244, 20.741234, -9.701768, -0.7635988), vec4(5.383626, 1.4819539, -4.1911616, -4.8444734)) * buf[1] + mat4(vec4(12.785233, -16.345072, -0.39901125, 1.7955981), vec4(-30.48365, -1.8345358, 1.4542528, -1.1118771), vec4(19.872723, -7.337935, -42.941723, -98.52709), vec4(8.337645, -2.7312303, -2.2927687, -36.142323)) * buf[2] + mat4(vec4(-16.298317, 3.5471997, -0.44300047, -9.444417), vec4(57.5077, -35.609753, 16.163465, -4.1534753), vec4(-0.07470326, -3.8656476, -7.0901804, 3.1523974), vec4(-12.559385, -7.077619, 1.490437, -0.8211543)) * buf[3] + vec4(-7.67914, 15.927437, 1.3207729, -1.6686112);',
+            '    buf[5] = mat4(vec4(-1.4109162, -0.372762, -3.770383, -21.367174), vec4(-6.2103205, -9.35908, 0.92529047, 8.82561), vec4(11.460242, -22.348068, 13.625772, -18.693201), vec4(-0.3429052, -3.9905605, -2.4626114, -0.45033523)) * buf[0] + mat4(vec4(7.3481627, -4.3661838, -6.3037653, -3.868115), vec4(1.5462853, 6.5488915, 1.9701879, -0.58291394), vec4(6.5858274, -2.2180402, 3.7127688, -1.3730392), vec4(-5.7973905, 10.134961, -2.3395722, -5.965605)) * buf[1] + mat4(vec4(-2.5132585, -6.6685553, -1.4029363, -0.16285264), vec4(-0.37908727, 0.53738135, 4.389061, -1.3024765), vec4(-0.70647055, 2.0111287, -5.1659346, -3.728635), vec4(-13.562562, 10.487719, -0.9173751, -2.6487076)) * buf[2] + mat4(vec4(-8.645013, 6.5546675, -6.3944063, -5.5933375), vec4(-0.57783127, -1.077275, 36.91025, 5.736769), vec4(14.283112, 3.7146652, 7.1452246, -4.5958776), vec4(2.7192075, 3.6021907, -4.366337, -2.3653464)) * buf[3] + vec4(-5.9000807, -4.329569, 1.2427121, 8.59503);',
+            '    buf[4] = sigmoid(buf[4]);',
+            '    buf[5] = sigmoid(buf[5]);',
+            '    float brightness = (buf[4].x + buf[4].y + buf[5].x + buf[5].y) * 0.25;',
+            '    vec3 navy = vec3(0.0, 0.004, 0.227);',
+            '    vec3 gold = vec3(0.765, 0.718, 0.596);',
+            '    vec3 result = mix(navy, gold, brightness);',
+            '    return vec4(result, 1.0);',
+            '}',
+            'void main() {',
+            '    vec2 uv = vUv * 2.0 - 1.0;',
+            '    uv.y *= -1.0;',
+            '    vec4 cppn = cppn_fn(uv, 0.18 * sin(0.3 * iTime), 0.18 * sin(0.69 * iTime), 0.18 * sin(0.44 * iTime));',
+            '    gl_FragColor = cppn;',
+            '}'
+        ].join('\n');
+
+        var geometry = new THREE.PlaneGeometry(4, 4);
+        var material = new THREE.ShaderMaterial({
+            vertexShader: vertexShader,
+            fragmentShader: fragmentShader,
+            uniforms: {
+                iTime: { value: 0 },
+                iResolution: { value: new THREE.Vector2(container.clientWidth, container.clientHeight) }
+            },
+            side: THREE.DoubleSide
+        });
+
+        var mesh = new THREE.Mesh(geometry, material);
+        mesh.position.set(0, -0.75, -0.5);
+        scene.add(mesh);
+
+        function fitPlaneToView() {
+            var vFov = 75 * Math.PI / 180;
+            var dist = 1.5;
+            var visH = 2 * Math.tan(vFov / 2) * dist;
+            var visW = visH * (container.clientWidth / container.clientHeight);
+            var s = Math.max(1.0, visW / 4 * 1.05, visH / 4 * 1.05);
+            mesh.scale.set(s, s, 1);
+        }
+        fitPlaneToView();
+
+        var clock = new THREE.Clock();
+
+        function animate() {
+            requestAnimationFrame(animate);
+            material.uniforms.iTime.value = clock.getElapsedTime();
+            renderer.render(scene, camera);
+        }
+
+        var shaderBg = document.getElementById('shader-bg');
+        shaderBg.style.filter = 'blur(20px)';
+        shaderBg.style.transform = 'scale(1.1)';
+        shaderBg.style.opacity = '0.7';
+        shaderBg.style.transition = 'filter 1.5s cubic-bezier(0.33,1,0.68,1), transform 1.5s cubic-bezier(0.33,1,0.68,1), opacity 1.5s cubic-bezier(0.33,1,0.68,1)';
+
+        setTimeout(function() {
+            shaderBg.style.filter = 'blur(0px)';
+            shaderBg.style.transform = 'scale(1)';
+            shaderBg.style.opacity = '1';
+        }, 300);
+
+        window.addEventListener('resize', function() {
+            var w = container.clientWidth;
+            var h = container.clientHeight;
+            renderer.setSize(w, h, false);
+            camera.aspect = w / h;
+            camera.updateProjectionMatrix();
+            material.uniforms.iResolution.value.set(w, h);
+            fitPlaneToView();
+        });
+
+        animate();
+    })();
+
+    // Hero Slider
+    (function initHeroSlider() {
+        var currentSlide = 0;
+        var totalSlides = 4;
+        var track = document.getElementById('heroSliderTrack');
+        var dotsContainer = document.getElementById('heroSliderDots');
+        var autoAdvanceTimer = null;
+        var heroSection = document.getElementById('hero');
+
+        function updateSlider() {
+            if (!track) return;
+            track.style.transform = 'translateX(-' + (currentSlide * 100) + '%)';
+            if (dotsContainer) {
+                var dots = dotsContainer.querySelectorAll('span');
+                dots.forEach(function(d, i) {
+                    d.className = i === currentSlide ? 'slide-indicator-active' : 'slide-indicator-inactive';
+                });
+            }
+        }
+
+        function startAutoAdvance() {
+            stopAutoAdvance();
+            if (totalSlides <= 1) return;
+            autoAdvanceTimer = setInterval(function() {
+                currentSlide = (currentSlide + 1) % totalSlides;
+                updateSlider();
+            }, 7000);
+        }
+
+        function stopAutoAdvance() {
+            if (autoAdvanceTimer) {
+                clearInterval(autoAdvanceTimer);
+                autoAdvanceTimer = null;
+            }
+        }
+
+        if (heroSection) {
+            heroSection.addEventListener('mouseenter', stopAutoAdvance);
+            heroSection.addEventListener('mouseleave', startAutoAdvance);
+        }
+
+        window.slideHero = function(dir) {
+            currentSlide = (currentSlide + dir + totalSlides) % totalSlides;
+            updateSlider();
+            startAutoAdvance();
+        };
+
+        window.goToHeroSlide = function(idx) {
+            currentSlide = idx;
+            updateSlider();
+            startAutoAdvance();
+        };
+
+        function buildDots() {
+            if (!dotsContainer) return;
+            dotsContainer.innerHTML = '';
+            for (var i = 0; i < totalSlides; i++) {
+                var dot = document.createElement('span');
+                dot.className = i === currentSlide ? 'slide-indicator-active' : 'slide-indicator-inactive';
+                dot.setAttribute('onclick', 'goToHeroSlide(' + i + ')');
+                dotsContainer.appendChild(dot);
+            }
+        }
+
+        function formatDate(dateString) {
+            var date = new Date(dateString);
+            return date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+        }
+
+        function stripHtml(html) {
+            var tmp = document.createElement('div');
+            tmp.innerHTML = html;
+            return tmp.textContent || tmp.innerText || '';
+        }
+
+        function addNewsSlides(posts) {
+            if (!posts || posts.length === 0 || !track) return;
+
+            posts.forEach(function(post) {
+                var slide = document.createElement('div');
+                slide.className = 'hero-slide';
+
+                var featuredImage = (post.featuredImage && post.featuredImage.node && post.featuredImage.node.sourceUrl)
+                    ? post.featuredImage.node.sourceUrl
+                    : 'https://via.placeholder.com/800x600/00013a/c3b798?text=News';
+                var formattedDate = formatDate(post.date);
+                var excerpt = post.excerpt ? stripHtml(post.excerpt) : '';
+                if (excerpt.length > 180) excerpt = excerpt.substring(0, 180) + '...';
+
+                slide.innerHTML =
+                    '<div class="max-w-7xl mx-auto px-6 lg:px-12 grid lg:grid-cols-2 gap-12 lg:gap-20 items-center w-full py-8 lg:py-10">' +
+                        '<div class="flex flex-col items-start text-left">' +
+                            '<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-primary/30 bg-primary/10 backdrop-blur-sm mb-6">' +
+                                '<span class="text-primary text-[10px] font-bold uppercase tracking-[0.15em]">Press Room</span>' +
+                                '<span class="h-1 w-1 rounded-full bg-primary/50"></span>' +
+                                '<span class="text-xs font-light tracking-tight text-white/80">' + formattedDate + '</span>' +
+                            '</div>' +
+                            '<h2 class="text-3xl md:text-4xl lg:text-[2.75rem] font-bold text-white leading-[1.15] mb-6 tracking-tight">' +
+                                post.title +
+                            '</h2>' +
+                            '<p class="text-lg text-white/80 font-light max-w-lg leading-relaxed mb-10">' +
+                                excerpt +
+                            '</p>' +
+                            '<a href="/post.html?slug=' + post.slug + '" class="flex items-center gap-2 text-primary hover:text-white font-semibold text-sm transition-colors duration-300">' +
+                                'Read Full Article' +
+                                '<span class="material-symbols-outlined text-lg">arrow_right_alt</span>' +
+                            '</a>' +
+                        '</div>' +
+                        '<div class="relative w-full aspect-video lg:aspect-[4/3] flex items-center justify-center">' +
+                            '<div class="relative w-full h-full bg-navy-start rounded-xl overflow-hidden video-border group shadow-2xl">' +
+                                '<img alt="' + post.title + '" class="w-full h-full object-cover opacity-90 transition-transform duration-700 group-hover:scale-105" src="' + featuredImage + '" />' +
+                                '<div class="absolute inset-0 bg-gradient-to-t from-navy-start/60 via-transparent to-transparent z-10"></div>' +
+                                '<div class="absolute bottom-6 left-8 right-8 z-20 flex justify-between items-end">' +
+                                    '<div class="space-y-2">' +
+                                        '<p class="text-white text-sm font-medium">' + post.title + '</p>' +
+                                        '<div class="flex gap-1">' +
+                                            '<div class="h-1 w-16 bg-primary rounded-full"></div>' +
+                                            '<div class="h-1 w-10 bg-white/20 rounded-full"></div>' +
+                                        '</div>' +
+                                    '</div>' +
+                                '</div>' +
+                            '</div>' +
+                        '</div>' +
+                    '</div>';
+
+                track.appendChild(slide);
+            });
+
+            totalSlides = 1 + posts.length;
+            buildDots();
+            startAutoAdvance();
+        }
+
+        startAutoAdvance();
+
+        // Fetch news posts and populate hero slides
+        (async function loadHeroNews() {
+            try {
+                if (typeof getPostsByCategory !== 'function') return;
+                var newsPosts = await getPostsByCategory('news', 3);
+                if (newsPosts && newsPosts.length > 0) {
+                    addNewsSlides(newsPosts);
+                }
+            } catch (e) {
+                console.error('Hero news load error:', e);
+            }
+        })();
+
         // Ensure hero video plays
-        const heroVideo = document.getElementById('heroVideo');
+        var heroVideo = document.getElementById('heroVideo');
         if (heroVideo) {
-            // Try to play the video
-            heroVideo.play().catch(error => {
-                console.log('Video autoplay was prevented:', error);
-                // If autoplay is blocked, try playing on user interaction
-                document.addEventListener('click', () => {
+            heroVideo.play().catch(function() {
+                document.addEventListener('click', function() {
                     heroVideo.play();
                 }, { once: true });
             });
         }
+    })();
     </script>
 
     <!-- ============================================================== -->
