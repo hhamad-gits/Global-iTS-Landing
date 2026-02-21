@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Public Sector - Industry Solutions | Global iTS</title>
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#c3b798",
+                        "primary-dark": "#a89b7d",
+                        "navy-start": "#00013a",
+                        "navy-end": "#0f1055",
+                    },
+                    fontFamily: {
+                        "sans": ["Inter", "sans-serif"],
+                        "serif": ["Inter", "sans-serif"],
+                    },
+                    backgroundImage: {
+                        'hero-pattern': "repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.03) 0px, rgba(255, 255, 255, 0.03) 1px, transparent 1px, transparent 40px)",
+                    }
+                },
+            },
+        }
+    </script>
+    <style>
+        html { overflow-x: hidden; }
+        body.overflow-x-hidden { overflow-x: visible !important; }
+
+        .scrollbar-hide::-webkit-scrollbar { display: none; }
+        .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+
+        @keyframes scrollReveal {
+            from { opacity: 0; filter: blur(8px); transform: translateY(20px); }
+            to { opacity: 1; filter: blur(0px); transform: translateY(0); }
+        }
+        .scroll-reveal { opacity: 0; }
+        .scroll-reveal.revealed { animation: scrollReveal 0.6s ease forwards; }
+        .scroll-reveal-stagger > .scroll-reveal-child { opacity: 0; }
+        .scroll-reveal-stagger > .scroll-reveal-child.revealed { animation: scrollReveal 0.6s ease forwards; }
+
+        .glow-text { text-shadow: 0 0 20px rgba(195, 183, 152, 0.3); }
+        .card-gold-glow:hover { box-shadow: 0 15px 40px -10px rgba(195, 183, 152, 0.25); }
+        .aurora-gradient { background: #00013a; position: relative; }
+        .aurora-gradient .group:hover .w-12.h-12 { background: #00013a !important; }
+
+        #shader-canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; z-index: 0; }
+        .hero-animate { visibility: hidden; }
+
+        .nav-dropdown-panel {
+            opacity: 0; visibility: hidden;
+            transform: translateY(6px) scale(0.97);
+            transition: opacity 200ms cubic-bezier(.4,0,.2,1), visibility 200ms cubic-bezier(.4,0,.2,1), transform 200ms cubic-bezier(.4,0,.2,1);
+            pointer-events: none;
+        }
+        .nav-dropdown-panel.open { opacity: 1; visibility: visible; transform: translateY(0) scale(1); pointer-events: auto; }
+        .nav-chevron { transition: transform 300ms cubic-bezier(.4,0,.2,1); }
+        .nav-chevron.open { transform: rotate(180deg); }
+
+        #main-nav { transition: background 300ms ease, border-color 300ms ease, backdrop-filter 300ms ease; }
+        #main-nav.scrolled { background: rgba(0, 1, 58, 0.92); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-color: rgba(255, 255, 255, 0.1); }
+
+        #mobile-menu { opacity: 0; visibility: hidden; transition: opacity 300ms cubic-bezier(.4,0,.2,1), visibility 300ms cubic-bezier(.4,0,.2,1); }
+        #mobile-menu.open { opacity: 1; visibility: visible; }
+        #mobile-menu .mobile-inner { transform: scale(0.97); transition: transform 300ms cubic-bezier(.4,0,.2,1); }
+        #mobile-menu.open .mobile-inner { transform: scale(1); }
+
+        .dot-pattern {
+            position: absolute; inset: 0; pointer-events: none; z-index: 0;
+            background-image: radial-gradient(circle, rgba(0, 1, 58, 0.4) 1.5px, transparent 1.5px);
+            background-size: 24px 24px;
+            mask-image: radial-gradient(700px circle at center, white, transparent);
+            -webkit-mask-image: radial-gradient(700px circle at center, white, transparent);
+        }
+    </style>
+</head>
+
+<body class="bg-navy-start text-white overflow-x-hidden font-sans">
+
+    <!-- NAV -->
+    <nav id="main-nav"
+        class="fixed top-0 left-0 right-0 z-50 w-full border-b border-transparent backdrop-blur-sm bg-navy-start/50">
+        <div class="max-w-7xl mx-auto px-6 lg:px-12 flex items-center justify-between h-16">
+            <div class="flex items-center gap-8">
+                <a href="index.html" class="flex-shrink-0">
+                    <img src="https://globaledgeholding.com/wp-content/uploads/2019/07/GitsGedge-logos-4-1.png"
+                        alt="Global iTS" class="h-10 w-auto object-contain">
+                </a>
+                <div class="hidden md:flex items-center gap-1">
+                    <!-- Products Dropdown -->
+                    <div class="relative" id="dropdown-products">
+                        <button onclick="toggleDropdown('products')"
+                            class="flex items-center gap-1.5 text-sm font-medium text-white/80 hover:text-primary px-3 py-2 rounded-md transition-colors">
+                            Products
+                            <svg class="w-3 h-3 nav-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+                        </button>
+                        <div class="nav-dropdown-panel absolute top-full left-0 mt-2 origin-top-left">
+                            <div class="bg-navy-start border border-white/10 rounded-xl shadow-2xl p-1.5 w-[520px]">
+                                <div class="bg-white/5 rounded-lg border border-white/5 p-3">
+                                    <div class="grid grid-cols-2 gap-2">
+                                        <a href="gbank.html" class="flex items-start gap-3 p-3 rounded-lg hover:bg-white/10 transition-colors">
+                                            <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5">
+                                                <span class="material-symbols-outlined text-primary" style="font-size:20px">account_balance</span>
+                                            </div>
+                                            <div>
+                                                <span class="block text-sm font-medium text-white">G Bank AI</span>
+                                                <span class="block text-xs text-gray-400 mt-0.5">AI-powered core banking platform</span>
+                                            </div>
+                                        </a>
+                                        <a href="ginsure.html" class="flex items-start gap-3 p-3 rounded-lg hover:bg-white/10 transition-colors">
+                                            <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5">
+                                                <span class="material-symbols-outlined text-primary" style="font-size:20px">shield</span>
+                                            </div>
+                                            <div>
+                                                <span class="block text-sm font-medium text-white">G Insure AI</span>
+                                                <span class="block text-xs text-gray-400 mt-0.5">Insurance technology &amp; claims automation</span>
+                                            </div>
+                                        </a>
+                                        <a href="ginvest.html" class="flex items-start gap-3 p-3 rounded-lg hover:bg-white/10 transition-colors">
+                                            <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5">
+                                                <span class="material-symbols-outlined text-primary" style="font-size:20px">trending_up</span>
+                                            </div>
+                                            <div>
+                                                <span class="block text-sm font-medium text-white">G Invest AI</span>
+                                                <span class="block text-xs text-gray-400 mt-0.5">Investment management &amp; portfolio analytics</span>
+                                            </div>
+                                        </a>
+                                        <a href="grisk.html" class="flex items-start gap-3 p-3 rounded-lg hover:bg-white/10 transition-colors">
+                                            <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5">
+                                                <span class="material-symbols-outlined text-primary" style="font-size:20px">gpp_maybe</span>
+                                            </div>
+                                            <div>
+                                                <span class="block text-sm font-medium text-white">G Risk AI</span>
+                                                <span class="block text-xs text-gray-400 mt-0.5">Risk assessment &amp; regulatory compliance</span>
+                                            </div>
+                                        </a>
+                                        <a href="ghrms.html" class="flex items-start gap-3 p-3 rounded-lg hover:bg-white/10 transition-colors">
+                                            <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5">
+                                                <span class="material-symbols-outlined text-primary" style="font-size:20px">group</span>
+                                            </div>
+                                            <div>
+                                                <span class="block text-sm font-medium text-white">G HRMS AI</span>
+                                                <span class="block text-xs text-gray-400 mt-0.5">Human resource management system</span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="px-3 py-2 mt-1">
+                                    <p class="text-xs text-gray-400">
+                                        Interested?
+                                        <a href="#contact" class="text-primary font-medium hover:underline ml-1">Schedule a demo</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Industries Dropdown -->
+                    <div class="relative" id="dropdown-industries">
+                        <button onclick="toggleDropdown('industries')"
+                            class="flex items-center gap-1.5 text-sm font-medium text-primary px-3 py-2 rounded-md transition-colors">
+                            Industries
+                            <svg class="w-3 h-3 nav-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+                        </button>
+                        <div class="nav-dropdown-panel absolute top-full left-0 mt-2 origin-top-left">
+                            <div class="bg-navy-start border border-white/10 rounded-xl shadow-2xl p-1.5 w-[520px]">
+                                <div class="bg-white/5 rounded-lg border border-white/5 p-3">
+                                    <div class="grid grid-cols-2 gap-2">
+                                        <a href="corporate-banking.html" class="flex items-start gap-3 p-3 rounded-lg hover:bg-white/10 transition-colors">
+                                            <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5">
+                                                <span class="material-symbols-outlined text-primary" style="font-size:20px">corporate_fare</span>
+                                            </div>
+                                            <div>
+                                                <span class="block text-sm font-medium text-white">Corporate Banking</span>
+                                                <span class="block text-xs text-gray-400 mt-0.5">Enterprise-grade banking solutions</span>
+                                            </div>
+                                        </a>
+                                        <a href="family-offices.html" class="flex items-start gap-3 p-3 rounded-lg hover:bg-white/10 transition-colors">
+                                            <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5">
+                                                <span class="material-symbols-outlined text-primary" style="font-size:20px">cottage</span>
+                                            </div>
+                                            <div>
+                                                <span class="block text-sm font-medium text-white">Family Offices</span>
+                                                <span class="block text-xs text-gray-400 mt-0.5">Tailored family wealth operations</span>
+                                            </div>
+                                        </a>
+                                        <a href="holding-companies.html" class="flex items-start gap-3 p-3 rounded-lg hover:bg-white/10 transition-colors">
+                                            <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5">
+                                                <span class="material-symbols-outlined text-primary" style="font-size:20px">domain</span>
+                                            </div>
+                                            <div>
+                                                <span class="block text-sm font-medium text-white">Holding Companies</span>
+                                                <span class="block text-xs text-gray-400 mt-0.5">Multi-entity portfolio management</span>
+                                            </div>
+                                        </a>
+                                        <a href="insurance.html" class="flex items-start gap-3 p-3 rounded-lg hover:bg-white/10 transition-colors">
+                                            <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5">
+                                                <span class="material-symbols-outlined text-primary" style="font-size:20px">health_and_safety</span>
+                                            </div>
+                                            <div>
+                                                <span class="block text-sm font-medium text-white">Insurance</span>
+                                                <span class="block text-xs text-gray-400 mt-0.5">End-to-end insurance technology</span>
+                                            </div>
+                                        </a>
+                                        <a href="private-banking.html" class="flex items-start gap-3 p-3 rounded-lg hover:bg-white/10 transition-colors">
+                                            <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5">
+                                                <span class="material-symbols-outlined text-primary" style="font-size:20px">account_balance_wallet</span>
+                                            </div>
+                                            <div>
+                                                <span class="block text-sm font-medium text-white">Private Banking</span>
+                                                <span class="block text-xs text-gray-400 mt-0.5">Exclusive private client services</span>
+                                            </div>
+                                        </a>
+                                        <a href="public-sector.html" class="flex items-start gap-3 p-3 rounded-lg bg-white/10 transition-colors">
+                                            <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-primary/30 bg-primary/10">
+                                                <span class="material-symbols-outlined text-primary" style="font-size:20px">assured_workload</span>
+                                            </div>
+                                            <div>
+                                                <span class="block text-sm font-medium text-primary">Public Sector</span>
+                                                <span class="block text-xs text-gray-400 mt-0.5">Government &amp; public institution systems</span>
+                                            </div>
+                                        </a>
+                                        <a href="real-estate.html" class="flex items-start gap-3 p-3 rounded-lg hover:bg-white/10 transition-colors">
+                                            <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5">
+                                                <span class="material-symbols-outlined text-primary" style="font-size:20px">apartment</span>
+                                            </div>
+                                            <div>
+                                                <span class="block text-sm font-medium text-white">Real Estate</span>
+                                                <span class="block text-xs text-gray-400 mt-0.5">Property &amp; asset management platforms</span>
+                                            </div>
+                                        </a>
+                                        <a href="retail-banking.html" class="flex items-start gap-3 p-3 rounded-lg hover:bg-white/10 transition-colors">
+                                            <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5">
+                                                <span class="material-symbols-outlined text-primary" style="font-size:20px">storefront</span>
+                                            </div>
+                                            <div>
+                                                <span class="block text-sm font-medium text-white">Retail Banking</span>
+                                                <span class="block text-xs text-gray-400 mt-0.5">Customer-centric retail banking</span>
+                                            </div>
+                                        </a>
+                                        <a href="wealth-management.html" class="flex items-start gap-3 p-3 rounded-lg hover:bg-white/10 transition-colors">
+                                            <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5">
+                                                <span class="material-symbols-outlined text-primary" style="font-size:20px">diamond</span>
+                                            </div>
+                                            <div>
+                                                <span class="block text-sm font-medium text-white">Wealth Management</span>
+                                                <span class="block text-xs text-gray-400 mt-0.5">Comprehensive wealth advisory tools</span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Company Dropdown -->
+                    <div class="relative" id="dropdown-company">
+                        <button onclick="toggleDropdown('company')"
+                            class="flex items-center gap-1.5 text-sm font-medium text-white/80 hover:text-primary px-3 py-2 rounded-md transition-colors">
+                            Company
+                            <svg class="w-3 h-3 nav-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+                        </button>
+                        <div class="nav-dropdown-panel absolute top-full left-0 mt-2 origin-top-left">
+                            <div class="bg-navy-start border border-white/10 rounded-xl shadow-2xl p-1.5 w-[480px]">
+                                <div class="grid grid-cols-2 gap-2">
+                                    <div class="bg-white/5 rounded-lg border border-white/5 p-3 space-y-2">
+                                        <a href="#" class="flex items-start gap-3 p-2 rounded-lg hover:bg-white/10 transition-colors">
+                                            <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5">
+                                                <span class="material-symbols-outlined text-primary" style="font-size:20px">groups</span>
+                                            </div>
+                                            <div>
+                                                <span class="block text-sm font-medium text-white">About Us</span>
+                                                <span class="block text-xs text-gray-400 mt-0.5">Learn more about our story and team</span>
+                                            </div>
+                                        </a>
+                                        <a href="#" class="flex items-start gap-3 p-2 rounded-lg hover:bg-white/10 transition-colors">
+                                            <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5">
+                                                <span class="material-symbols-outlined text-primary" style="font-size:20px">star</span>
+                                            </div>
+                                            <div>
+                                                <span class="block text-sm font-medium text-white">Customer Stories</span>
+                                                <span class="block text-xs text-gray-400 mt-0.5">See how we've helped our clients succeed</span>
+                                            </div>
+                                        </a>
+                                        <a href="#" class="flex items-start gap-3 p-2 rounded-lg hover:bg-white/10 transition-colors">
+                                            <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5">
+                                                <span class="material-symbols-outlined text-primary" style="font-size:20px">handshake</span>
+                                            </div>
+                                            <div>
+                                                <span class="block text-sm font-medium text-white">Partnerships</span>
+                                                <span class="block text-xs text-gray-400 mt-0.5">Collaborate with us for mutual growth</span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="p-3 space-y-1">
+                                        <a href="#" class="flex items-center gap-2.5 p-2 rounded-lg hover:bg-white/10 transition-colors">
+                                            <span class="material-symbols-outlined text-white/70" style="font-size:18px">supervisor_account</span>
+                                            <span class="text-sm font-medium text-white">Leadership</span>
+                                        </a>
+                                        <a href="#" class="flex items-center gap-2.5 p-2 rounded-lg hover:bg-white/10 transition-colors">
+                                            <span class="material-symbols-outlined text-white/70" style="font-size:18px">work</span>
+                                            <span class="text-sm font-medium text-white">Careers</span>
+                                        </a>
+                                        <a href="#" class="flex items-center gap-2.5 p-2 rounded-lg hover:bg-white/10 transition-colors">
+                                            <span class="material-symbols-outlined text-white/70" style="font-size:18px">newspaper</span>
+                                            <span class="text-sm font-medium text-white">News &amp; Events</span>
+                                        </a>
+                                        <a href="#" class="flex items-center gap-2.5 p-2 rounded-lg hover:bg-white/10 transition-colors">
+                                            <span class="material-symbols-outlined text-white/70" style="font-size:18px">edit_note</span>
+                                            <span class="text-sm font-medium text-white">Blog</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="solutions.html"
+                        class="text-sm font-medium text-white/80 hover:text-primary px-3 py-2 rounded-md transition-colors">
+                        Solutions
+                    </a>
+                </div>
+            </div>
+            <div class="flex items-center gap-3">
+                <a href="#contact"
+                    class="hidden md:inline-flex bg-primary hover:bg-primary-dark text-navy-start font-bold py-2.5 px-6 rounded-lg text-sm transition-all duration-300">
+                    Contact Us
+                </a>
+                <button id="mobile-toggle" onclick="toggleMobileMenu()" class="md:hidden text-white p-1"
+                    aria-expanded="false" aria-controls="mobile-menu" aria-label="Toggle menu">
+                    <svg id="menu-toggle-icon" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2.5"
+                        stroke-linecap="round" stroke-linejoin="round"
+                        class="w-6 h-6 transition-transform duration-300 ease-in-out">
+                        <path id="menu-path-animated" class="transition-all duration-300 ease-in-out"
+                            style="stroke-dasharray: 12 63;"
+                            d="M27 10 13 10C10.8 10 9 8.2 9 6 9 3.5 10.8 2 13 2 15.2 2 17 3.8 17 6L17 26C17 28.2 18.8 30 21 30 23.2 30 25 28.2 25 26 25 23.8 23.2 22 21 22L7 22" />
+                        <path d="M7 16 27 16" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu"
+            class="md:hidden fixed top-16 left-0 right-0 bottom-0 bg-navy-start/95 backdrop-blur-xl border-t border-white/10 overflow-y-auto z-40">
+            <div class="mobile-inner p-6 flex flex-col gap-4 h-full">
+                <div class="flex-1 space-y-6">
+                    <div>
+                        <span class="text-xs font-semibold uppercase tracking-wider text-primary/70 mb-3 block">Products</span>
+                        <div class="space-y-1">
+                            <a href="gbank.html" class="flex items-center gap-3 p-3 rounded-lg hover:bg-white/10 transition-colors">
+                                <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5">
+                                    <span class="material-symbols-outlined text-primary" style="font-size:20px">account_balance</span>
+                                </div>
+                                <div>
+                                    <span class="block text-sm font-medium text-white">G Bank AI</span>
+                                    <span class="block text-xs text-gray-400">AI-powered core banking platform</span>
+                                </div>
+                            </a>
+                            <a href="ginsure.html" class="flex items-center gap-3 p-3 rounded-lg hover:bg-white/10 transition-colors">
+                                <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5">
+                                    <span class="material-symbols-outlined text-primary" style="font-size:20px">shield</span>
+                                </div>
+                                <div>
+                                    <span class="block text-sm font-medium text-white">G Insure AI</span>
+                                    <span class="block text-xs text-gray-400">Insurance technology &amp; claims automation</span>
+                                </div>
+                            </a>
+                            <a href="ginvest.html" class="flex items-center gap-3 p-3 rounded-lg hover:bg-white/10 transition-colors">
+                                <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5">
+                                    <span class="material-symbols-outlined text-primary" style="font-size:20px">trending_up</span>
+                                </div>
+                                <div>
+                                    <span class="block text-sm font-medium text-white">G Invest AI</span>
+                                    <span class="block text-xs text-gray-400">Investment management &amp; portfolio analytics</span>
+                                </div>
+                            </a>
+                            <a href="grisk.html" class="flex items-center gap-3 p-3 rounded-lg hover:bg-white/10 transition-colors">
+                                <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5">
+                                    <span class="material-symbols-outlined text-primary" style="font-size:20px">gpp_maybe</span>
+                                </div>
+                                <div>
+                                    <span class="block text-sm font-medium text-white">G Risk AI</span>
+                                    <span class="block text-xs text-gray-400">Risk assessment &amp; regulatory compliance</span>
+                                </div>
+                            </a>
+                            <a href="ghrms.html" class="flex items-center gap-3 p-3 rounded-lg hover:bg-white/10 transition-colors">
+                                <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5">
+                                    <span class="material-symbols-outlined text-primary" style="font-size:20px">group</span>
+                                </div>
+                                <div>
+                                    <span class="block text-sm font-medium text-white">G HRMS AI</span>
+                                    <span class="block text-xs text-gray-400">Human resource management system</span>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div>
+                        <span class="text-xs font-semibold uppercase tracking-wider text-primary/70 mb-3 block">Industries</span>
+                        <div class="space-y-1">
+                            <a href="corporate-banking.html" class="flex items-center gap-3 p-3 rounded-lg hover:bg-white/10 transition-colors">
+                                <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5">
+                                    <span class="material-symbols-outlined text-primary" style="font-size:20px">corporate_fare</span>
+                                </div>
+                                <div>
+                                    <span class="block text-sm font-medium text-white">Corporate Banking</span>
+                                    <span class="block text-xs text-gray-400">Enterprise-grade banking solutions</span>
+                                </div>
+                            </a>
+                            <a href="retail-banking.html" class="flex items-center gap-3 p-3 rounded-lg hover:bg-white/10 transition-colors">
+                                <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5">
+                                    <span class="material-symbols-outlined text-primary" style="font-size:20px">storefront</span>
+                                </div>
+                                <div>
+                                    <span class="block text-sm font-medium text-white">Retail Banking</span>
+                                    <span class="block text-xs text-gray-400">Customer-centric retail banking</span>
+                                </div>
+                            </a>
+                            <a href="private-banking.html" class="flex items-center gap-3 p-3 rounded-lg hover:bg-white/10 transition-colors">
+                                <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5">
+                                    <span class="material-symbols-outlined text-primary" style="font-size:20px">account_balance_wallet</span>
+                                </div>
+                                <div>
+                                    <span class="block text-sm font-medium text-white">Private Banking</span>
+                                    <span class="block text-xs text-gray-400">Exclusive private client services</span>
+                                </div>
+                            </a>
+                            <a href="wealth-management.html" class="flex items-center gap-3 p-3 rounded-lg hover:bg-white/10 transition-colors">
+                                <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5">
+                                    <span class="material-symbols-outlined text-primary" style="font-size:20px">diamond</span>
+                                </div>
+                                <div>
+                                    <span class="block text-sm font-medium text-white">Wealth Management</span>
+                                    <span class="block text-xs text-gray-400">Comprehensive wealth advisory tools</span>
+                                </div>
+                            </a>
+                            <a href="insurance.html" class="flex items-center gap-3 p-3 rounded-lg hover:bg-white/10 transition-colors">
+                                <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5">
+                                    <span class="material-symbols-outlined text-primary" style="font-size:20px">health_and_safety</span>
+                                </div>
+                                <div>
+                                    <span class="block text-sm font-medium text-white">Insurance</span>
+                                    <span class="block text-xs text-gray-400">End-to-end insurance technology</span>
+                                </div>
+                            </a>
+                            <a href="family-offices.html" class="flex items-center gap-3 p-3 rounded-lg hover:bg-white/10 transition-colors">
+                                <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5">
+                                    <span class="material-symbols-outlined text-primary" style="font-size:20px">cottage</span>
+                                </div>
+                                <div>
+                                    <span class="block text-sm font-medium text-white">Family Offices</span>
+                                    <span class="block text-xs text-gray-400">Tailored family wealth operations</span>
+                                </div>
+                            </a>
+                            <a href="holding-companies.html" class="flex items-center gap-3 p-3 rounded-lg hover:bg-white/10 transition-colors">
+                                <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5">
+                                    <span class="material-symbols-outlined text-primary" style="font-size:20px">domain</span>
+                                </div>
+                                <div>
+                                    <span class="block text-sm font-medium text-white">Holding Companies</span>
+                                    <span class="block text-xs text-gray-400">Multi-entity portfolio management</span>
+                                </div>
+                            </a>
+                            <a href="real-estate.html" class="flex items-center gap-3 p-3 rounded-lg hover:bg-white/10 transition-colors">
+                                <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5">
+                                    <span class="material-symbols-outlined text-primary" style="font-size:20px">apartment</span>
+                                </div>
+                                <div>
+                                    <span class="block text-sm font-medium text-white">Real Estate</span>
+                                    <span class="block text-xs text-gray-400">Property &amp; asset management platforms</span>
+                                </div>
+                            </a>
+                            <a href="public-sector.html" class="flex items-center gap-3 p-3 rounded-lg bg-white/10 transition-colors">
+                                <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-primary/30 bg-primary/10">
+                                    <span class="material-symbols-outlined text-primary" style="font-size:20px">assured_workload</span>
+                                </div>
+                                <div>
+                                    <span class="block text-sm font-medium text-primary">Public Sector</span>
+                                    <span class="block text-xs text-gray-400">Government &amp; public institution systems</span>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <a href="solutions.html" class="flex items-center gap-2.5 p-3 rounded-lg hover:bg-white/10 transition-colors border border-white/10">
+                        <span class="material-symbols-outlined text-primary" style="font-size:18px">apps</span>
+                        <span class="text-sm font-medium text-white">All Solutions</span>
+                    </a>
+                </div>
+                <div class="flex flex-col gap-3 pt-4 border-t border-white/10">
+                    <a href="#contact"
+                        class="w-full text-center bg-primary hover:bg-primary-dark text-navy-start font-bold py-3 px-6 rounded-lg text-sm transition-all duration-300">
+                        Contact Us
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section id="hero" class="relative min-h-[85vh] overflow-hidden flex items-center" style="width:100vw">
+        <div id="shader-bg" class="absolute inset-0 w-full h-full bg-navy-start" aria-hidden="true">
+            <canvas id="shader-canvas"></canvas>
+            <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-navy-start/60 via-transparent to-navy-start/30"></div>
+        </div>
+        <div class="relative z-10 mx-auto max-w-7xl px-6 md:px-10 lg:px-16 pt-32 pb-20 w-full">
+            <div class="grid lg:grid-cols-2 gap-16 items-center">
+                <div class="flex flex-col gap-6">
+                    <div id="hero-badge" class="hero-animate inline-flex items-center gap-2 rounded-full border border-primary/30 bg-navy-start/60 px-3 py-1.5 backdrop-blur-sm w-fit">
+                        <span class="text-[10px] font-light uppercase tracking-[0.08em] text-primary/80">Industry</span>
+                        <span class="h-1 w-1 rounded-full bg-primary/50"></span>
+                        <span class="text-xs font-light tracking-tight text-white/80">Government &amp; Public Services</span>
+                    </div>
+                    <h1 id="hero-title" class="hero-animate text-5xl sm:text-6xl md:text-7xl font-extralight leading-[1.05] tracking-tight text-white glow-text">
+                        Public <span class="text-primary">Sector</span>
+                    </h1>
+                    <p id="hero-desc" class="hero-animate text-xl font-light text-white/60 leading-relaxed">
+                        Comprehensive solutions for government institutions
+                    </p>
+                    <p class="hero-animate text-base font-light leading-relaxed text-white/50 max-w-lg" id="hero-sub">
+                        We offer comprehensive solutions tailored to public sector needs. Our expertise in complex workflows, regulations, and processes ensures seamless service delivery. Accelerate innovation, reduce costs, and enhance efficiency.
+                    </p>
+                    <div id="hero-cta" class="hero-animate flex flex-wrap items-center gap-4 pt-2">
+                        <a href="#contact"
+                           class="bg-primary hover:bg-primary-dark text-navy-start font-bold py-3 px-8 rounded-xl text-sm transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary/50">
+                            Request a Demo
+                        </a>
+                        <a href="#solutions"
+                           class="border border-white/20 hover:border-primary/50 text-white font-medium py-3 px-8 rounded-xl text-sm transition-all duration-300 backdrop-blur-sm">
+                            Explore Solutions
+                        </a>
+                    </div>
+                </div>
+                <div class="hero-animate grid grid-cols-2 gap-4" id="hero-stats">
+                    <div class="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-primary/30 transition-all duration-300">
+                        <span class="material-symbols-outlined text-primary text-3xl mb-3">assured_workload</span>
+                        <h3 class="text-2xl font-light text-white">1</h3>
+                        <p class="text-xs text-gray-400 mt-1">Core Solution</p>
+                    </div>
+                    <div class="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-primary/30 transition-all duration-300">
+                        <span class="material-symbols-outlined text-primary text-3xl mb-3">groups</span>
+                        <h3 class="text-2xl font-light text-white">1000+</h3>
+                        <p class="text-xs text-gray-400 mt-1">Employees Managed</p>
+                    </div>
+                    <div class="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-primary/30 transition-all duration-300">
+                        <span class="material-symbols-outlined text-primary text-3xl mb-3">speed</span>
+                        <h3 class="text-2xl font-light text-white">50%</h3>
+                        <p class="text-xs text-gray-400 mt-1">Process Efficiency</p>
+                    </div>
+                    <div class="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-primary/30 transition-all duration-300">
+                        <span class="material-symbols-outlined text-primary text-3xl mb-3">verified</span>
+                        <h3 class="text-2xl font-light text-white">100%</h3>
+                        <p class="text-xs text-gray-400 mt-1">Compliance</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-navy-start to-transparent"></div>
+    </section>
+
+    <!-- KEY ADVANTAGES -->
+    <section class="aurora-gradient py-24 lg:py-32 w-full relative">
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[900px] bg-primary/20 rounded-full blur-[150px] pointer-events-none z-0"></div>
+        <div class="max-w-7xl mx-auto px-6 lg:px-12 relative z-10">
+            <div class="scroll-reveal text-center mb-16 max-w-3xl mx-auto">
+                <span class="text-primary tracking-widest uppercase text-sm mb-3 block">Why Global iTS</span>
+                <h2 class="text-4xl lg:text-5xl mb-6 text-white leading-tight font-light">
+                    Built for Public Service
+                </h2>
+                <p class="text-gray-400 text-lg leading-relaxed font-light">
+                    Technology that modernizes government operations and enhances public service delivery.
+                </p>
+            </div>
+            <div class="scroll-reveal-stagger grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="scroll-reveal-child group bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10 hover:border-primary/50 transition-all duration-300 relative overflow-hidden">
+                    <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" style="background: linear-gradient(135deg, rgba(195, 183, 152, 0.08) 0%, rgba(195, 183, 152, 0.02) 100%);"></div>
+                    <div class="relative z-10">
+                        <div class="w-14 h-14 rounded-xl flex items-center justify-center mb-6" style="background: linear-gradient(135deg, rgba(195, 183, 152, 0.2) 0%, rgba(195, 183, 152, 0.1) 100%);">
+                            <span class="material-symbols-outlined text-primary" style="font-size: 28px;">settings_suggest</span>
+                        </div>
+                        <h3 class="text-lg text-white mb-3">Process Automation</h3>
+                        <p class="text-gray-400 text-sm leading-relaxed font-light">Automate complex government workflows from approvals to reporting, reducing manual effort and processing times.</p>
+                    </div>
+                </div>
+                <div class="scroll-reveal-child group bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10 hover:border-primary/50 transition-all duration-300 relative overflow-hidden">
+                    <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" style="background: linear-gradient(135deg, rgba(195, 183, 152, 0.08) 0%, rgba(195, 183, 152, 0.02) 100%);"></div>
+                    <div class="relative z-10">
+                        <div class="w-14 h-14 rounded-xl flex items-center justify-center mb-6" style="background: linear-gradient(135deg, rgba(195, 183, 152, 0.2) 0%, rgba(195, 183, 152, 0.1) 100%);">
+                            <span class="material-symbols-outlined text-primary" style="font-size: 28px;">support_agent</span>
+                        </div>
+                        <h3 class="text-lg text-white mb-3">Service Delivery</h3>
+                        <p class="text-gray-400 text-sm leading-relaxed font-light">Streamlined citizen-facing services with improved response times and transparent case management.</p>
+                    </div>
+                </div>
+                <div class="scroll-reveal-child group bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10 hover:border-primary/50 transition-all duration-300 relative overflow-hidden">
+                    <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" style="background: linear-gradient(135deg, rgba(195, 183, 152, 0.08) 0%, rgba(195, 183, 152, 0.02) 100%);"></div>
+                    <div class="relative z-10">
+                        <div class="w-14 h-14 rounded-xl flex items-center justify-center mb-6" style="background: linear-gradient(135deg, rgba(195, 183, 152, 0.2) 0%, rgba(195, 183, 152, 0.1) 100%);">
+                            <span class="material-symbols-outlined text-primary" style="font-size: 28px;">badge</span>
+                        </div>
+                        <h3 class="text-lg text-white mb-3">Workforce Management</h3>
+                        <p class="text-gray-400 text-sm leading-relaxed font-light">Comprehensive HR and payroll management designed for the unique requirements of public sector organizations.</p>
+                    </div>
+                </div>
+                <div class="scroll-reveal-child group bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10 hover:border-primary/50 transition-all duration-300 relative overflow-hidden">
+                    <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" style="background: linear-gradient(135deg, rgba(195, 183, 152, 0.08) 0%, rgba(195, 183, 152, 0.02) 100%);"></div>
+                    <div class="relative z-10">
+                        <div class="w-14 h-14 rounded-xl flex items-center justify-center mb-6" style="background: linear-gradient(135deg, rgba(195, 183, 152, 0.2) 0%, rgba(195, 183, 152, 0.1) 100%);">
+                            <span class="material-symbols-outlined text-primary" style="font-size: 28px;">policy</span>
+                        </div>
+                        <h3 class="text-lg text-white mb-3">Regulatory Compliance</h3>
+                        <p class="text-gray-400 text-sm leading-relaxed font-light">Built-in governance and compliance frameworks that meet public sector audit and regulatory requirements.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SOLUTIONS FOR THIS INDUSTRY -->
+    <section id="solutions" class="aurora-gradient py-24 lg:py-32 w-full relative">
+        <div class="absolute top-1/3 right-0 w-[600px] h-[600px] bg-primary/10 rounded-full blur-[150px] pointer-events-none z-0"></div>
+        <div class="max-w-7xl mx-auto px-6 lg:px-12 relative z-10">
+            <div class="scroll-reveal text-center mb-16 max-w-3xl mx-auto">
+                <span class="text-primary tracking-widest uppercase text-sm mb-3 block">Platform</span>
+                <h2 class="text-4xl lg:text-5xl mb-6 text-white leading-tight font-light">
+                    Solutions for Public Sector
+                </h2>
+                <p class="text-gray-400 text-lg leading-relaxed font-light">
+                    Streamlined technology for government and public institution operations.
+                </p>
+            </div>
+            <div class="scroll-reveal-stagger max-w-2xl mx-auto">
+                <!-- G HRMS AI -->
+                <div class="scroll-reveal-child group bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10 hover:border-primary/50 transition-all duration-300">
+                    <div class="flex items-center gap-4 mb-6">
+                        <div class="w-12 h-12 rounded-xl flex items-center justify-center" style="background: linear-gradient(135deg, rgba(195, 183, 152, 0.2) 0%, rgba(195, 183, 152, 0.1) 100%);">
+                            <span class="material-symbols-outlined text-primary" style="font-size: 28px;">group</span>
+                        </div>
+                        <div>
+                            <h3 class="text-xl text-white">G HRMS AI</h3>
+                            <p class="text-sm text-gray-400 font-light">Human Resource Management</p>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-2 mb-6">
+                        <div class="flex items-center gap-2 p-2.5 rounded-lg bg-white/5 border border-white/5">
+                            <span class="material-symbols-outlined text-primary text-base">badge</span>
+                            <span class="text-xs text-gray-300">G-HR</span>
+                        </div>
+                        <div class="flex items-center gap-2 p-2.5 rounded-lg bg-white/5 border border-white/5">
+                            <span class="material-symbols-outlined text-primary text-base">payments</span>
+                            <span class="text-xs text-gray-300">G-Payroll</span>
+                        </div>
+                        <div class="flex items-center gap-2 p-2.5 rounded-lg bg-white/5 border border-white/5">
+                            <span class="material-symbols-outlined text-primary text-base">schedule</span>
+                            <span class="text-xs text-gray-300">G-Attendance</span>
+                        </div>
+                        <div class="flex items-center gap-2 p-2.5 rounded-lg bg-white/5 border border-white/5">
+                            <span class="material-symbols-outlined text-primary text-base">work</span>
+                            <span class="text-xs text-gray-300">G-Career Portal</span>
+                        </div>
+                        <div class="flex items-center gap-2 p-2.5 rounded-lg bg-white/5 border border-white/5">
+                            <span class="material-symbols-outlined text-primary text-base">person</span>
+                            <span class="text-xs text-gray-300">G-ESS</span>
+                        </div>
+                        <div class="flex items-center gap-2 p-2.5 rounded-lg bg-white/5 border border-white/5">
+                            <span class="material-symbols-outlined text-primary text-base">admin_panel_settings</span>
+                            <span class="text-xs text-gray-300">G-Admin</span>
+                        </div>
+                    </div>
+                    <a href="ghrms.html" class="text-primary hover:text-white text-sm flex items-center gap-1 transition-colors group/link">
+                        Explore G HRMS AI <span class="material-symbols-outlined text-base group-hover/link:translate-x-1 transition-transform">arrow_forward</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SUCCESS STORIES -->
+    <section class="aurora-gradient py-24 w-full relative">
+        <div class="absolute top-1/2 right-0 w-[600px] h-[600px] bg-primary/10 rounded-full blur-[150px] pointer-events-none z-0"></div>
+        <div class="max-w-7xl mx-auto px-6 lg:px-12 relative z-10">
+            <div class="scroll-reveal text-center mb-16 max-w-3xl mx-auto">
+                <span class="text-primary tracking-widest uppercase text-sm mb-3 block">Case Studies</span>
+                <h2 class="text-4xl lg:text-5xl mb-6 text-white leading-tight font-light">
+                    Success Stories
+                </h2>
+                <p class="text-gray-400 text-lg leading-relaxed font-light">
+                    See how leading institutions have transformed their public sector operations
+                </p>
+            </div>
+            <div class="scroll-reveal-stagger grid md:grid-cols-3 gap-6">
+                <div class="scroll-reveal-child group bg-white/5 backdrop-blur-sm rounded-2xl overflow-hidden border border-white/10 hover:border-primary/50 transition-all duration-300">
+                    <div class="h-48 bg-gradient-to-br from-primary/20 to-navy-end flex items-center justify-center">
+                        <span class="material-symbols-outlined text-primary/40" style="font-size:64px">sync</span>
+                    </div>
+                    <div class="p-6">
+                        <span class="text-xs text-gray-500">December 25, 2023</span>
+                        <h4 class="text-lg text-white mt-2 mb-3 group-hover:text-primary transition-colors">
+                            DAS Holding Partners With Global iTS For Digital Transformation
+                        </h4>
+                        <a href="#" class="inline-flex items-center gap-1 text-sm text-primary hover:text-white transition-colors group/link">
+                            Read More <span class="material-symbols-outlined text-base group-hover/link:translate-x-1 transition-transform">arrow_forward</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="scroll-reveal-child group bg-white/5 backdrop-blur-sm rounded-2xl overflow-hidden border border-white/10 hover:border-primary/50 transition-all duration-300">
+                    <div class="h-48 bg-gradient-to-br from-primary/20 to-navy-end flex items-center justify-center">
+                        <span class="material-symbols-outlined text-primary/40" style="font-size:64px">trending_up</span>
+                    </div>
+                    <div class="p-6">
+                        <span class="text-xs text-gray-500">October 6, 2022</span>
+                        <h4 class="text-lg text-white mt-2 mb-3 group-hover:text-primary transition-colors">
+                            Infinity Capital Leverages Global iTS Solutions For Strategic Advantage
+                        </h4>
+                        <a href="#" class="inline-flex items-center gap-1 text-sm text-primary hover:text-white transition-colors group/link">
+                            Read More <span class="material-symbols-outlined text-base group-hover/link:translate-x-1 transition-transform">arrow_forward</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="scroll-reveal-child group bg-white/5 backdrop-blur-sm rounded-2xl overflow-hidden border border-white/10 hover:border-primary/50 transition-all duration-300">
+                    <div class="h-48 bg-gradient-to-br from-primary/20 to-navy-end flex items-center justify-center">
+                        <span class="material-symbols-outlined text-primary/40" style="font-size:64px">account_balance</span>
+                    </div>
+                    <div class="p-6">
+                        <span class="text-xs text-gray-500">October 1, 2022</span>
+                        <h4 class="text-lg text-white mt-2 mb-3 group-hover:text-primary transition-colors">
+                            Global iTS Empowers AlRashed Group's Investment and Treasury Functions
+                        </h4>
+                        <a href="#" class="inline-flex items-center gap-1 text-sm text-primary hover:text-white transition-colors group/link">
+                            Read More <span class="material-symbols-outlined text-base group-hover/link:translate-x-1 transition-transform">arrow_forward</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA / CONTACT -->
+    <section id="contact" class="bg-white py-24 relative">
+        <div class="max-w-7xl mx-auto px-6 lg:px-12 relative z-10">
+            <div class="scroll-reveal-stagger grid lg:grid-cols-2 gap-16">
+                <div class="scroll-reveal-child">
+                    <span class="text-sm uppercase tracking-wider text-primary">Get Started</span>
+                    <h2 class="text-3xl md:text-4xl mt-3 mb-6 text-gray-900 leading-tight font-light">
+                        Ready to Transform Your
+                        <span class="text-primary">Public Sector Operations?</span>
+                    </h2>
+                    <p class="text-lg mb-8 text-gray-600 font-light">
+                        Schedule a personalized demo to see how our solutions can streamline your public sector operations and drive growth.
+                    </p>
+                    <div class="space-y-4 mb-8">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-lg flex items-center justify-center" style="background-color: rgba(195, 183, 152, 0.2);">
+                                <svg class="w-5 h-5" style="color: #c3b798;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-500">Email</p>
+                                <a href="mailto:info@globalits.bh" class="hover:text-primary transition-colors text-gray-900">info@globalits.bh</a>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-lg flex items-center justify-center" style="background-color: rgba(195, 183, 152, 0.2);">
+                                <svg class="w-5 h-5" style="color: #c3b798;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-500">Phone</p>
+                                <a href="tel:+97317000000" class="hover:text-primary transition-colors text-gray-900">+973 17 000 000</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-6 rounded-2xl border bg-gray-50 border-gray-200">
+                        <div class="flex items-center gap-2 mb-4">
+                            <svg class="w-5 h-5" style="color: #c3b798;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                            </svg>
+                            <h4 class="font-medium text-gray-900">Global Offices</h4>
+                        </div>
+                        <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 text-sm">
+                            <span class="text-gray-600">Bahrain (HQ)</span>
+                            <span class="text-gray-600">London</span>
+                            <span class="text-gray-600">Riyadh</span>
+                            <span class="text-gray-600">Oman</span>
+                            <span class="text-gray-600">Pakistan</span>
+                            <span class="text-gray-600">Egypt</span>
+                            <span class="text-gray-600">Kuwait</span>
+                            <span class="text-gray-600">India</span>
+                            <span class="text-gray-600">UAE</span>
+                            <span class="text-gray-600">Qatar</span>
+                            <span class="text-gray-600">Singapore</span>
+                            <span class="text-gray-600">Jordan</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="scroll-reveal-child rounded-3xl p-8 md:p-10 border bg-gray-50 border-gray-200 shadow-sm">
+                    <h3 class="text-xl mb-6 text-gray-900">Request a Demo</h3>
+                    <form class="space-y-5" id="contactForm">
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium mb-2 text-gray-700">First Name</label>
+                                <input type="text" name="firstName"
+                                    class="w-full px-4 py-3 rounded-xl border border-gray-300 bg-white focus:outline-none focus:border-primary transition-colors text-gray-900 placeholder-gray-400"
+                                    placeholder="John" required />
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium mb-2 text-gray-700">Last Name</label>
+                                <input type="text" name="lastName"
+                                    class="w-full px-4 py-3 rounded-xl border border-gray-300 bg-white focus:outline-none focus:border-primary transition-colors text-gray-900 placeholder-gray-400"
+                                    placeholder="Doe" required />
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-2 text-gray-700">Work Email</label>
+                            <input type="email" name="email"
+                                class="w-full px-4 py-3 rounded-xl border border-gray-300 bg-white focus:outline-none focus:border-primary transition-colors text-gray-900 placeholder-gray-400"
+                                placeholder="john@company.com" required />
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-2 text-gray-700">Company</label>
+                            <input type="text" name="company"
+                                class="w-full px-4 py-3 rounded-xl border border-gray-300 bg-white focus:outline-none focus:border-primary transition-colors text-gray-900 placeholder-gray-400"
+                                placeholder="Your Institution" required />
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-2 text-gray-700">How can we help?</label>
+                            <textarea name="message" rows="4"
+                                class="w-full px-4 py-3 rounded-xl border border-gray-300 bg-white focus:outline-none focus:border-primary transition-colors resize-none text-gray-900 placeholder-gray-400"
+                                placeholder="Tell us about your needs..." required></textarea>
+                        </div>
+                        <button type="submit"
+                            class="w-full px-6 py-4 rounded-xl font-medium text-white flex items-center justify-center gap-2 transition-all hover:opacity-90"
+                            style="background: linear-gradient(135deg, #c3b798 0%, #a89b7d 100%);">
+                            Request Demo
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+                            </svg>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="aurora-gradient text-white py-20 lg:py-24">
+        <div class="max-w-7xl mx-auto px-6 lg:px-12">
+            <div class="flex w-full flex-col justify-between gap-10 lg:flex-row lg:items-start">
+                <div class="flex w-full flex-col gap-6 lg:max-w-md">
+                    <a href="index.html">
+                        <img src="https://globaledgeholding.com/wp-content/uploads/2019/07/GitsGedge-logos-4-1.png" alt="Global iTS" class="h-10 w-auto object-contain">
+                    </a>
+                    <p class="text-sm text-gray-400 leading-relaxed max-w-sm font-light">
+                        Delivering enterprise-grade AI solutions for financial services worldwide. Trusted by leading banks, insurers, and investment firms across the GCC and beyond.
+                    </p>
+                    <ul class="flex items-center space-x-5">
+                        <li><a href="#" aria-label="LinkedIn" class="text-gray-400 hover:text-primary transition-colors duration-300"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg></a></li>
+                        <li><a href="#" aria-label="Twitter" class="text-gray-400 hover:text-primary transition-colors duration-300"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"/></svg></a></li>
+                    </ul>
+                </div>
+                <div class="grid w-full gap-8 grid-cols-2 md:grid-cols-3 lg:gap-16">
+                    <div>
+                        <h3 class="mb-4 text-white text-base">Solutions</h3>
+                        <ul class="space-y-3 text-sm text-gray-400">
+                            <li class="hover:text-primary transition-colors"><a href="gbank.html">G Bank AI</a></li>
+                            <li class="hover:text-primary transition-colors"><a href="ginsure.html">G Insure AI</a></li>
+                            <li class="hover:text-primary transition-colors"><a href="ginvest.html">G Invest AI</a></li>
+                            <li class="hover:text-primary transition-colors"><a href="grisk.html">G Risk AI</a></li>
+                            <li class="hover:text-primary transition-colors"><a href="ghrms.html">G HRMS AI</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="mb-4 text-white text-base">Company</h3>
+                        <ul class="space-y-3 text-sm text-gray-400">
+                            <li class="hover:text-primary transition-colors"><a href="#">About Us</a></li>
+                            <li class="hover:text-primary transition-colors"><a href="#">Leadership</a></li>
+                            <li class="hover:text-primary transition-colors"><a href="#">Careers</a></li>
+                            <li class="hover:text-primary transition-colors"><a href="#">News & Events</a></li>
+                            <li class="hover:text-primary transition-colors"><a href="#">Contact</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="mb-4 text-white text-base">Resources</h3>
+                        <ul class="space-y-3 text-sm text-gray-400">
+                            <li class="hover:text-primary transition-colors"><a href="#">Documentation</a></li>
+                            <li class="hover:text-primary transition-colors"><a href="#">Support Center</a></li>
+                            <li class="hover:text-primary transition-colors"><a href="#">Case Studies</a></li>
+                            <li class="hover:text-primary transition-colors"><a href="#">Blog</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-12 flex flex-col justify-between gap-4 border-t border-white/10 pt-8 text-xs text-gray-400 md:flex-row md:items-center">
+                <p class="order-2 md:order-1">&copy; 2026 Global iTS. All rights reserved.</p>
+                <ul class="order-1 flex flex-col gap-3 md:order-2 md:flex-row md:gap-6">
+                    <li class="hover:text-primary transition-colors"><a href="#">Terms and Conditions</a></li>
+                    <li class="hover:text-primary transition-colors"><a href="#">Privacy Policy</a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+
+    <!-- SCRIPTS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js"></script>
+    <script>
+    (function initShader(){var c=document.getElementById('shader-canvas');if(!c)return;var r=new THREE.WebGLRenderer({canvas:c,antialias:true,alpha:false});r.setClearColor(0x00013a,1);r.setPixelRatio(Math.min(window.devicePixelRatio,2));var ct=document.getElementById('shader-bg');r.setSize(ct.clientWidth,ct.clientHeight,false);var s=new THREE.Scene();var cam=new THREE.PerspectiveCamera(75,ct.clientWidth/ct.clientHeight,0.1,1000);cam.position.set(0,0,1);var vs=`varying vec2 vUv;void main(){vUv=uv;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0);}`;var fs=`#ifdef GL_ES\nprecision lowp float;\n#endif\nuniform float iTime;uniform vec2 iResolution;varying vec2 vUv;vec4 buf[8];vec4 sigmoid(vec4 x){return 1./(1.+exp(-x));}vec4 cppn_fn(vec2 coordinate,float in0,float in1,float in2){buf[6]=vec4(coordinate.x,coordinate.y,0.3948333106474662+in0,0.36+in1);buf[7]=vec4(0.14+in2,sqrt(coordinate.x*coordinate.x+coordinate.y*coordinate.y),0.,0.);buf[0]=mat4(vec4(6.5404263,-3.6126034,0.7590882,-1.13613),vec4(2.4582713,3.1660357,1.2219609,0.06276096),vec4(-5.478085,-6.159632,1.8701609,-4.7742867),vec4(6.039214,-5.542865,-0.90925294,3.251348))*buf[6]+mat4(vec4(0.8473259,-5.722911,3.975766,1.6522468),vec4(-0.24321538,0.5839259,-1.7661959,-5.350116),vec4(0.0,0.0,0.0,0.0),vec4(0.0,0.0,0.0,0.0))*buf[7]+vec4(0.21808943,1.1243913,-1.7969975,5.0294676);buf[1]=mat4(vec4(-3.3522482,-6.0612736,0.55641043,-4.4719114),vec4(0.8631464,1.7432913,5.643898,1.6106541),vec4(2.4941394,-3.5012043,1.7184316,6.357333),vec4(3.310376,8.209261,1.1355612,-1.165539))*buf[6]+mat4(vec4(5.24046,-13.034365,0.009859298,15.870829),vec4(2.987511,3.129433,-0.89023495,-1.6822904),vec4(0.0,0.0,0.0,0.0),vec4(0.0,0.0,0.0,0.0))*buf[7]+vec4(-5.9457836,-6.573602,-0.8812491,1.5436668);buf[0]=sigmoid(buf[0]);buf[1]=sigmoid(buf[1]);buf[2]=mat4(vec4(-15.219568,8.095543,-2.429353,-1.9381982),vec4(-5.951362,4.3115187,2.6393783,1.274315),vec4(-7.3145227,6.7297835,5.2473326,5.9411426),vec4(5.0796127,8.979051,-1.7278991,-1.158976))*buf[6]+mat4(vec4(-11.967154,-11.608155,6.1486754,11.237008),vec4(2.124141,-6.263192,-1.7050359,-0.7021966),vec4(0.0,0.0,0.0,0.0),vec4(0.0,0.0,0.0,0.0))*buf[7]+vec4(-4.17164,-3.2281182,-4.576417,-3.6401186);buf[3]=mat4(vec4(3.1832156,-13.738922,1.879223,3.233465),vec4(0.64300746,12.768129,1.9141049,0.50990224),vec4(-0.049295485,4.4807224,1.4733979,1.801449),vec4(5.0039253,13.000481,3.3991797,-4.5561905))*buf[6]+mat4(vec4(-0.1285731,7.720628,-3.1425676,4.742367),vec4(0.6393625,3.714393,-0.8108378,-0.39174938),vec4(0.0,0.0,0.0,0.0),vec4(0.0,0.0,0.0,0.0))*buf[7]+vec4(-1.1811101,-21.621881,0.7851888,1.2329718);buf[2]=sigmoid(buf[2]);buf[3]=sigmoid(buf[3]);buf[4]=mat4(vec4(5.214916,-7.183024,2.7228765,2.6592617),vec4(-5.601878,-25.3591,4.067988,0.4602802),vec4(-10.57759,24.286327,21.102104,37.546658),vec4(4.3024497,-1.9625226,2.3458803,-1.372816))*buf[0]+mat4(vec4(-17.6526,-10.507558,2.2587414,12.462782),vec4(6.265566,-502.75443,-12.642513,0.9112289),vec4(-10.983244,20.741234,-9.701768,-0.7635988),vec4(5.383626,1.4819539,-4.1911616,-4.8444734))*buf[1]+mat4(vec4(12.785233,-16.345072,-0.39901125,1.7955981),vec4(-30.48365,-1.8345358,1.4542528,-1.1118771),vec4(19.872723,-7.337935,-42.941723,-98.52709),vec4(8.337645,-2.7312303,-2.2927687,-36.142323))*buf[2]+mat4(vec4(-16.298317,3.5471997,-0.44300047,-9.444417),vec4(57.5077,-35.609753,16.163465,-4.1534753),vec4(-0.07470326,-3.8656476,-7.0901804,3.1523974),vec4(-12.559385,-7.077619,1.490437,-0.8211543))*buf[3]+vec4(-7.67914,15.927437,1.3207729,-1.6686112);buf[5]=mat4(vec4(-1.4109162,-0.372762,-3.770383,-21.367174),vec4(-6.2103205,-9.35908,0.92529047,8.82561),vec4(11.460242,-22.348068,13.625772,-18.693201),vec4(-0.3429052,-3.9905605,-2.4626114,-0.45033523))*buf[0]+mat4(vec4(7.3481627,-4.3661838,-6.3037653,-3.868115),vec4(1.5462853,6.5488915,1.9701879,-0.58291394),vec4(6.5858274,-2.2180402,3.7127688,-1.3730392),vec4(-5.7973905,10.134961,-2.3395722,-5.965605))*buf[1]+mat4(vec4(-2.5132585,-6.6685553,-1.4029363,-0.16285264),vec4(-0.37908727,0.53738135,4.389061,-1.3024765),vec4(-0.70647055,2.0111287,-5.1659346,-3.728635),vec4(-13.562562,10.487719,-0.9173751,-2.6487076))*buf[2]+mat4(vec4(-8.645013,6.5546675,-6.3944063,-5.5933375),vec4(-0.57783127,-1.077275,36.91025,5.736769),vec4(14.283112,3.7146652,7.1452246,-4.5958776),vec4(2.7192075,3.6021907,-4.366337,-2.3653464))*buf[3]+vec4(-5.9000807,-4.329569,1.2427121,8.59503);buf[4]=sigmoid(buf[4]);buf[5]=sigmoid(buf[5]);float brightness=(buf[4].x+buf[4].y+buf[5].x+buf[5].y)*0.25;vec3 navy=vec3(0.0,0.004,0.227);vec3 gold=vec3(0.765,0.718,0.596);vec3 result=mix(navy,gold,brightness);return vec4(result,1.0);}void main(){vec2 uv=vUv*2.0-1.0;uv.y*=-1.0;vec4 cppn=cppn_fn(uv,0.18*sin(0.3*iTime),0.18*sin(0.69*iTime),0.18*sin(0.44*iTime));gl_FragColor=cppn;}`;var g=new THREE.PlaneGeometry(4,4);var m=new THREE.ShaderMaterial({vertexShader:vs,fragmentShader:fs,uniforms:{iTime:{value:0},iResolution:{value:new THREE.Vector2(ct.clientWidth,ct.clientHeight)}},side:THREE.DoubleSide});var mesh=new THREE.Mesh(g,m);mesh.position.set(0,-0.75,-0.5);s.add(mesh);function fit(){var vFov=75*Math.PI/180;var dist=1.5;var visH=2*Math.tan(vFov/2)*dist;var visW=visH*(ct.clientWidth/ct.clientHeight);var sc=Math.max(1.0,visW/4*1.05,visH/4*1.05);mesh.scale.set(sc,sc,1);}fit();var clock=new THREE.Clock();function animate(){requestAnimationFrame(animate);m.uniforms.iTime.value=clock.getElapsedTime();r.render(s,cam);}var sb=document.getElementById('shader-bg');sb.style.filter='blur(20px)';sb.style.transform='scale(1.1)';sb.style.opacity='0.7';sb.style.transition='filter 1.5s cubic-bezier(0.33,1,0.68,1),transform 1.5s cubic-bezier(0.33,1,0.68,1),opacity 1.5s cubic-bezier(0.33,1,0.68,1)';setTimeout(function(){sb.style.filter='blur(0px)';sb.style.transform='scale(1)';sb.style.opacity='1';},300);window.addEventListener('resize',function(){var w=ct.clientWidth;var h=ct.clientHeight;r.setSize(w,h,false);cam.aspect=w/h;cam.updateProjectionMatrix();m.uniforms.iResolution.value.set(w,h);fit();});animate();})();
+
+    (function initHeroAnimations(){var badge=document.getElementById('hero-badge');var title=document.getElementById('hero-title');var desc=document.getElementById('hero-desc');var sub=document.getElementById('hero-sub');var cta=document.getElementById('hero-cta');var stats=document.getElementById('hero-stats');if(!title)return;function splitIntoLines(el){var origHTML=el.innerHTML;var text=el.textContent.trim();var words=text.split(/\s+/);el.innerHTML='';var spans=words.map(function(word){var span=document.createElement('span');span.style.display='inline';span.textContent=word+' ';el.appendChild(span);return span;});var lines=[];var currentLine=[];var lastTop=null;spans.forEach(function(span){var top=span.getBoundingClientRect().top;if(lastTop!==null&&Math.abs(top-lastTop)>2){lines.push(currentLine);currentLine=[];}currentLine.push(span.textContent);lastTop=top;});if(currentLine.length)lines.push(currentLine);if(origHTML!==text){el.innerHTML='';var div=document.createElement('div');div.style.display='block';div.style.overflow='hidden';var inner=document.createElement('div');inner.innerHTML=origHTML;div.appendChild(inner);el.appendChild(div);return[inner];}el.innerHTML='';var lineEls=lines.map(function(lineWords){var div=document.createElement('div');div.style.display='block';div.style.overflow='hidden';var inner=document.createElement('div');inner.textContent=lineWords.join('');div.appendChild(inner);el.appendChild(div);return inner;});return lineEls;}document.fonts.ready.then(function(){var lineEls=splitIntoLines(title);gsap.set(lineEls,{filter:'blur(16px)',yPercent:30,autoAlpha:0,scale:1.06,transformOrigin:'50% 100%'});if(badge)gsap.set(badge,{autoAlpha:0,y:-8,filter:'blur(8px)'});if(desc)gsap.set(desc,{autoAlpha:0,y:12,filter:'blur(8px)'});if(sub)gsap.set(sub,{autoAlpha:0,y:12,filter:'blur(8px)'});if(cta)gsap.set(cta,{autoAlpha:0,y:12,filter:'blur(6px)'});if(stats)gsap.set(stats,{autoAlpha:0,y:24,filter:'blur(10px)'});[badge,title,desc,sub,cta,stats].forEach(function(el){if(el)el.classList.remove('hero-animate');});var tl=gsap.timeline({defaults:{ease:'power3.out'}});if(badge){tl.to(badge,{autoAlpha:1,y:0,filter:'blur(0px)',duration:0.5},0.0);}tl.to(lineEls,{filter:'blur(0px)',yPercent:0,autoAlpha:1,scale:1,duration:0.9,stagger:0.15},0.1);if(desc){tl.to(desc,{autoAlpha:1,y:0,filter:'blur(0px)',duration:0.6},'-=0.55');}if(sub){tl.to(sub,{autoAlpha:1,y:0,filter:'blur(0px)',duration:0.6},'-=0.45');}if(cta){tl.to(cta,{autoAlpha:1,y:0,filter:'blur(0px)',duration:0.5},'-=0.35');}if(stats){tl.to(stats,{autoAlpha:1,y:0,filter:'blur(0px)',duration:0.8},'-=0.5');}});})();
+
+    (function initScrollReveal(){var ro=new IntersectionObserver(function(entries){entries.forEach(function(entry){if(entry.isIntersecting){entry.target.classList.add('revealed');ro.unobserve(entry.target);}});},{threshold:0.15});document.querySelectorAll('.scroll-reveal').forEach(function(el){ro.observe(el);});var so=new IntersectionObserver(function(entries){entries.forEach(function(entry){if(entry.isIntersecting){var children=entry.target.querySelectorAll('.scroll-reveal-child');children.forEach(function(child,i){setTimeout(function(){child.classList.add('revealed');},i*100);});so.unobserve(entry.target);}});},{threshold:0.1});document.querySelectorAll('.scroll-reveal-stagger').forEach(function(el){so.observe(el);});})();
+
+    (function initNav(){var nav=document.getElementById('main-nav');var mobileMenu=document.getElementById('mobile-menu');var mobileToggle=document.getElementById('mobile-toggle');var menuIcon=document.getElementById('menu-toggle-icon');var menuPath=document.getElementById('menu-path-animated');var mobileOpen=false;var activeDropdown=null;var dropdownNames=['products','industries','company'];function onScroll(){if(window.scrollY>10){nav.classList.add('scrolled');}else{nav.classList.remove('scrolled');}}window.addEventListener('scroll',onScroll,{passive:true});onScroll();window.toggleDropdown=function(name){if(activeDropdown===name){closeAllDropdowns();return;}closeAllDropdowns();var container=document.getElementById('dropdown-'+name);if(!container)return;var panel=container.querySelector('.nav-dropdown-panel');var chevron=container.querySelector('.nav-chevron');if(panel)panel.classList.add('open');if(chevron)chevron.classList.add('open');activeDropdown=name;};function closeAllDropdowns(){dropdownNames.forEach(function(name){var container=document.getElementById('dropdown-'+name);if(!container)return;var panel=container.querySelector('.nav-dropdown-panel');var chevron=container.querySelector('.nav-chevron');if(panel)panel.classList.remove('open');if(chevron)chevron.classList.remove('open');});activeDropdown=null;}document.addEventListener('click',function(e){var insideDropdown=false;dropdownNames.forEach(function(name){if(e.target.closest('#dropdown-'+name))insideDropdown=true;});if(!insideDropdown)closeAllDropdowns();});document.addEventListener('keydown',function(e){if(e.key==='Escape'){closeAllDropdowns();if(mobileOpen)window.toggleMobileMenu();}});window.toggleMobileMenu=function(){mobileOpen=!mobileOpen;if(mobileOpen){mobileMenu.classList.add('open');menuIcon.classList.add('-rotate-45');if(menuPath){menuPath.style.strokeDasharray='20 300';menuPath.style.strokeDashoffset='-32.42px';}document.body.style.overflow='hidden';}else{mobileMenu.classList.remove('open');menuIcon.classList.remove('-rotate-45');if(menuPath){menuPath.style.strokeDasharray='12 63';menuPath.style.strokeDashoffset='0';}document.body.style.overflow='';}if(mobileToggle)mobileToggle.setAttribute('aria-expanded',String(mobileOpen));};})();
+    </script>
+</body>
+</html>
