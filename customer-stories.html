@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Customer Stories - Global iTS</title>
+    <meta name="description" content="Discover how leading financial institutions across the GCC trust Global iTS to power their digital transformation." />
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: { extend: {
+                colors: { "primary": "#c3b798", "primary-dark": "#a89b7d", "navy-start": "#00013a", "navy-end": "#0f1055" },
+                fontFamily: { "sans": ["Inter","sans-serif"], "serif": ["Inter","sans-serif"] },
+                backgroundImage: { 'hero-pattern': "repeating-linear-gradient(45deg, rgba(255,255,255,0.03) 0px, rgba(255,255,255,0.03) 1px, transparent 1px, transparent 40px)" }
+            }}
+        }
+    </script>
+    <style>
+        html { overflow-x: hidden; }
+        @keyframes scrollReveal { from { opacity:0; filter:blur(8px); transform:translateY(20px); } to { opacity:1; filter:blur(0); transform:translateY(0); } }
+        .scroll-reveal { opacity: 0; }
+        .scroll-reveal.revealed { animation: scrollReveal 0.6s ease forwards; }
+        .scroll-reveal-stagger > .scroll-reveal-child { opacity: 0; }
+        .scroll-reveal-stagger > .scroll-reveal-child.revealed { animation: scrollReveal 0.6s ease forwards; }
+
+        .aurora-gradient { background: #00013a; }
+        .card-gold-glow:hover { box-shadow: 0 15px 40px -10px rgba(195,183,152,0.25); }
+        .glow-text { text-shadow: 0 0 20px rgba(195,183,152,0.3); }
+
+        .hero-bg { background: linear-gradient(135deg, #00013a 0%, #0f1055 50%, #0a0b2e 100%); position: relative; }
+        .hero-bg::before { content:''; position:absolute; inset:0; background-image: repeating-linear-gradient(45deg, rgba(255,255,255,0.02) 0px, rgba(255,255,255,0.02) 1px, transparent 1px, transparent 40px); }
+        .dot-pattern { position:absolute; inset:0; pointer-events:none; z-index:0; background-image:radial-gradient(circle, rgba(195,183,152,0.08) 1.5px, transparent 1.5px); background-size:28px 28px; }
+
+        .nav-dropdown-panel { opacity:0; visibility:hidden; transform:translateY(6px) scale(0.97); transition:opacity 200ms,visibility 200ms,transform 200ms; pointer-events:none; }
+        .nav-dropdown-panel.open { opacity:1; visibility:visible; transform:translateY(0) scale(1); pointer-events:auto; }
+        .nav-chevron { transition: transform 300ms; }
+        .nav-chevron.open { transform: rotate(180deg); }
+        #main-nav { transition: background 300ms, border-color 300ms; }
+        #main-nav.scrolled { background: rgba(0,1,58,0.92); backdrop-filter: blur(16px); border-color: rgba(255,255,255,0.1); }
+        #mobile-menu { opacity:0; visibility:hidden; transition:opacity 300ms,visibility 300ms; }
+        #mobile-menu.open { opacity:1; visibility:visible; }
+        #mobile-menu .mobile-inner { transform:scale(0.97); transition:transform 300ms; }
+        #mobile-menu.open .mobile-inner { transform:scale(1); }
+        .progressive-blur-viewport { position:fixed; bottom:0; left:0; right:0; height:80px; pointer-events:none; z-index:40; backdrop-filter:blur(16px); mask-image:linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0.8) 20%, rgba(0,0,0,0.4) 60%, rgba(0,0,0,0) 100%); }
+
+        /* Testimonial bento */
+        @keyframes testimonialReveal { from { opacity:0; filter:blur(8px); transform:translateY(20px); } to { opacity:1; filter:blur(0); transform:translateY(0); } }
+        .testimonial-bento-card { opacity:0; transition:all 0.3s ease; }
+        .testimonial-bento-card.revealed { animation: testimonialReveal 0.6s ease forwards; }
+        .testimonial-bento-card:hover { transform: translateY(-2px); }
+        .bento-grid-pattern {
+            background-image: linear-gradient(to right, rgba(195,183,152,0.22) 1px, transparent 1px), linear-gradient(to bottom, rgba(195,183,152,0.22) 1px, transparent 1px);
+            background-size: 50px 56px;
+            mask-image: radial-gradient(ellipse 80% 50% at 50% 0%, #000 70%, transparent 110%);
+        }
+
+        /* Story card */
+        .story-card { transition: all 0.3s ease; }
+        .story-card:hover { transform: translateY(-4px); box-shadow: 0 20px 40px rgba(0,0,0,0.3); }
+        .client-logo-card { background:#fff; border:1px solid #e5e7ef; border-radius:16px; padding:16px 12px; height:110px; display:flex; align-items:center; justify-content:center; transition:all 0.25s ease; }
+        .client-logo-card:hover { border-color:#c3b798; box-shadow:0 8px 24px rgba(0,0,0,0.08); transform:translateY(-2px); }
+        .client-logo-card img { width:100%; height:100%; object-fit:cover; }
+        .active-client-tab { background:#00013a; color:#fff !important; }
+        .client-tab { color:#6b7280; }
+        /* Tab filter */
+        .tab-btn { transition: all 0.2s ease; cursor: pointer; }
+        .tab-btn.active { background: rgba(195,183,152,0.15); color: #c3b798; border: 1px solid rgba(195,183,152,0.3); }
+        .tab-btn:not(.active) { background: transparent; color: rgba(255,255,255,0.5); border: 1px solid transparent; }
+        .tab-btn:not(.active):hover { color: white; background: rgba(255,255,255,0.08); }
+
+        /* Client logo item */
+        .client-logo-item { transition: all 0.3s ease; filter: grayscale(40%); opacity: 0.7; }
+        .client-logo-item:hover { filter: grayscale(0%); opacity: 1; transform: scale(1.05); }
+    </style>
+    <script>document.addEventListener("error",function(e){var i=e.target;if(i.tagName==="IMG"&&i.src.includes("globalits.bh")&&!i.dataset.ukfallback){i.dataset.ukfallback="1";i.src=i.src.replace("globalits.bh","globalits.co.uk");}},true);</script>
+</head>
+<body class="bg-navy-start text-white overflow-x-hidden font-sans">
+    <div class="progressive-blur-viewport"></div>
+
+    <!-- Navigation -->
+    <nav id="main-nav" class="fixed top-0 left-0 right-0 z-50 w-full border-b border-transparent bg-transparent">
+        <div class="max-w-7xl mx-auto px-6 lg:px-12 flex items-center justify-between h-16">
+            <div class="flex items-center gap-8">
+                <a href="index.html" class="flex-shrink-0"><img src="https://globaledgeholding.com/wp-content/uploads/2019/07/GitsGedge-logos-4-1.png" alt="Global iTS" class="h-10 w-auto object-contain"></a>
+                <div class="hidden md:flex items-center gap-1">
+                    <div class="relative" id="dropdown-products">
+                        <button onclick="toggleDropdown('products')" class="flex items-center gap-1.5 text-sm font-medium text-white/80 hover:text-primary px-3 py-2 rounded-md transition-colors">Products<svg class="w-3 h-3 nav-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg></button>
+                        <div class="nav-dropdown-panel absolute top-full left-0 mt-2 origin-top-left"><div class="bg-navy-start border border-white/10 rounded-xl shadow-2xl p-1.5 w-[520px]"><div class="bg-white/5 rounded-lg border border-white/5 p-3"><div class="grid grid-cols-2 gap-2"><a href="gbank.html" class="flex items-start gap-3 p-3 rounded-lg hover:bg-white/10 transition-colors"><div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5"><span class="material-symbols-outlined text-primary" style="font-size:20px">account_balance</span></div><div><span class="block text-sm font-medium text-white">G Bank AI</span><span class="block text-xs text-gray-400 mt-0.5">AI-powered core banking platform</span></div></a><a href="ginsure.html" class="flex items-start gap-3 p-3 rounded-lg hover:bg-white/10 transition-colors"><div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5"><span class="material-symbols-outlined text-primary" style="font-size:20px">shield</span></div><div><span class="block text-sm font-medium text-white">G Insure AI</span><span class="block text-xs text-gray-400 mt-0.5">Insurance technology &amp; claims automation</span></div></a><a href="ginvest.html" class="flex items-start gap-3 p-3 rounded-lg hover:bg-white/10 transition-colors"><div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5"><span class="material-symbols-outlined text-primary" style="font-size:20px">trending_up</span></div><div><span class="block text-sm font-medium text-white">G Invest AI</span><span class="block text-xs text-gray-400 mt-0.5">Investment management &amp; portfolio analytics</span></div></a><a href="grisk.html" class="flex items-start gap-3 p-3 rounded-lg hover:bg-white/10 transition-colors"><div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5"><span class="material-symbols-outlined text-primary" style="font-size:20px">gpp_maybe</span></div><div><span class="block text-sm font-medium text-white">G Risk AI</span><span class="block text-xs text-gray-400 mt-0.5">Risk assessment &amp; regulatory compliance</span></div></a><a href="ghrms.html" class="flex items-start gap-3 p-3 rounded-lg hover:bg-white/10 transition-colors"><div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5"><span class="material-symbols-outlined text-primary" style="font-size:20px">group</span></div><div><span class="block text-sm font-medium text-white">G HRMS AI</span><span class="block text-xs text-gray-400 mt-0.5">Human resource management system</span></div></a></div></div></div></div>
+                    </div>
+                    <div class="relative" id="dropdown-industries">
+                        <button onclick="toggleDropdown('industries')" class="flex items-center gap-1.5 text-sm font-medium text-white/80 hover:text-primary px-3 py-2 rounded-md transition-colors">Industries<svg class="w-3 h-3 nav-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg></button>
+                        <div class="nav-dropdown-panel absolute top-full left-0 mt-2 origin-top-left"><div class="bg-navy-start border border-white/10 rounded-xl shadow-2xl p-1.5 w-[520px]"><div class="bg-white/5 rounded-lg border border-white/5 p-3"><div class="grid grid-cols-2 gap-2"><a href="corporate-banking.html" class="flex items-start gap-3 p-3 rounded-lg hover:bg-white/10 transition-colors"><div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5"><span class="material-symbols-outlined text-primary" style="font-size:20px">corporate_fare</span></div><div><span class="block text-sm font-medium text-white">Corporate Banking</span><span class="block text-xs text-gray-400 mt-0.5">Enterprise-grade banking solutions</span></div></a><a href="family-offices.html" class="flex items-start gap-3 p-3 rounded-lg hover:bg-white/10 transition-colors"><div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5"><span class="material-symbols-outlined text-primary" style="font-size:20px">cottage</span></div><div><span class="block text-sm font-medium text-white">Family Offices</span><span class="block text-xs text-gray-400 mt-0.5">Tailored family wealth operations</span></div></a><a href="holding-companies.html" class="flex items-start gap-3 p-3 rounded-lg hover:bg-white/10 transition-colors"><div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5"><span class="material-symbols-outlined text-primary" style="font-size:20px">domain</span></div><div><span class="block text-sm font-medium text-white">Holding Companies</span><span class="block text-xs text-gray-400 mt-0.5">Multi-entity portfolio management</span></div></a><a href="insurance.html" class="flex items-start gap-3 p-3 rounded-lg hover:bg-white/10 transition-colors"><div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5"><span class="material-symbols-outlined text-primary" style="font-size:20px">health_and_safety</span></div><div><span class="block text-sm font-medium text-white">Insurance</span><span class="block text-xs text-gray-400 mt-0.5">End-to-end insurance technology</span></div></a><a href="private-banking.html" class="flex items-start gap-3 p-3 rounded-lg hover:bg-white/10 transition-colors"><div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5"><span class="material-symbols-outlined text-primary" style="font-size:20px">account_balance_wallet</span></div><div><span class="block text-sm font-medium text-white">Private Banking</span><span class="block text-xs text-gray-400 mt-0.5">Exclusive private client services</span></div></a><a href="public-sector.html" class="flex items-start gap-3 p-3 rounded-lg hover:bg-white/10 transition-colors"><div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5"><span class="material-symbols-outlined text-primary" style="font-size:20px">assured_workload</span></div><div><span class="block text-sm font-medium text-white">Public Sector</span><span class="block text-xs text-gray-400 mt-0.5">Government &amp; public institution systems</span></div></a><a href="real-estate.html" class="flex items-start gap-3 p-3 rounded-lg hover:bg-white/10 transition-colors"><div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5"><span class="material-symbols-outlined text-primary" style="font-size:20px">apartment</span></div><div><span class="block text-sm font-medium text-white">Real Estate</span><span class="block text-xs text-gray-400 mt-0.5">Property &amp; asset management platforms</span></div></a><a href="retail-banking.html" class="flex items-start gap-3 p-3 rounded-lg hover:bg-white/10 transition-colors"><div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5"><span class="material-symbols-outlined text-primary" style="font-size:20px">storefront</span></div><div><span class="block text-sm font-medium text-white">Retail Banking</span><span class="block text-xs text-gray-400 mt-0.5">Customer-centric retail banking</span></div></a><a href="wealth-management.html" class="flex items-start gap-3 p-3 rounded-lg hover:bg-white/10 transition-colors"><div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5"><span class="material-symbols-outlined text-primary" style="font-size:20px">diamond</span></div><div><span class="block text-sm font-medium text-white">Wealth Management</span><span class="block text-xs text-gray-400 mt-0.5">Comprehensive wealth advisory tools</span></div></a></div></div></div></div>
+                    </div>
+                    <div class="relative" id="dropdown-company">
+                        <button onclick="toggleDropdown('company')" class="flex items-center gap-1.5 text-sm font-medium text-white/80 hover:text-primary px-3 py-2 rounded-md transition-colors">Company<svg class="w-3 h-3 nav-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg></button>
+                        <div class="nav-dropdown-panel absolute top-full left-0 mt-2 origin-top-left"><div class="bg-navy-start border border-white/10 rounded-xl shadow-2xl p-1.5 w-[480px]"><div class="grid grid-cols-2 gap-2"><div class="bg-white/5 rounded-lg border border-white/5 p-3 space-y-2"><a href="about.html" class="flex items-start gap-3 p-2 rounded-lg hover:bg-white/10 transition-colors"><div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5"><span class="material-symbols-outlined text-primary" style="font-size:20px">groups</span></div><div><span class="block text-sm font-medium text-white">About Us</span><span class="block text-xs text-gray-400 mt-0.5">Learn more about our story and team</span></div></a><a href="customer-stories.html" class="flex items-start gap-3 p-2 rounded-lg bg-white/10 transition-colors"><div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5"><span class="material-symbols-outlined text-primary" style="font-size:20px">star</span></div><div><span class="block text-sm font-medium text-white">Customer Stories</span><span class="block text-xs text-gray-400 mt-0.5">See how we've helped our clients succeed</span></div></a><a href="partnerships.html" class="flex items-start gap-3 p-2 rounded-lg hover:bg-white/10 transition-colors"><div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5"><span class="material-symbols-outlined text-primary" style="font-size:20px">handshake</span></div><div><span class="block text-sm font-medium text-white">Partnerships</span><span class="block text-xs text-gray-400 mt-0.5">Collaborate with us for mutual growth</span></div></a></div><div class="p-3 space-y-1"><a href="leadership.html" class="flex items-center gap-2.5 p-2 rounded-lg hover:bg-white/10 transition-colors"><span class="material-symbols-outlined text-white/70" style="font-size:18px">supervisor_account</span><span class="text-sm font-medium text-white">Leadership</span></a><a href="careers.html" class="flex items-center gap-2.5 p-2 rounded-lg hover:bg-white/10 transition-colors"><span class="material-symbols-outlined text-white/70" style="font-size:18px">work</span><span class="text-sm font-medium text-white">Careers</span></a><a href="news-events.html" class="flex items-center gap-2.5 p-2 rounded-lg hover:bg-white/10 transition-colors"><span class="material-symbols-outlined text-white/70" style="font-size:18px">newspaper</span><span class="text-sm font-medium text-white">News &amp; Events</span></a><a href="blog.html" class="flex items-center gap-2.5 p-2 rounded-lg hover:bg-white/10 transition-colors"><span class="material-symbols-outlined text-white/70" style="font-size:18px">edit_note</span><span class="text-sm font-medium text-white">Blog</span></a><a href="help-center.html" class="flex items-center gap-2.5 p-2 rounded-lg hover:bg-white/10 transition-colors"><span class="material-symbols-outlined text-white/70" style="font-size:18px">help</span><span class="text-sm font-medium text-white">Help Center</span></a></div></div></div></div>
+                    </div>
+                    <a href="solutions.html" class="text-sm font-medium text-white/80 hover:text-primary px-3 py-2 rounded-md transition-colors">Solutions</a>
+                </div>
+            </div>
+            <div class="flex items-center gap-3">
+                <a href="index.html#contact" class="hidden md:inline-flex bg-primary hover:bg-primary-dark text-navy-start font-bold py-2.5 px-6 rounded-lg text-sm transition-all duration-300">Contact Us</a>
+                <button id="mobile-toggle" onclick="toggleMobileMenu()" class="md:hidden text-white p-1"><svg id="menu-toggle-icon" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6"><path id="menu-path-animated" style="stroke-dasharray:12 63" d="M27 10 13 10C10.8 10 9 8.2 9 6 9 3.5 10.8 2 13 2 15.2 2 17 3.8 17 6L17 26C17 28.2 18.8 30 21 30 23.2 30 25 28.2 25 26 25 23.8 23.2 22 21 22L7 22"/><path d="M7 16 27 16"/></svg></button>
+            </div>
+        </div>
+        <div id="mobile-menu"
+            class="md:hidden fixed top-16 left-0 right-0 bottom-0 bg-navy-start/95 backdrop-blur-xl border-t border-white/10 overflow-y-auto z-40">
+            <div class="mobile-inner p-6 flex flex-col gap-4 h-full">
+                <div class="flex-1 space-y-6">
+                    <!-- Products -->
+                    <div>
+                        <span class="text-xs font-semibold uppercase tracking-wider text-primary/70 mb-3 block">Products</span>
+                        <div class="space-y-1">
+                            <a href="gbank.html" class="flex items-center gap-3 p-3 rounded-lg hover:bg-white/10 transition-colors">
+                                <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5">
+                                    <span class="material-symbols-outlined text-primary" style="font-size:20px">account_balance</span>
+                                </div>
+                                <div>
+                                    <span class="block text-sm font-medium text-white">G Bank AI</span>
+                                    <span class="block text-xs text-gray-400">AI-powered core banking platform</span>
+                                </div>
+                            </a>
+                            <a href="ginsure.html" class="flex items-center gap-3 p-3 rounded-lg hover:bg-white/10 transition-colors">
+                                <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5">
+                                    <span class="material-symbols-outlined text-primary" style="font-size:20px">shield</span>
+                                </div>
+                                <div>
+                                    <span class="block text-sm font-medium text-white">G Insure AI</span>
+                                    <span class="block text-xs text-gray-400">Insurance technology &amp; claims automation</span>
+                                </div>
+                            </a>
+                            <a href="ginvest.html" class="flex items-center gap-3 p-3 rounded-lg hover:bg-white/10 transition-colors">
+                                <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5">
+                                    <span class="material-symbols-outlined text-primary" style="font-size:20px">trending_up</span>
+                                </div>
+                                <div>
+                                    <span class="block text-sm font-medium text-white">G Invest AI</span>
+                                    <span class="block text-xs text-gray-400">Investment management &amp; portfolio analytics</span>
+                                </div>
+                            </a>
+                            <a href="grisk.html" class="flex items-center gap-3 p-3 rounded-lg hover:bg-white/10 transition-colors">
+                                <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5">
+                                    <span class="material-symbols-outlined text-primary" style="font-size:20px">gpp_maybe</span>
+                                </div>
+                                <div>
+                                    <span class="block text-sm font-medium text-white">G Risk AI</span>
+                                    <span class="block text-xs text-gray-400">Risk assessment &amp; regulatory compliance</span>
+                                </div>
+                            </a>
+                            <a href="ghrms.html" class="flex items-center gap-3 p-3 rounded-lg hover:bg-white/10 transition-colors">
+                                <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5">
+                                    <span class="material-symbols-outlined text-primary" style="font-size:20px">group</span>
+                                </div>
+                                <div>
+                                    <span class="block text-sm font-medium text-white">G HRMS AI</span>
+                                    <span class="block text-xs text-gray-400">Human resource management system</span>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <!-- Industries -->
+                    <div>
+                        <span class="text-xs font-semibold uppercase tracking-wider text-primary/70 mb-3 block">Industries</span>
+                        <div class="space-y-1">
+                            <a href="corporate-banking.html" class="flex items-center gap-3 p-3 rounded-lg hover:bg-white/10 transition-colors">
+                                <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5">
+                                    <span class="material-symbols-outlined text-primary" style="font-size:20px">corporate_fare</span>
+                                </div>
+                                <div>
+                                    <span class="block text-sm font-medium text-white">Corporate Banking</span>
+                                    <span class="block text-xs text-gray-400">Enterprise-grade banking solutions</span>
+                                </div>
+                            </a>
+                            <a href="family-offices.html" class="flex items-center gap-3 p-3 rounded-lg hover:bg-white/10 transition-colors">
+                                <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5">
+                                    <span class="material-symbols-outlined text-primary" style="font-size:20px">cottage</span>
+                                </div>
+                                <div>
+                                    <span class="block text-sm font-medium text-white">Family Offices</span>
+                                    <span class="block text-xs text-gray-400">Tailored family wealth operations</span>
+                                </div>
+                            </a>
+                            <a href="holding-companies.html" class="flex items-center gap-3 p-3 rounded-lg hover:bg-white/10 transition-colors">
+                                <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5">
+                                    <span class="material-symbols-outlined text-primary" style="font-size:20px">domain</span>
+                                </div>
+                                <div>
+                                    <span class="block text-sm font-medium text-white">Holding Companies</span>
+                                    <span class="block text-xs text-gray-400">Multi-entity portfolio management</span>
+                                </div>
+                            </a>
+                            <a href="insurance.html" class="flex items-center gap-3 p-3 rounded-lg hover:bg-white/10 transition-colors">
+                                <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5">
+                                    <span class="material-symbols-outlined text-primary" style="font-size:20px">health_and_safety</span>
+                                </div>
+                                <div>
+                                    <span class="block text-sm font-medium text-white">Insurance</span>
+                                    <span class="block text-xs text-gray-400">End-to-end insurance technology</span>
+                                </div>
+                            </a>
+                            <a href="private-banking.html" class="flex items-center gap-3 p-3 rounded-lg hover:bg-white/10 transition-colors">
+                                <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5">
+                                    <span class="material-symbols-outlined text-primary" style="font-size:20px">account_balance_wallet</span>
+                                </div>
+                                <div>
+                                    <span class="block text-sm font-medium text-white">Private Banking</span>
+                                    <span class="block text-xs text-gray-400">Exclusive private client services</span>
+                                </div>
+                            </a>
+                            <a href="public-sector.html" class="flex items-center gap-3 p-3 rounded-lg hover:bg-white/10 transition-colors">
+                                <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5">
+                                    <span class="material-symbols-outlined text-primary" style="font-size:20px">assured_workload</span>
+                                </div>
+                                <div>
+                                    <span class="block text-sm font-medium text-white">Public Sector</span>
+                                    <span class="block text-xs text-gray-400">Government &amp; public institution systems</span>
+                                </div>
+                            </a>
+                            <a href="real-estate.html" class="flex items-center gap-3 p-3 rounded-lg hover:bg-white/10 transition-colors">
+                                <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5">
+                                    <span class="material-symbols-outlined text-primary" style="font-size:20px">apartment</span>
+                                </div>
+                                <div>
+                                    <span class="block text-sm font-medium text-white">Real Estate</span>
+                                    <span class="block text-xs text-gray-400">Property &amp; asset management platforms</span>
+                                </div>
+                            </a>
+                            <a href="retail-banking.html" class="flex items-center gap-3 p-3 rounded-lg hover:bg-white/10 transition-colors">
+                                <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5">
+                                    <span class="material-symbols-outlined text-primary" style="font-size:20px">storefront</span>
+                                </div>
+                                <div>
+                                    <span class="block text-sm font-medium text-white">Retail Banking</span>
+                                    <span class="block text-xs text-gray-400">Customer-centric retail banking</span>
+                                </div>
+                            </a>
+                            <a href="wealth-management.html" class="flex items-center gap-3 p-3 rounded-lg hover:bg-white/10 transition-colors">
+                                <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5">
+                                    <span class="material-symbols-outlined text-primary" style="font-size:20px">diamond</span>
+                                </div>
+                                <div>
+                                    <span class="block text-sm font-medium text-white">Wealth Management</span>
+                                    <span class="block text-xs text-gray-400">Comprehensive wealth advisory tools</span>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <!-- Company -->
+                    <div>
+                        <span class="text-xs font-semibold uppercase tracking-wider text-primary/70 mb-3 block">Company</span>
+                        <div class="space-y-1">
+                            <a href="about.html" class="flex items-center gap-3 p-3 rounded-lg hover:bg-white/10 transition-colors">
+                                <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5">
+                                    <span class="material-symbols-outlined text-primary" style="font-size:20px">groups</span>
+                                </div>
+                                <div>
+                                    <span class="block text-sm font-medium text-white">About Us</span>
+                                    <span class="block text-xs text-gray-400">Learn more about our story and team</span>
+                                </div>
+                            </a>
+                            <a href="customer-stories.html" class="flex items-center gap-3 p-3 rounded-lg bg-white/10 transition-colors">
+                                <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5">
+                                    <span class="material-symbols-outlined text-primary" style="font-size:20px">star</span>
+                                </div>
+                                <div>
+                                    <span class="block text-sm font-medium text-white">Customer Stories</span>
+                                    <span class="block text-xs text-gray-400">See how we've helped our clients succeed</span>
+                                </div>
+                            </a>
+                            <a href="partnerships.html" class="flex items-center gap-3 p-3 rounded-lg hover:bg-white/10 transition-colors">
+                                <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5">
+                                    <span class="material-symbols-outlined text-primary" style="font-size:20px">handshake</span>
+                                </div>
+                                <div>
+                                    <span class="block text-sm font-medium text-white">Partnerships</span>
+                                    <span class="block text-xs text-gray-400">Collaborate with us for mutual growth</span>
+                                </div>
+                            </a>
+                            <a href="leadership.html" class="flex items-center gap-2.5 p-3 rounded-lg hover:bg-white/10 transition-colors">
+                                <span class="material-symbols-outlined text-white/70" style="font-size:18px">supervisor_account</span>
+                                <span class="text-sm font-medium text-white">Leadership</span>
+                            </a>
+                            <a href="careers.html" class="flex items-center gap-2.5 p-3 rounded-lg hover:bg-white/10 transition-colors">
+                                <span class="material-symbols-outlined text-white/70" style="font-size:18px">work</span>
+                                <span class="text-sm font-medium text-white">Careers</span>
+                            </a>
+                            <a href="news-events.html" class="flex items-center gap-2.5 p-3 rounded-lg hover:bg-white/10 transition-colors">
+                                <span class="material-symbols-outlined text-white/70" style="font-size:18px">newspaper</span>
+                                <span class="text-sm font-medium text-white">News &amp; Events</span>
+                            </a>
+                            <a href="blog.html" class="flex items-center gap-2.5 p-3 rounded-lg hover:bg-white/10 transition-colors">
+                                <span class="material-symbols-outlined text-white/70" style="font-size:18px">edit_note</span>
+                                <span class="text-sm font-medium text-white">Blog</span>
+                            </a>
+                            <a href="help-center.html" class="flex items-center gap-2.5 p-3 rounded-lg hover:bg-white/10 transition-colors">
+                                <span class="material-symbols-outlined text-white/70" style="font-size:18px">help</span>
+                                <span class="text-sm font-medium text-white">Help Center</span>
+                            </a>
+                        </div>
+                    </div>
+                    <!-- Solutions link -->
+                    <a href="solutions.html" class="flex items-center gap-2.5 p-3 rounded-lg hover:bg-white/10 transition-colors border border-white/10">
+                        <span class="material-symbols-outlined text-primary" style="font-size:18px">apps</span>
+                        <span class="text-sm font-medium text-white">All Solutions</span>
+                    </a>
+                </div>
+                <!-- Mobile CTA -->
+                <div class="flex flex-col gap-3 pt-4 border-t border-white/10">
+                    <a href="index.html#contact"
+                        class="w-full text-center bg-primary hover:bg-primary-dark text-navy-start font-bold py-3 px-6 rounded-lg text-sm transition-all duration-300">
+                        Contact Us
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero-bg min-h-[60vh] flex items-end pb-20 pt-36 w-full relative overflow-hidden">
+        <div class="dot-pattern"></div>
+        <div class="absolute top-1/3 right-1/3 w-96 h-96 rounded-full pointer-events-none" style="background:radial-gradient(circle, rgba(195,183,152,0.05) 0%, transparent 70%);"></div>
+        <div class="max-w-7xl mx-auto px-6 lg:px-12 relative z-10 w-full">
+            <div class="max-w-3xl">
+                <div class="scroll-reveal mb-5">
+                    <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-primary/30 bg-primary/10 text-primary text-xs font-semibold tracking-widest uppercase">
+                        <span class="material-symbols-outlined" style="font-size:14px">star</span>
+                        Client Success Stories
+                    </span>
+                </div>
+                <h1 class="scroll-reveal text-4xl md:text-5xl lg:text-[3.5rem] font-bold text-white leading-[1.15] mb-6 tracking-tight glow-text">
+                    Trusted by<br><span class="text-primary">Industry Leaders</span>
+                </h1>
+                <p class="scroll-reveal text-lg text-gray-300 leading-relaxed max-w-2xl mb-10">
+                    Over 80 financial institutions across the GCC and beyond rely on Global iTS solutions to modernize operations, accelerate growth, and deliver exceptional customer experiences.
+                </p>
+                <div class="scroll-reveal grid grid-cols-3 gap-8 max-w-sm">
+                    <div class="text-center">
+                        <div class="text-3xl font-bold text-primary mb-1">80+</div>
+                        <div class="text-xs text-gray-400">Clients</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-3xl font-bold text-primary mb-1">3</div>
+                        <div class="text-xs text-gray-400">Sectors</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-3xl font-bold text-primary mb-1">9+</div>
+                        <div class="text-xs text-gray-400">Countries</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Client Logos -->
+    <section class="py-20 lg:py-24 w-full" style="background:#f8f9fc;">
+        <div class="max-w-7xl mx-auto px-6 lg:px-12">
+            <div class="scroll-reveal text-center mb-12">
+                <span class="font-bold tracking-widest uppercase text-sm mb-3 block" style="color:#c3b798;">Our Clients</span>
+                <h2 class="font-serif text-4xl lg:text-5xl leading-tight mb-4" style="color:#00013a;">Serving Every Financial Sector</h2>
+                <p class="text-base max-w-xl mx-auto" style="color:#6b7280;">From retail banks to investment firms, we deliver tailored digital transformation across the spectrum.</p>
+            </div>
+            <!-- Sector Tabs -->
+            <div class="scroll-reveal flex justify-center mb-10">
+                <div class="inline-flex rounded-xl p-1 gap-1" style="background:#e8eaf2; border:1px solid #d1d5e8;">
+                    <button class="client-tab active-client-tab text-sm font-semibold px-5 py-2 rounded-lg transition-all duration-200" onclick="filterClient('all',this)">All Sectors</button>
+                    <button class="client-tab text-sm font-semibold px-5 py-2 rounded-lg transition-all duration-200" style="color:#6b7280;" onclick="filterClient('financial',this)">Financial</button>
+                    <button class="client-tab text-sm font-semibold px-5 py-2 rounded-lg transition-all duration-200" style="color:#6b7280;" onclick="filterClient('public',this)">Public Sector</button>
+                    <button class="client-tab text-sm font-semibold px-5 py-2 rounded-lg transition-all duration-200" style="color:#6b7280;" onclick="filterClient('private',this)">Private Sector</button>
+                </div>
+            </div>
+            <!-- Logo Grid -->
+            <div id="clients-grid" class="scroll-reveal-stagger grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5">
+                <div class="scroll-reveal-child client-logo-card" data-sector="financial"><img src="https://globalits.bh/demo/wp-content/uploads/2024/10/Untitled-design-50.png" alt="Client" class="w-full h-full object-cover" /></div>
+                <div class="scroll-reveal-child client-logo-card" data-sector="financial"><img src="https://globalits.bh/demo/wp-content/uploads/2024/10/Untitled-design-53.png" alt="Client" class="w-full h-full object-cover" /></div>
+                <div class="scroll-reveal-child client-logo-card" data-sector="financial"><img src="https://globalits.bh/demo/wp-content/uploads/2024/10/Untitled-design-54.png" alt="Client" class="w-full h-full object-cover" /></div>
+                <div class="scroll-reveal-child client-logo-card" data-sector="financial"><img src="https://globalits.bh/demo/wp-content/uploads/2024/10/Untitled-design-55.png" alt="Client" class="w-full h-full object-cover" /></div>
+                <div class="scroll-reveal-child client-logo-card" data-sector="financial"><img src="https://globalits.bh/demo/wp-content/uploads/2024/10/Untitled-design-57.png" alt="Client" class="w-full h-full object-cover" /></div>
+                <div class="scroll-reveal-child client-logo-card" data-sector="financial"><img src="https://globalits.bh/demo/wp-content/uploads/2024/10/Untitled-design-58.png" alt="Client" class="w-full h-full object-cover" /></div>
+                <div class="scroll-reveal-child client-logo-card" data-sector="financial"><img src="https://globalits.bh/demo/wp-content/uploads/2024/10/Untitled-design-59.png" alt="Client" class="w-full h-full object-cover" /></div>
+                <div class="scroll-reveal-child client-logo-card" data-sector="financial"><img src="https://globalits.bh/demo/wp-content/uploads/2024/10/Untitled-design-61.png" alt="Client" class="w-full h-full object-cover" /></div>
+                <div class="scroll-reveal-child client-logo-card" data-sector="financial"><img src="https://globalits.bh/demo/wp-content/uploads/2024/10/Untitled-design-64.png" alt="Client" class="w-full h-full object-cover" /></div>
+                <div class="scroll-reveal-child client-logo-card" data-sector="financial"><img src="https://globalits.bh/demo/wp-content/uploads/2024/10/Untitled-design-66.png" alt="Client" class="w-full h-full object-cover" /></div>
+                <div class="scroll-reveal-child client-logo-card" data-sector="financial"><img src="https://globalits.bh/demo/wp-content/uploads/2024/10/Untitled-design-67.png" alt="Client" class="w-full h-full object-cover" /></div>
+                <div class="scroll-reveal-child client-logo-card" data-sector="financial"><img src="https://globalits.bh/demo/wp-content/uploads/2024/10/Untitled-design-68.png" alt="Client" class="w-full h-full object-cover" /></div>
+                <div class="scroll-reveal-child client-logo-card" data-sector="financial"><img src="https://globalits.bh/demo/wp-content/uploads/2024/10/Untitled-design-70.png" alt="Client" class="w-full h-full object-cover" /></div>
+                <div class="scroll-reveal-child client-logo-card" data-sector="financial"><img src="https://globalits.bh/demo/wp-content/uploads/2024/10/Untitled-design-71.png" alt="Client" class="w-full h-full object-cover" /></div>
+                <div class="scroll-reveal-child client-logo-card" data-sector="financial"><img src="https://globalits.bh/demo/wp-content/uploads/2024/10/Untitled-design-73.png" alt="Client" class="w-full h-full object-cover" /></div>
+                <div class="scroll-reveal-child client-logo-card" data-sector="financial"><img src="https://globalits.bh/demo/wp-content/uploads/2024/10/Untitled-design-74.png" alt="Client" class="w-full h-full object-cover" /></div>
+                <div class="scroll-reveal-child client-logo-card" data-sector="financial"><img src="https://globalits.bh/demo/wp-content/uploads/2024/10/Untitled-design-77.png" alt="Client" class="w-full h-full object-cover" /></div>
+                <div class="scroll-reveal-child client-logo-card" data-sector="financial"><img src="https://globalits.bh/demo/wp-content/uploads/2024/10/Untitled-design-79.png" alt="Client" class="w-full h-full object-cover" /></div>
+                <div class="scroll-reveal-child client-logo-card" data-sector="financial"><img src="https://globalits.bh/demo/wp-content/uploads/2024/10/Untitled-design-81.png" alt="Client" class="w-full h-full object-cover" /></div>
+                <div class="scroll-reveal-child client-logo-card" data-sector="public"><img src="https://globalits.bh/demo/wp-content/uploads/2024/10/Untitled-design-82.png" alt="Client" class="w-full h-full object-cover" /></div>
+                <div class="scroll-reveal-child client-logo-card" data-sector="public"><img src="https://globalits.bh/demo/wp-content/uploads/2024/09/Untitled-design-76.png" alt="Client" class="w-full h-full object-cover" /></div>
+                <div class="scroll-reveal-child client-logo-card" data-sector="financial"><img src="https://globalits.bh/demo/wp-content/uploads/2025/12/Untitled-design-77-1024x1024-1.png" alt="SNIC Insurance" class="w-full h-full object-cover" /></div>
+                <div class="scroll-reveal-child client-logo-card" data-sector="financial"><img src="https://globalits.bh/demo/wp-content/uploads/2025/12/Untitled-design-76-1024x1024-1.png" alt="Solidarity Bahrain" class="w-full h-full object-cover" /></div>
+                <div class="scroll-reveal-child client-logo-card" data-sector="private"><img src="https://globalits.bh/demo/wp-content/uploads/2025/12/Untitled-design-80-1024x1024-1.png" alt="The Family Office" class="w-full h-full object-cover" /></div>
+                <div class="scroll-reveal-child client-logo-card" data-sector="private"><img src="https://globalits.bh/demo/wp-content/uploads/2024/10/Untitled-design-80.png" alt="Client" class="w-full h-full object-cover" /></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonial Bento Grid -->
+    <section class="py-20 lg:py-24 w-full relative overflow-hidden" style="background: rgba(255,255,255,0.04);">
+        <div class="max-w-7xl mx-auto px-6 lg:px-12 relative z-10">
+            <div class="max-w-2xl mx-auto text-center mb-4">
+                <span class="text-primary font-bold tracking-widest uppercase text-sm mb-3 block">In Their Words</span>
+                <h2 class="font-serif text-4xl lg:text-5xl text-white mb-4 leading-tight">What Our Clients Say</h2>
+                <p class="text-gray-400 text-lg leading-relaxed">Hear directly from the leaders who've partnered with us to transform their businesses.</p>
+            </div>
+            <!-- Bento Grid -->
+            <div class="lg:grid lg:grid-cols-3 gap-2 flex flex-col w-full lg:py-10 pt-10 pb-4 lg:px-10 px-4">
+                <!-- Col 1 -->
+                <div class="md:flex lg:flex-col lg:space-y-2 h-full lg:gap-0 gap-2">
+                    <div class="testimonial-bento-card lg:flex-[7] flex-[6] flex flex-col justify-between relative bg-white/5 overflow-hidden rounded-lg border border-white/10 p-5">
+                        <div class="absolute inset-0 bento-grid-pattern pointer-events-none"></div>
+                        <article class="relative z-10 mt-auto">
+                            <p class="text-gray-200 text-base leading-relaxed">"Global ITS has been a game-changer for our HR operations. Their GHRMS platform transformed our legacy system into a streamlined, efficient workflow. We achieved real cost savings and faster processes across the board."</p>
+                            <div class="flex justify-between items-end pt-5">
+                                <div><h3 class="font-semibold lg:text-xl text-sm text-white">Layla Abdulghani</h3><p class="text-gray-400 text-sm">HR Manager, The Family Office</p></div>
+                                <img src="https://globalits.bh/demo/wp-content/uploads/2025/12/Untitled-design-80-1024x1024-1.png" alt="The Family Office" class="w-16 h-16 rounded-xl object-contain flex-shrink-0" />
+                            </div>
+                        </article>
+                    </div>
+                    <div class="testimonial-bento-card lg:flex-[3] flex-[4] lg:h-fit lg:shrink-0 flex flex-col justify-between relative overflow-hidden rounded-lg p-5 text-white font-sans" style="background:#1a1b6b;">
+                        <article class="mt-auto">
+                            <p class="text-gray-200 text-base leading-relaxed font-sans">"We've seen incredible results with Global ITS. Their expertise and dedication are unmatched."</p>
+                            <div class="flex justify-between items-end pt-5">
+                                <div><h3 class="font-semibold text-xl text-white font-sans">Ahmed Radhi</h3><p class="text-gray-400 text-sm font-sans">Asst. GM, SNIC Insurance</p></div>
+                                <img src="https://globalits.bh/demo/wp-content/uploads/2025/12/Untitled-design-77-1024x1024-1.png" alt="SNIC Insurance" class="w-16 h-16 rounded-xl object-contain flex-shrink-0" />
+                            </div>
+                        </article>
+                    </div>
+                </div>
+                <!-- Col 2 -->
+                <div class="lg:h-full md:flex lg:flex-col h-fit lg:space-y-2 lg:gap-0 gap-2">
+                    <div class="testimonial-bento-card flex flex-col justify-between relative overflow-hidden rounded-lg p-5 text-white font-sans" style="background:#0a0b2e;">
+                        <article class="mt-auto">
+                            <p class="2xl:text-base text-sm text-gray-300 leading-relaxed font-sans">"Their team is highly professional, and their innovative Dynamics 365 solutions have truly transformed the way we operate."</p>
+                            <div class="flex justify-between items-end pt-5">
+                                <div><h3 class="font-semibold lg:text-xl text-lg text-white font-sans">Husain Sabt</h3><p class="lg:text-base text-sm text-gray-400 font-sans">Head of IT, Solidarity Bahrain</p></div>
+                                <img src="https://globalits.bh/demo/wp-content/uploads/2025/12/Untitled-design-76-1024x1024-1.png" alt="Solidarity Bahrain" class="lg:w-16 lg:h-16 w-12 h-12 rounded-xl object-contain flex-shrink-0" />
+                            </div>
+                        </article>
+                    </div>
+                    <div class="testimonial-bento-card flex flex-col justify-between relative overflow-hidden rounded-lg p-5 text-white font-sans" style="background:#0a0b2e;">
+                        <article class="mt-auto">
+                            <p class="2xl:text-base text-sm text-gray-300 leading-relaxed font-sans">"We're extremely satisfied with Global ITS. Their ERP expertise and delivery excellence have exceeded all our expectations."</p>
+                            <div class="flex justify-between items-end pt-5">
+                                <div><h3 class="font-semibold lg:text-xl text-lg text-white font-sans">Layla Abdulghani</h3><p class="lg:text-base text-sm text-gray-400 font-sans">HR Manager, The Family Office</p></div>
+                                <img src="https://globalits.bh/demo/wp-content/uploads/2025/12/Untitled-design-80-1024x1024-1.png" alt="The Family Office" class="lg:w-16 lg:h-16 w-12 h-12 rounded-xl object-contain flex-shrink-0" />
+                            </div>
+                        </article>
+                    </div>
+                    <div class="testimonial-bento-card flex flex-col justify-between relative overflow-hidden rounded-lg p-5 text-white font-sans" style="background:#0a0b2e;">
+                        <article class="mt-auto">
+                            <p class="2xl:text-base text-sm text-gray-300 leading-relaxed font-sans">"Their customer support is absolutely exceptional. Always available, incredibly helpful, and deeply knowledgeable."</p>
+                            <div class="flex justify-between items-end pt-5">
+                                <div><h3 class="font-semibold lg:text-xl text-lg text-white font-sans">Ahmed Radhi</h3><p class="lg:text-base text-sm text-gray-400 font-sans">Asst. GM, SNIC Insurance</p></div>
+                                <img src="https://globalits.bh/demo/wp-content/uploads/2025/12/Untitled-design-77-1024x1024-1.png" alt="SNIC Insurance" class="lg:w-16 lg:h-16 w-12 h-12 rounded-xl object-contain flex-shrink-0" />
+                            </div>
+                        </article>
+                    </div>
+                </div>
+                <!-- Col 3 -->
+                <div class="h-full md:flex lg:flex-col lg:space-y-2 lg:gap-0 gap-2">
+                    <div class="testimonial-bento-card lg:flex-[3] flex-[4] flex flex-col justify-between relative overflow-hidden rounded-lg p-5 text-white font-sans" style="background:#1a1b6b;">
+                        <article class="mt-auto">
+                            <p class="text-gray-200 text-base leading-relaxed font-sans">"Global ITS has been a key partner in our digital growth journey."</p>
+                            <div class="flex justify-between items-end pt-5">
+                                <div><h3 class="font-semibold text-xl text-white font-sans">Husain Sabt</h3><p class="text-gray-400 text-sm font-sans">Head of IT, Solidarity Bahrain</p></div>
+                                <img src="https://globalits.bh/demo/wp-content/uploads/2025/12/Untitled-design-76-1024x1024-1.png" alt="Solidarity Bahrain" class="w-16 h-16 rounded-xl object-contain flex-shrink-0" />
+                            </div>
+                        </article>
+                    </div>
+                    <div class="testimonial-bento-card lg:flex-[7] flex-[6] flex flex-col justify-between relative bg-white/5 overflow-hidden rounded-lg border border-white/10 p-5">
+                        <div class="absolute inset-0 bento-grid-pattern pointer-events-none"></div>
+                        <article class="relative z-10 mt-auto">
+                            <p class="text-gray-200 text-base leading-relaxed">"Global ITS has been a true game-changer for us. Their exceptional service, combined with their deep banking expertise and commitment to excellence, has made a significant impact on our business operations and digital transformation."</p>
+                            <div class="flex justify-between items-end pt-5">
+                                <div><h3 class="font-semibold text-xl text-white">Ahmed Radhi</h3><p class="text-gray-400 text-sm">Asst. General Manager, SNIC Insurance</p></div>
+                                <img src="https://globalits.bh/demo/wp-content/uploads/2025/12/Untitled-design-77-1024x1024-1.png" alt="SNIC Insurance" class="w-16 h-16 rounded-xl object-contain flex-shrink-0" />
+                            </div>
+                        </article>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+        (function() {
+            var observer = new IntersectionObserver(function(entries) {
+                entries.forEach(function(entry) {
+                    if (entry.isIntersecting) {
+                        var cards = entry.target.querySelectorAll('.testimonial-bento-card');
+                        cards.forEach(function(card, i) { setTimeout(function() { card.classList.add('revealed'); }, i * 180); });
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+            var section = document.querySelector('.testimonial-bento-card')?.closest('section');
+            if (section) observer.observe(section);
+        })();
+        </script>
+    </section>
+
+    <!-- Success Stories -->
+    <section class="py-20 lg:py-24 w-full" style="background: #0f1055;">
+        <div class="max-w-7xl mx-auto px-6 lg:px-12">
+            <div class="scroll-reveal flex justify-between items-end mb-12">
+                <div>
+                    <span class="text-primary font-bold tracking-widest uppercase text-sm mb-3 block">Case Studies</span>
+                    <h2 class="font-serif text-4xl lg:text-5xl text-white leading-tight">Success Stories</h2>
+                </div>
+            </div>
+            <div class="scroll-reveal-stagger grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Story 1 -->
+                <article class="scroll-reveal-child story-card bg-white/5 rounded-2xl border border-white/10 overflow-hidden group">
+                    <div class="relative h-48 overflow-hidden">
+                        <img src="https://globalits.bh/wp-content/uploads/2026/02/Majd-Investment-Launches-Smart-ERP-System-scaled.jpg" alt="Majd Investment Launches Smart ERP System" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                        <div class="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors"></div>
+                        <div class="absolute top-4 left-4">
+                            <span class="px-3 py-1 rounded-full text-xs font-semibold bg-primary/20 text-primary border border-primary/30">Investment</span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="text-xs text-gray-400 mb-2">February 2026</div>
+                        <h3 class="text-lg font-bold text-white mb-3 group-hover:text-primary transition-colors">Majd Investment Launches "Smart" ERP System</h3>
+                        <p class="text-gray-400 text-sm leading-relaxed mb-4">Majd Investment Co. successfully deployed Global iTS's Microsoft Dynamics 365 ERP, transforming their operational efficiency and enabling real-time financial oversight.</p>
+                        <a href="https://globalits.bh/majd-investment-launches-smart-erp-system/" target="_blank" class="inline-flex items-center gap-1.5 text-primary font-semibold text-sm hover:gap-2.5 transition-all duration-200">
+                            Read Full Story <span class="material-symbols-outlined text-lg">arrow_right_alt</span>
+                        </a>
+                    </div>
+                </article>
+                <!-- Story 2 -->
+                <article class="scroll-reveal-child story-card bg-white/5 rounded-2xl border border-white/10 overflow-hidden group">
+                    <div class="relative h-48 overflow-hidden">
+                        <img src="https://globalits.bh/wp-content/uploads/2025/12/GiTS-x-QDB-Linkedin-Post.jpg" alt="Qatar Development Bank ERP Go-Live" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                        <div class="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors"></div>
+                        <div class="absolute top-4 left-4">
+                            <span class="px-3 py-1 rounded-full text-xs font-semibold bg-primary/20 text-primary border border-primary/30">Banking</span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="text-xs text-gray-400 mb-2">December 2025</div>
+                        <h3 class="text-lg font-bold text-white mb-3 group-hover:text-primary transition-colors">Qatar Development Bank: Phase 1 ERP Go-Live</h3>
+                        <p class="text-gray-400 text-sm leading-relaxed mb-4">Successful deployment of Microsoft Dynamics 365 covering Finance, HR, Property Management and Core Banking Integration for Qatar's premier development institution.</p>
+                        <a href="https://globalits.bh/microsoft-erp-for-banking-global-its-and-qatar-development-bank/" target="_blank" class="inline-flex items-center gap-1.5 text-primary font-semibold text-sm hover:gap-2.5 transition-all duration-200">
+                            Read Full Story <span class="material-symbols-outlined text-lg">arrow_right_alt</span>
+                        </a>
+                    </div>
+                </article>
+                <!-- Story 3 -->
+                <article class="scroll-reveal-child story-card bg-white/5 rounded-2xl border border-white/10 overflow-hidden group">
+                    <div class="relative h-48 overflow-hidden">
+                        <img src="https://globalits.bh/wp-content/uploads/2024/11/DAS.png" alt="DAS Holding Digital Transformation" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                        <div class="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors"></div>
+                        <div class="absolute top-4 left-4">
+                            <span class="px-3 py-1 rounded-full text-xs font-semibold bg-primary/20 text-primary border border-primary/30">Holding</span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="text-xs text-gray-400 mb-2">December 2023</div>
+                        <h3 class="text-lg font-bold text-white mb-3 group-hover:text-primary transition-colors">DAS Holding Partners for Digital Transformation</h3>
+                        <p class="text-gray-400 text-sm leading-relaxed mb-4">DAS Holding selected Global iTS as their strategic technology partner, deploying an integrated ERP platform across their multi-entity portfolio operations.</p>
+                        <a href="https://globalits.bh/das-holding-partners-with-global-its-for-digital-transformation/" target="_blank" class="inline-flex items-center gap-1.5 text-primary font-semibold text-sm hover:gap-2.5 transition-all duration-200">
+                            Read Full Story <span class="material-symbols-outlined text-lg">arrow_right_alt</span>
+                        </a>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="aurora-gradient py-24 lg:py-28 w-full relative overflow-hidden">
+        <div class="dot-pattern opacity-40"></div>
+        <div class="max-w-4xl mx-auto px-6 lg:px-12 text-center relative z-10">
+            <div class="scroll-reveal">
+                <h2 class="font-serif text-4xl lg:text-5xl text-white leading-tight mb-4">Become Our Next Success Story</h2>
+                <p class="text-gray-300 text-lg mb-10 max-w-2xl mx-auto">Join the growing list of financial institutions transforming their operations with Global iTS.</p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <a href="index.html#contact" class="inline-flex items-center justify-center gap-2 bg-primary hover:bg-primary-dark text-navy-start font-bold py-4 px-8 rounded-xl text-sm transition-all duration-300">
+                        Schedule a Demo <span class="material-symbols-outlined">arrow_forward</span>
+                    </a>
+                    <a href="partnerships.html" class="inline-flex items-center justify-center gap-2 border border-white/20 text-white hover:border-primary hover:text-primary font-semibold py-4 px-8 rounded-xl text-sm transition-all duration-300">
+                        Explore Partnerships
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="aurora-gradient text-white py-20 lg:py-24 border-t border-white/5">
+        <div class="max-w-7xl mx-auto px-6 lg:px-12">
+            <div class="flex w-full flex-col justify-between gap-10 lg:flex-row lg:items-start">
+                <div class="flex w-full flex-col gap-6 lg:max-w-md">
+                    <img src="https://globaledgeholding.com/wp-content/uploads/2019/07/GitsGedge-logos-4-1.png" alt="Global iTS" class="h-10 w-auto object-contain">
+                    <p class="text-sm text-gray-400 leading-relaxed max-w-sm">Delivering enterprise-grade AI solutions for financial services worldwide.</p>
+                </div>
+                <div class="grid w-full gap-8 grid-cols-2 md:grid-cols-3 lg:gap-16">
+                    <div><h3 class="mb-4 font-bold text-white text-base">Solutions</h3><ul class="space-y-3 text-sm text-gray-400"><li class="hover:text-primary transition-colors"><a href="gbank.html">G Bank AI</a></li><li class="hover:text-primary transition-colors"><a href="ginsure.html">G Insure AI</a></li><li class="hover:text-primary transition-colors"><a href="ginvest.html">G Invest AI</a></li><li class="hover:text-primary transition-colors"><a href="grisk.html">G Risk AI</a></li><li class="hover:text-primary transition-colors"><a href="ghrms.html">G HRMS AI</a></li></ul></div>
+                    <div><h3 class="mb-4 font-bold text-white text-base">Company</h3><ul class="space-y-3 text-sm text-gray-400"><li class="hover:text-primary transition-colors"><a href="about.html">About Us</a></li><li class="hover:text-primary transition-colors"><a href="leadership.html">Leadership</a></li><li class="hover:text-primary transition-colors"><a href="careers.html">Careers</a></li><li class="hover:text-primary transition-colors"><a href="news-events.html">News &amp; Events</a></li><li class="hover:text-primary transition-colors"><a href="index.html#contact">Contact</a></li></ul></div>
+                    <div><h3 class="mb-4 font-bold text-white text-base">Resources</h3><ul class="space-y-3 text-sm text-gray-400"><li class="hover:text-primary transition-colors"><a href="help-center.html">Help Center</a></li><li class="hover:text-primary transition-colors"><a href="customer-stories.html">Case Studies</a></li><li class="hover:text-primary transition-colors"><a href="partnerships.html">Partnerships</a></li><li class="hover:text-primary transition-colors"><a href="blog.html">Blog</a></li></ul></div>
+                </div>
+            </div>
+            <div class="mt-12 flex flex-col justify-between gap-4 border-t border-white/10 pt-8 text-xs text-gray-400 md:flex-row md:items-center">
+                <p class="order-2 md:order-1">© 2026 Global iTS. All rights reserved.</p>
+                <ul class="order-1 flex gap-6 md:order-2"><li class="hover:text-primary transition-colors"><a href="#">Privacy Policy</a></li><li class="hover:text-primary transition-colors"><a href="#">Terms</a></li></ul>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+    // Client logo sector filter
+    function filterClient(sector, btn) {
+        document.querySelectorAll('.client-tab').forEach(function(b) {
+            b.classList.remove('active-client-tab');
+            b.style.color = '#6b7280';
+        });
+        btn.classList.add('active-client-tab');
+        btn.style.color = '';
+        document.querySelectorAll('.client-logo-card').forEach(function(el) {
+            el.style.display = (sector === 'all' || el.dataset.sector === sector) ? '' : 'none';
+        });
+    }
+
+    // Scroll reveal
+    (function() {
+        var ro = new IntersectionObserver(function(entries) {
+            entries.forEach(function(e) { if (e.isIntersecting) { e.target.classList.add('revealed'); ro.unobserve(e.target); } });
+        }, { threshold: 0.12 });
+        document.querySelectorAll('.scroll-reveal').forEach(function(el) { ro.observe(el); });
+        var so = new IntersectionObserver(function(entries) {
+            entries.forEach(function(e) { if (e.isIntersecting) { e.target.querySelectorAll('.scroll-reveal-child').forEach(function(c,i) { setTimeout(function() { c.classList.add('revealed'); }, i * 100); }); so.unobserve(e.target); } });
+        }, { threshold: 0.08 });
+        document.querySelectorAll('.scroll-reveal-stagger').forEach(function(el) { so.observe(el); });
+    })();
+
+    // Nav
+    (function() {
+        var nav = document.getElementById('main-nav');
+        var mobileMenu = document.getElementById('mobile-menu');
+        var menuIcon = document.getElementById('menu-toggle-icon');
+        var menuPath = document.getElementById('menu-path-animated');
+        var mobileOpen = false;
+        var activeDropdown = null;
+        var names = ['products','industries','company'];
+        function onScroll() { nav.classList.toggle('scrolled', window.scrollY > 10); }
+        window.addEventListener('scroll', onScroll, { passive: true }); onScroll();
+        window.toggleDropdown = function(name) {
+            if (activeDropdown === name) { close(); return; }
+            close();
+            var c = document.getElementById('dropdown-' + name);
+            if (!c) return;
+            c.querySelector('.nav-dropdown-panel')?.classList.add('open');
+            c.querySelector('.nav-chevron')?.classList.add('open');
+            activeDropdown = name;
+        };
+        function close() { names.forEach(function(n) { var c = document.getElementById('dropdown-' + n); c?.querySelector('.nav-dropdown-panel')?.classList.remove('open'); c?.querySelector('.nav-chevron')?.classList.remove('open'); }); activeDropdown = null; }
+        document.addEventListener('click', function(e) { if (!names.some(function(n) { return e.target.closest('#dropdown-' + n); })) close(); });
+        document.addEventListener('keydown', function(e) { if (e.key === 'Escape') { close(); if (mobileOpen) window.toggleMobileMenu(); } });
+        window.toggleMobileMenu = function() {
+            mobileOpen = !mobileOpen;
+            mobileMenu.classList.toggle('open', mobileOpen);
+            menuIcon.classList.toggle('-rotate-45', mobileOpen);
+            if (menuPath) { menuPath.style.strokeDasharray = mobileOpen ? '20 300' : '12 63'; menuPath.style.strokeDashoffset = mobileOpen ? '-32.42px' : '0'; }
+            document.body.style.overflow = mobileOpen ? 'hidden' : '';
+        };
+    })();
+    </script>
+</body>
+</html>

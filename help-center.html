@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Help Center - Global iTS</title>
+    <meta name="description" content="Global iTS Help Center — find answers, product documentation, implementation guides, and support resources." />
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: { extend: {
+                colors: { "primary": "#c3b798", "primary-dark": "#a89b7d", "navy-start": "#00013a", "navy-end": "#0f1055" },
+                fontFamily: { "sans": ["Inter","sans-serif"], "serif": ["Inter","sans-serif"] }
+            }}
+        }
+    </script>
+    <style>
+        html { overflow-x: hidden; }
+        @keyframes scrollReveal { from { opacity:0; filter:blur(8px); transform:translateY(20px); } to { opacity:1; filter:blur(0); transform:translateY(0); } }
+        .scroll-reveal { opacity: 0; }
+        .scroll-reveal.revealed { animation: scrollReveal 0.6s ease forwards; }
+        .scroll-reveal-stagger > .scroll-reveal-child { opacity: 0; }
+        .scroll-reveal-stagger > .scroll-reveal-child.revealed { animation: scrollReveal 0.6s ease forwards; }
+        .aurora-gradient { background: #00013a; }
+        .glow-text { text-shadow: 0 0 20px rgba(195,183,152,0.3); }
+        .dot-pattern { position:absolute; inset:0; pointer-events:none; z-index:0; background-image:radial-gradient(circle, rgba(195,183,152,0.08) 1.5px, transparent 1.5px); background-size:28px 28px; }
+        .nav-dropdown-panel { opacity:0; visibility:hidden; transform:translateY(6px) scale(0.97); transition:opacity 200ms,visibility 200ms,transform 200ms; pointer-events:none; }
+        .nav-dropdown-panel.open { opacity:1; visibility:visible; transform:translateY(0) scale(1); pointer-events:auto; }
+        .nav-chevron { transition: transform 300ms; }
+        .nav-chevron.open { transform: rotate(180deg); }
+        #main-nav { transition: background 300ms, border-color 300ms; }
+        #main-nav.scrolled { background: rgba(0,1,58,0.92); backdrop-filter: blur(16px); border-color: rgba(255,255,255,0.1); }
+        #mobile-menu { opacity:0; visibility:hidden; transition:opacity 300ms,visibility 300ms; }
+        #mobile-menu.open { opacity:1; visibility:visible; }
+        #mobile-menu .mobile-inner { transform:scale(0.97); transition:transform 300ms; }
+        #mobile-menu.open .mobile-inner { transform:scale(1); }
+        .progressive-blur-viewport { position:fixed; bottom:0; left:0; right:0; height:80px; pointer-events:none; z-index:40; backdrop-filter:blur(16px); mask-image:linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%); }
+
+        /* Hero */
+        .help-hero { background: linear-gradient(135deg, #00013a 0%, #0f1055 55%, #0a0b2e 100%); }
+        .help-hero::before { content:''; position:absolute; inset:0; background-image: repeating-linear-gradient(45deg, rgba(255,255,255,0.02) 0px, rgba(255,255,255,0.02) 1px, transparent 1px, transparent 40px); }
+
+        /* Search */
+        .help-search { border: 2px solid rgba(255,255,255,0.15); transition: border-color 0.2s, box-shadow 0.2s; }
+        .help-search:focus { border-color: #c3b798; box-shadow: 0 0 0 4px rgba(195,183,152,0.1); outline: none; }
+
+        /* Topic card */
+        .topic-card { transition: all 0.3s ease; }
+        .topic-card:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(0,0,0,0.08); border-color: #c3b798; }
+        .topic-card:hover .topic-icon { background: linear-gradient(135deg, #00013a, #0f1055); }
+        .topic-card:hover .topic-icon span { color: #c3b798; }
+        .topic-icon { transition: all 0.3s ease; }
+
+        /* FAQ accordion */
+        .faq-item { border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .faq-btn { transition: color 0.2s; }
+        .faq-btn:hover { color: #c3b798; }
+        .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.3s ease, padding 0.2s ease; }
+        .faq-answer.open { max-height: 400px; padding-bottom: 16px; }
+        .faq-icon { transition: transform 0.3s ease; }
+        .faq-icon.open { transform: rotate(45deg); }
+
+        /* Support card */
+        .support-card { transition: all 0.3s ease; }
+        .support-card:hover { border-color: #c3b798; transform: translateY(-3px); box-shadow: 0 12px 32px rgba(195,183,152,0.12); }
+    </style>
+    <script>document.addEventListener("error",function(e){var i=e.target;if(i.tagName==="IMG"&&i.src.includes("globalits.bh")&&!i.dataset.ukfallback){i.dataset.ukfallback="1";i.src=i.src.replace("globalits.bh","globalits.co.uk");}},true);</script>
+</head>
+<body class="bg-navy-start text-white overflow-x-hidden font-sans">
+    <div class="progressive-blur-viewport"></div>
+
+    <!-- Navigation -->
+    <nav id="main-nav"
+    class="fixed top-0 left-0 right-0 z-50 w-full border-b border-transparent bg-transparent">
+    <div class="max-w-7xl mx-auto px-6 lg:px-12 flex items-center justify-between h-16">
+        <div class="flex items-center gap-8">
+            <a href="index.html" class="flex-shrink-0">
+                <img src="https://globaledgeholding.com/wp-content/uploads/2019/07/GitsGedge-logos-4-1.png" alt="Global iTS" class="h-10 w-auto object-contain">
+            </a>
+            <div class="hidden md:flex items-center gap-1">
+                <div class="relative" id="dropdown-products">
+                    <button onclick="toggleDropdown('products')" class="flex items-center gap-1.5 text-sm font-medium text-white/80 hover:text-primary px-3 py-2 rounded-md transition-colors">Products<svg class="w-3 h-3 nav-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg></button>
+                    <div class="nav-dropdown-panel absolute top-full left-0 mt-2 origin-top-left">
+                        <div class="bg-navy-start border border-white/10 rounded-xl shadow-2xl p-1.5 w-[520px]">
+                            <div class="bg-white/5 rounded-lg border border-white/5 p-3">
+                                <div class="grid grid-cols-2 gap-2">
+                                    <a href="gbank.html" class="flex items-start gap-3 p-3 rounded-lg hover:bg-white/10 transition-colors"><div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5"><span class="material-symbols-outlined text-primary" style="font-size:20px">account_balance</span></div><div><span class="block text-sm font-medium text-white">G Bank AI</span><span class="block text-xs text-gray-400 mt-0.5">AI-powered core banking platform</span></div></a>
+                                    <a href="ginsure.html" class="flex items-start gap-3 p-3 rounded-lg hover:bg-white/10 transition-colors"><div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5"><span class="material-symbols-outlined text-primary" style="font-size:20px">shield</span></div><div><span class="block text-sm font-medium text-white">G Insure AI</span><span class="block text-xs text-gray-400 mt-0.5">Insurance technology &amp; claims automation</span></div></a>
+                                    <a href="ginvest.html" class="flex items-start gap-3 p-3 rounded-lg hover:bg-white/10 transition-colors"><div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5"><span class="material-symbols-outlined text-primary" style="font-size:20px">trending_up</span></div><div><span class="block text-sm font-medium text-white">G Invest AI</span><span class="block text-xs text-gray-400 mt-0.5">Investment management &amp; portfolio analytics</span></div></a>
+                                    <a href="grisk.html" class="flex items-start gap-3 p-3 rounded-lg hover:bg-white/10 transition-colors"><div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5"><span class="material-symbols-outlined text-primary" style="font-size:20px">gpp_maybe</span></div><div><span class="block text-sm font-medium text-white">G Risk AI</span><span class="block text-xs text-gray-400 mt-0.5">Risk assessment &amp; regulatory compliance</span></div></a>
+                                    <a href="ghrms.html" class="flex items-start gap-3 p-3 rounded-lg hover:bg-white/10 transition-colors"><div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5"><span class="material-symbols-outlined text-primary" style="font-size:20px">group</span></div><div><span class="block text-sm font-medium text-white">G HRMS AI</span><span class="block text-xs text-gray-400 mt-0.5">Human resource management system</span></div></a>
+                                </div>
+                            </div>
+                            <div class="px-3 py-2 mt-1"><p class="text-xs text-gray-400">Interested? <a href="index.html#contact" class="text-primary font-medium hover:underline ml-1">Schedule a demo</a></p></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="relative" id="dropdown-industries">
+                    <button onclick="toggleDropdown('industries')" class="flex items-center gap-1.5 text-sm font-medium text-white/80 hover:text-primary px-3 py-2 rounded-md transition-colors">Industries<svg class="w-3 h-3 nav-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg></button>
+                    <div class="nav-dropdown-panel absolute top-full left-0 mt-2 origin-top-left">
+                        <div class="bg-navy-start border border-white/10 rounded-xl shadow-2xl p-1.5 w-[520px]">
+                            <div class="bg-white/5 rounded-lg border border-white/5 p-3">
+                                <div class="grid grid-cols-2 gap-2">
+                                    <a href="corporate-banking.html" class="flex items-start gap-3 p-3 rounded-lg hover:bg-white/10 transition-colors"><div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5"><span class="material-symbols-outlined text-primary" style="font-size:20px">corporate_fare</span></div><div><span class="block text-sm font-medium text-white">Corporate Banking</span><span class="block text-xs text-gray-400 mt-0.5">Enterprise-grade banking solutions</span></div></a>
+                                    <a href="family-offices.html" class="flex items-start gap-3 p-3 rounded-lg hover:bg-white/10 transition-colors"><div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5"><span class="material-symbols-outlined text-primary" style="font-size:20px">cottage</span></div><div><span class="block text-sm font-medium text-white">Family Offices</span><span class="block text-xs text-gray-400 mt-0.5">Tailored family wealth operations</span></div></a>
+                                    <a href="holding-companies.html" class="flex items-start gap-3 p-3 rounded-lg hover:bg-white/10 transition-colors"><div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5"><span class="material-symbols-outlined text-primary" style="font-size:20px">domain</span></div><div><span class="block text-sm font-medium text-white">Holding Companies</span><span class="block text-xs text-gray-400 mt-0.5">Multi-entity portfolio management</span></div></a>
+                                    <a href="insurance.html" class="flex items-start gap-3 p-3 rounded-lg hover:bg-white/10 transition-colors"><div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5"><span class="material-symbols-outlined text-primary" style="font-size:20px">health_and_safety</span></div><div><span class="block text-sm font-medium text-white">Insurance</span><span class="block text-xs text-gray-400 mt-0.5">End-to-end insurance technology</span></div></a>
+                                    <a href="private-banking.html" class="flex items-start gap-3 p-3 rounded-lg hover:bg-white/10 transition-colors"><div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5"><span class="material-symbols-outlined text-primary" style="font-size:20px">account_balance_wallet</span></div><div><span class="block text-sm font-medium text-white">Private Banking</span><span class="block text-xs text-gray-400 mt-0.5">Exclusive private client services</span></div></a>
+                                    <a href="public-sector.html" class="flex items-start gap-3 p-3 rounded-lg hover:bg-white/10 transition-colors"><div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5"><span class="material-symbols-outlined text-primary" style="font-size:20px">assured_workload</span></div><div><span class="block text-sm font-medium text-white">Public Sector</span><span class="block text-xs text-gray-400 mt-0.5">Government &amp; public institution systems</span></div></a>
+                                    <a href="real-estate.html" class="flex items-start gap-3 p-3 rounded-lg hover:bg-white/10 transition-colors"><div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5"><span class="material-symbols-outlined text-primary" style="font-size:20px">apartment</span></div><div><span class="block text-sm font-medium text-white">Real Estate</span><span class="block text-xs text-gray-400 mt-0.5">Property &amp; asset management platforms</span></div></a>
+                                    <a href="retail-banking.html" class="flex items-start gap-3 p-3 rounded-lg hover:bg-white/10 transition-colors"><div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5"><span class="material-symbols-outlined text-primary" style="font-size:20px">storefront</span></div><div><span class="block text-sm font-medium text-white">Retail Banking</span><span class="block text-xs text-gray-400 mt-0.5">Customer-centric retail banking</span></div></a>
+                                    <a href="wealth-management.html" class="flex items-start gap-3 p-3 rounded-lg hover:bg-white/10 transition-colors"><div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5"><span class="material-symbols-outlined text-primary" style="font-size:20px">diamond</span></div><div><span class="block text-sm font-medium text-white">Wealth Management</span><span class="block text-xs text-gray-400 mt-0.5">Comprehensive wealth advisory tools</span></div></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="relative" id="dropdown-company">
+                    <button onclick="toggleDropdown('company')" class="flex items-center gap-1.5 text-sm font-medium text-white/80 hover:text-primary px-3 py-2 rounded-md transition-colors">Company<svg class="w-3 h-3 nav-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg></button>
+                    <div class="nav-dropdown-panel absolute top-full left-0 mt-2 origin-top-left">
+                        <div class="bg-navy-start border border-white/10 rounded-xl shadow-2xl p-1.5 w-[480px]">
+                            <div class="grid grid-cols-2 gap-2">
+                                <div class="bg-white/5 rounded-lg border border-white/5 p-3 space-y-2">
+                                    <a href="about.html" class="flex items-start gap-3 p-2 rounded-lg hover:bg-white/10 transition-colors"><div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5"><span class="material-symbols-outlined text-primary" style="font-size:20px">groups</span></div><div><span class="block text-sm font-medium text-white">About Us</span><span class="block text-xs text-gray-400 mt-0.5">Learn more about our story and team</span></div></a>
+                                    <a href="customer-stories.html" class="flex items-start gap-3 p-2 rounded-lg hover:bg-white/10 transition-colors"><div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5"><span class="material-symbols-outlined text-primary" style="font-size:20px">star</span></div><div><span class="block text-sm font-medium text-white">Customer Stories</span><span class="block text-xs text-gray-400 mt-0.5">See how we've helped our clients succeed</span></div></a>
+                                    <a href="partnerships.html" class="flex items-start gap-3 p-2 rounded-lg hover:bg-white/10 transition-colors"><div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5"><span class="material-symbols-outlined text-primary" style="font-size:20px">handshake</span></div><div><span class="block text-sm font-medium text-white">Partnerships</span><span class="block text-xs text-gray-400 mt-0.5">Collaborate with us for mutual growth</span></div></a>
+                                </div>
+                                <div class="p-3 space-y-1">
+                                    <a href="leadership.html" class="flex items-center gap-2.5 p-2 rounded-lg hover:bg-white/10 transition-colors"><span class="material-symbols-outlined text-white/70" style="font-size:18px">supervisor_account</span><span class="text-sm font-medium text-white">Leadership</span></a>
+                                    <a href="careers.html" class="flex items-center gap-2.5 p-2 rounded-lg hover:bg-white/10 transition-colors"><span class="material-symbols-outlined text-white/70" style="font-size:18px">work</span><span class="text-sm font-medium text-white">Careers</span></a>
+                                    <a href="news-events.html" class="flex items-center gap-2.5 p-2 rounded-lg hover:bg-white/10 transition-colors"><span class="material-symbols-outlined text-white/70" style="font-size:18px">newspaper</span><span class="text-sm font-medium text-white">News &amp; Events</span></a>
+                                    <a href="blog.html" class="flex items-center gap-2.5 p-2 rounded-lg hover:bg-white/10 transition-colors"><span class="material-symbols-outlined text-white/70" style="font-size:18px">edit_note</span><span class="text-sm font-medium text-white">Blog</span></a>
+                                    <a href="help-center.html" class="flex items-center gap-2.5 p-2 rounded-lg bg-white/10 transition-colors"><span class="material-symbols-outlined text-white/70" style="font-size:18px">help</span><span class="text-sm font-medium text-white">Help Center</span></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <a href="solutions.html" class="text-sm font-medium text-white/80 hover:text-primary px-3 py-2 rounded-md transition-colors">Solutions</a>
+            </div>
+        </div>
+        <div class="flex items-center gap-3">
+            <a href="index.html#contact" class="hidden md:inline-flex bg-primary hover:bg-primary-dark text-navy-start font-bold py-2.5 px-6 rounded-lg text-sm transition-all duration-300">Contact Us</a>
+            <button id="mobile-toggle" onclick="toggleMobileMenu()" class="md:hidden text-white p-1" aria-expanded="false" aria-controls="mobile-menu" aria-label="Toggle menu">
+                <svg id="menu-toggle-icon" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6 transition-transform duration-300 ease-in-out">
+                    <path id="menu-path-animated" class="transition-all duration-300 ease-in-out" style="stroke-dasharray: 12 63;" d="M27 10 13 10C10.8 10 9 8.2 9 6 9 3.5 10.8 2 13 2 15.2 2 17 3.8 17 6L17 26C17 28.2 18.8 30 21 30 23.2 30 25 28.2 25 26 25 23.8 23.2 22 21 22L7 22"/>
+                    <path d="M7 16 27 16"/>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="md:hidden fixed top-16 left-0 right-0 bottom-0 bg-navy-start/95 backdrop-blur-xl border-t border-white/10 overflow-y-auto z-40">
+        <div class="mobile-inner p-6 flex flex-col gap-4 h-full">
+            <div class="flex-1 space-y-6">
+                <div>
+                    <span class="text-xs font-semibold uppercase tracking-wider text-primary/70 mb-3 block">Products</span>
+                    <div class="space-y-1">
+                        <a href="gbank.html" class="flex items-center gap-3 p-3 rounded-lg hover:bg-white/10 transition-colors"><div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5"><span class="material-symbols-outlined text-primary" style="font-size:20px">account_balance</span></div><div><span class="block text-sm font-medium text-white">G Bank AI</span><span class="block text-xs text-gray-400">AI-powered core banking platform</span></div></a>
+                        <a href="ginsure.html" class="flex items-center gap-3 p-3 rounded-lg hover:bg-white/10 transition-colors"><div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5"><span class="material-symbols-outlined text-primary" style="font-size:20px">shield</span></div><div><span class="block text-sm font-medium text-white">G Insure AI</span><span class="block text-xs text-gray-400">Insurance technology &amp; claims automation</span></div></a>
+                        <a href="ginvest.html" class="flex items-center gap-3 p-3 rounded-lg hover:bg-white/10 transition-colors"><div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5"><span class="material-symbols-outlined text-primary" style="font-size:20px">trending_up</span></div><div><span class="block text-sm font-medium text-white">G Invest AI</span><span class="block text-xs text-gray-400">Investment management &amp; portfolio analytics</span></div></a>
+                        <a href="grisk.html" class="flex items-center gap-3 p-3 rounded-lg hover:bg-white/10 transition-colors"><div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5"><span class="material-symbols-outlined text-primary" style="font-size:20px">gpp_maybe</span></div><div><span class="block text-sm font-medium text-white">G Risk AI</span><span class="block text-xs text-gray-400">Risk assessment &amp; regulatory compliance</span></div></a>
+                        <a href="ghrms.html" class="flex items-center gap-3 p-3 rounded-lg hover:bg-white/10 transition-colors"><div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5"><span class="material-symbols-outlined text-primary" style="font-size:20px">group</span></div><div><span class="block text-sm font-medium text-white">G HRMS AI</span><span class="block text-xs text-gray-400">Human resource management system</span></div></a>
+                    </div>
+                </div>
+                <div>
+                    <span class="text-xs font-semibold uppercase tracking-wider text-primary/70 mb-3 block">Industries</span>
+                    <div class="space-y-1">
+                        <a href="corporate-banking.html" class="flex items-center gap-3 p-3 rounded-lg hover:bg-white/10 transition-colors"><div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5"><span class="material-symbols-outlined text-primary" style="font-size:20px">corporate_fare</span></div><div><span class="block text-sm font-medium text-white">Corporate Banking</span><span class="block text-xs text-gray-400">Enterprise-grade banking solutions</span></div></a>
+                        <a href="insurance.html" class="flex items-center gap-3 p-3 rounded-lg hover:bg-white/10 transition-colors"><div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5"><span class="material-symbols-outlined text-primary" style="font-size:20px">health_and_safety</span></div><div><span class="block text-sm font-medium text-white">Insurance</span><span class="block text-xs text-gray-400">End-to-end insurance technology</span></div></a>
+                        <a href="wealth-management.html" class="flex items-center gap-3 p-3 rounded-lg hover:bg-white/10 transition-colors"><div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5"><span class="material-symbols-outlined text-primary" style="font-size:20px">diamond</span></div><div><span class="block text-sm font-medium text-white">Wealth Management</span><span class="block text-xs text-gray-400">Comprehensive wealth advisory tools</span></div></a>
+                        <a href="public-sector.html" class="flex items-center gap-3 p-3 rounded-lg hover:bg-white/10 transition-colors"><div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5"><span class="material-symbols-outlined text-primary" style="font-size:20px">assured_workload</span></div><div><span class="block text-sm font-medium text-white">Public Sector</span><span class="block text-xs text-gray-400">Government &amp; public institution systems</span></div></a>
+                    </div>
+                </div>
+                <div>
+                    <span class="text-xs font-semibold uppercase tracking-wider text-primary/70 mb-3 block">Company</span>
+                    <div class="space-y-1">
+                        <a href="about.html" class="flex items-center gap-3 p-3 rounded-lg hover:bg-white/10 transition-colors"><div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5"><span class="material-symbols-outlined text-primary" style="font-size:20px">groups</span></div><div><span class="block text-sm font-medium text-white">About Us</span><span class="block text-xs text-gray-400">Learn more about our story and team</span></div></a>
+                        <a href="customer-stories.html" class="flex items-center gap-3 p-3 rounded-lg hover:bg-white/10 transition-colors"><div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5"><span class="material-symbols-outlined text-primary" style="font-size:20px">star</span></div><div><span class="block text-sm font-medium text-white">Customer Stories</span><span class="block text-xs text-gray-400">See how we've helped our clients succeed</span></div></a>
+                        <a href="partnerships.html" class="flex items-center gap-3 p-3 rounded-lg hover:bg-white/10 transition-colors"><div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 border border-white/10 bg-white/5"><span class="material-symbols-outlined text-primary" style="font-size:20px">handshake</span></div><div><span class="block text-sm font-medium text-white">Partnerships</span><span class="block text-xs text-gray-400">Collaborate with us for mutual growth</span></div></a>
+                        <a href="leadership.html" class="flex items-center gap-2.5 p-3 rounded-lg hover:bg-white/10 transition-colors"><span class="material-symbols-outlined text-white/70" style="font-size:18px">supervisor_account</span><span class="text-sm font-medium text-white">Leadership</span></a>
+                        <a href="careers.html" class="flex items-center gap-2.5 p-3 rounded-lg hover:bg-white/10 transition-colors"><span class="material-symbols-outlined text-white/70" style="font-size:18px">work</span><span class="text-sm font-medium text-white">Careers</span></a>
+                        <a href="news-events.html" class="flex items-center gap-2.5 p-3 rounded-lg hover:bg-white/10 transition-colors"><span class="material-symbols-outlined text-white/70" style="font-size:18px">newspaper</span><span class="text-sm font-medium text-white">News &amp; Events</span></a>
+                    </div>
+                </div>
+                <a href="solutions.html" class="flex items-center gap-2.5 p-3 rounded-lg hover:bg-white/10 transition-colors border border-white/10"><span class="material-symbols-outlined text-primary" style="font-size:18px">apps</span><span class="text-sm font-medium text-white">All Solutions</span></a>
+            </div>
+            <div class="flex flex-col gap-3 pt-4 border-t border-white/10">
+                <a href="index.html#contact" class="w-full text-center bg-primary hover:bg-primary-dark text-navy-start font-bold py-3 px-6 rounded-lg text-sm transition-all duration-300">Contact Us</a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+    <!-- Hero with Search -->
+    <section class="help-hero relative min-h-[50vh] flex items-center pt-16 pb-16 w-full overflow-hidden">
+        <div class="dot-pattern"></div>
+        <div class="absolute top-1/3 right-1/4 w-96 h-96 rounded-full pointer-events-none" style="background:radial-gradient(circle, rgba(195,183,152,0.06) 0%, transparent 70%);"></div>
+        <div class="max-w-4xl mx-auto px-6 lg:px-12 relative z-10 w-full text-center">
+            <div class="scroll-reveal mb-4">
+                <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-primary/30 bg-primary/10 text-primary text-xs font-semibold tracking-widest uppercase">
+                    <span class="material-symbols-outlined" style="font-size:14px">help</span>
+                    Help Center
+                </span>
+            </div>
+            <h1 class="scroll-reveal text-4xl md:text-5xl lg:text-[3.5rem] font-bold text-white leading-[1.15] mb-6 tracking-tight glow-text">How Can We Help You?</h1>
+            <p class="scroll-reveal text-lg text-gray-300 mb-10 max-w-xl mx-auto">Search our knowledge base or browse by topic to find answers, guides, and support resources.</p>
+            <!-- Search Bar -->
+            <div class="scroll-reveal relative max-w-2xl mx-auto">
+                <input type="text" id="help-search" placeholder="Search for answers, guides, and documentation..." class="help-search w-full bg-white/5 rounded-2xl px-6 py-4 text-white placeholder-gray-400 text-base pr-14" oninput="filterFAQs()" />
+                <span class="material-symbols-outlined absolute right-5 top-1/2 -translate-y-1/2 text-gray-400" style="font-size:24px">search</span>
+            </div>
+            <!-- Quick links -->
+            <div class="scroll-reveal flex flex-wrap justify-center gap-3 mt-6">
+                <button onclick="scrollTo('#topics')" class="px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white text-sm hover:border-primary hover:text-primary transition-colors">Getting Started</button>
+                <button onclick="scrollTo('#faqs')" class="px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white text-sm hover:border-primary hover:text-primary transition-colors">FAQs</button>
+                <button onclick="scrollTo('#contact-support')" class="px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white text-sm hover:border-primary hover:text-primary transition-colors">Contact Support</button>
+                <a href="mailto:support@globalits.bh" class="px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white text-sm hover:border-primary hover:text-primary transition-colors">support@globalits.bh</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Topic Categories -->
+    <section id="topics" class="aurora-gradient py-20 lg:py-24 w-full">
+        <div class="max-w-7xl mx-auto px-6 lg:px-12">
+            <div class="scroll-reveal text-center mb-12">
+                <span class="text-primary font-bold tracking-widest uppercase text-sm mb-3 block">Browse by Topic</span>
+                <h2 class="font-serif text-4xl lg:text-5xl text-white leading-tight">Knowledge Base</h2>
+            </div>
+            <div class="scroll-reveal-stagger grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Getting Started -->
+                <div class="scroll-reveal-child topic-card bg-white/5 rounded-2xl p-7 border border-white/10 cursor-pointer" onclick="scrollTo('#faqs'); filterFAQsByTopic('getting-started')">
+                    <div class="topic-icon w-14 h-14 rounded-xl flex items-center justify-center mb-5 bg-white/5 border border-white/10">
+                        <span class="material-symbols-outlined text-primary" style="font-size:28px">rocket_launch</span>
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-2">Getting Started</h3>
+                    <p class="text-sm text-gray-400 leading-relaxed mb-4">New to Global iTS? Learn how to get up and running with our platforms and onboarding process.</p>
+                    <div class="flex items-center gap-1.5 text-primary text-sm font-semibold">
+                        <span>5 articles</span>
+                        <span class="material-symbols-outlined text-lg">arrow_forward</span>
+                    </div>
+                </div>
+                <!-- Product Documentation -->
+                <div class="scroll-reveal-child topic-card bg-white/5 rounded-2xl p-7 border border-white/10 cursor-pointer" onclick="scrollTo('#faqs'); filterFAQsByTopic('products')">
+                    <div class="topic-icon w-14 h-14 rounded-xl flex items-center justify-center mb-5 bg-white/5 border border-white/10">
+                        <span class="material-symbols-outlined text-primary" style="font-size:28px">description</span>
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-2">Product Documentation</h3>
+                    <p class="text-sm text-gray-400 leading-relaxed mb-4">Detailed guides for G Bank AI, G Insure AI, G Invest AI, G Risk AI, and G HRMS AI.</p>
+                    <div class="flex items-center gap-1.5 text-primary text-sm font-semibold">
+                        <span>12 articles</span>
+                        <span class="material-symbols-outlined text-lg">arrow_forward</span>
+                    </div>
+                </div>
+                <!-- Implementation Guide -->
+                <div class="scroll-reveal-child topic-card bg-white/5 rounded-2xl p-7 border border-white/10 cursor-pointer" onclick="scrollTo('#faqs'); filterFAQsByTopic('implementation')">
+                    <div class="topic-icon w-14 h-14 rounded-xl flex items-center justify-center mb-5 bg-white/5 border border-white/10">
+                        <span class="material-symbols-outlined text-primary" style="font-size:28px">engineering</span>
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-2">Implementation Guide</h3>
+                    <p class="text-sm text-gray-400 leading-relaxed mb-4">Step-by-step implementation roadmaps, best practices, and Microsoft Dynamics 365 configuration guides.</p>
+                    <div class="flex items-center gap-1.5 text-primary text-sm font-semibold">
+                        <span>8 articles</span>
+                        <span class="material-symbols-outlined text-lg">arrow_forward</span>
+                    </div>
+                </div>
+                <!-- Troubleshooting -->
+                <div class="scroll-reveal-child topic-card bg-white/5 rounded-2xl p-7 border border-white/10 cursor-pointer" onclick="scrollTo('#faqs'); filterFAQsByTopic('troubleshooting')">
+                    <div class="topic-icon w-14 h-14 rounded-xl flex items-center justify-center mb-5 bg-white/5 border border-white/10">
+                        <span class="material-symbols-outlined text-primary" style="font-size:28px">build</span>
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-2">Troubleshooting</h3>
+                    <p class="text-sm text-gray-400 leading-relaxed mb-4">Common issues, error messages, and step-by-step resolutions to keep your operations running smoothly.</p>
+                    <div class="flex items-center gap-1.5 text-primary text-sm font-semibold">
+                        <span>10 articles</span>
+                        <span class="material-symbols-outlined text-lg">arrow_forward</span>
+                    </div>
+                </div>
+                <!-- Billing & Licensing -->
+                <div class="scroll-reveal-child topic-card bg-white/5 rounded-2xl p-7 border border-white/10 cursor-pointer" onclick="scrollTo('#faqs'); filterFAQsByTopic('billing')">
+                    <div class="topic-icon w-14 h-14 rounded-xl flex items-center justify-center mb-5 bg-white/5 border border-white/10">
+                        <span class="material-symbols-outlined text-primary" style="font-size:28px">receipt_long</span>
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-2">Billing &amp; Licensing</h3>
+                    <p class="text-sm text-gray-400 leading-relaxed mb-4">Microsoft licensing tiers, contract management, renewal processes, and invoice questions.</p>
+                    <div class="flex items-center gap-1.5 text-primary text-sm font-semibold">
+                        <span>6 articles</span>
+                        <span class="material-symbols-outlined text-lg">arrow_forward</span>
+                    </div>
+                </div>
+                <!-- Contact Support -->
+                <div class="scroll-reveal-child topic-card bg-white/5 rounded-2xl p-7 border border-white/10 cursor-pointer" onclick="scrollTo('#contact-support')">
+                    <div class="topic-icon w-14 h-14 rounded-xl flex items-center justify-center mb-5 bg-white/5 border border-white/10">
+                        <span class="material-symbols-outlined text-primary" style="font-size:28px">support_agent</span>
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-2">Contact Support</h3>
+                    <p class="text-sm text-gray-400 leading-relaxed mb-4">Can't find your answer? Our expert support team is available 24/7 to assist with any issue.</p>
+                    <div class="flex items-center gap-1.5 text-primary text-sm font-semibold">
+                        <span>Reach our team</span>
+                        <span class="material-symbols-outlined text-lg">arrow_forward</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section id="faqs" class="py-20 lg:py-24 w-full" style="background: #0f1055;">
+        <div class="max-w-4xl mx-auto px-6 lg:px-12">
+            <div class="scroll-reveal text-center mb-12">
+                <span class="text-primary font-bold tracking-widest uppercase text-sm mb-3 block">Frequently Asked</span>
+                <h2 class="font-serif text-4xl lg:text-5xl text-white leading-tight">Common Questions</h2>
+            </div>
+
+            <!-- FAQ Items -->
+            <div class="scroll-reveal bg-white/5 rounded-2xl border border-white/10 overflow-hidden shadow-sm">
+                <!-- Getting Started -->
+                <div class="px-6 py-4 bg-white/5 border-b border-white/10">
+                    <h3 class="text-sm font-bold text-gray-400 uppercase tracking-wider">Getting Started</h3>
+                </div>
+                <div class="faq-item" data-topic="getting-started">
+                    <button class="faq-btn w-full flex items-start justify-between gap-4 px-6 py-5 text-left" onclick="toggleFAQ(this)">
+                        <span class="font-semibold text-white text-base">How do I get started with a Global iTS solution?</span>
+                        <span class="material-symbols-outlined text-primary flex-shrink-0 faq-icon" style="font-size:20px">add</span>
+                    </button>
+                    <div class="faq-answer px-6 text-sm text-gray-300 leading-relaxed">
+                        Getting started begins with a discovery call where our team assesses your requirements. We then prepare a tailored demonstration of the relevant solution (G Bank AI, G Insure AI, etc.), followed by a scoping workshop, proposal, and project kickoff. Contact us at <a href="mailto:info@globalits.bh" class="text-primary hover:underline">info@globalits.bh</a> or schedule a demo directly from our website.
+                    </div>
+                </div>
+                <div class="faq-item" data-topic="getting-started">
+                    <button class="faq-btn w-full flex items-start justify-between gap-4 px-6 py-5 text-left" onclick="toggleFAQ(this)">
+                        <span class="font-semibold text-white text-base">What is the typical implementation timeline?</span>
+                        <span class="material-symbols-outlined text-primary flex-shrink-0 faq-icon" style="font-size:20px">add</span>
+                    </button>
+                    <div class="faq-answer px-6 text-sm text-gray-300 leading-relaxed">
+                        Implementation timelines vary depending on scope and complexity. A standard Microsoft Dynamics 365 Finance deployment typically takes 3–6 months for Phase 1. Complex multi-module implementations for large institutions can range from 6–18 months. Our rapid deployment methodology is designed to minimize disruption while ensuring quality outcomes.
+                    </div>
+                </div>
+
+                <!-- Products -->
+                <div class="px-6 py-4 bg-white/5 border-b border-white/10 border-t">
+                    <h3 class="text-sm font-bold text-gray-400 uppercase tracking-wider">Products</h3>
+                </div>
+                <div class="faq-item" data-topic="products">
+                    <button class="faq-btn w-full flex items-start justify-between gap-4 px-6 py-5 text-left" onclick="toggleFAQ(this)">
+                        <span class="font-semibold text-white text-base">What is G Bank AI and which modules are included?</span>
+                        <span class="material-symbols-outlined text-primary flex-shrink-0 faq-icon" style="font-size:20px">add</span>
+                    </button>
+                    <div class="faq-answer px-6 text-sm text-gray-300 leading-relaxed">
+                        G Bank AI is our flagship banking ERP built on Microsoft Dynamics 365. Core modules include: General Ledger &amp; Finance, Loan Management, Trade Finance, Treasury Management, Regulatory Reporting (Basel III/IV, IFRS 9), Core Banking Integration, and AI-powered risk analytics. The platform is designed specifically for banks, investment firms, and financial institutions in the GCC.
+                    </div>
+                </div>
+                <div class="faq-item" data-topic="products">
+                    <button class="faq-btn w-full flex items-start justify-between gap-4 px-6 py-5 text-left" onclick="toggleFAQ(this)">
+                        <span class="font-semibold text-white text-base">Do your solutions integrate with existing core banking systems?</span>
+                        <span class="material-symbols-outlined text-primary flex-shrink-0 faq-icon" style="font-size:20px">add</span>
+                    </button>
+                    <div class="faq-answer px-6 text-sm text-gray-300 leading-relaxed">
+                        Yes. Our solutions are designed with open integration architecture, supporting API-based connectivity with major core banking platforms including Temenos, Oracle FLEXCUBE, and proprietary systems. We delivered a successful Core Banking Integration for Qatar Development Bank as part of their Dynamics 365 deployment in 2025.
+                    </div>
+                </div>
+                <div class="faq-item" data-topic="products">
+                    <button class="faq-btn w-full flex items-start justify-between gap-4 px-6 py-5 text-left" onclick="toggleFAQ(this)">
+                        <span class="font-semibold text-white text-base">Is G HRMS AI available as a standalone solution?</span>
+                        <span class="material-symbols-outlined text-primary flex-shrink-0 faq-icon" style="font-size:20px">add</span>
+                    </button>
+                    <div class="faq-answer px-6 text-sm text-gray-300 leading-relaxed">
+                        Yes. G HRMS AI can be deployed as a standalone HR management system or integrated with the broader Dynamics 365 ecosystem. It includes employee self-service, payroll automation, performance management, and mobile access — all built on Microsoft Dynamics 365 Human Resources.
+                    </div>
+                </div>
+
+                <!-- Implementation -->
+                <div class="px-6 py-4 bg-white/5 border-b border-white/10 border-t">
+                    <h3 class="text-sm font-bold text-gray-400 uppercase tracking-wider">Implementation</h3>
+                </div>
+                <div class="faq-item" data-topic="implementation">
+                    <button class="faq-btn w-full flex items-start justify-between gap-4 px-6 py-5 text-left" onclick="toggleFAQ(this)">
+                        <span class="font-semibold text-white text-base">What is your implementation methodology?</span>
+                        <span class="material-symbols-outlined text-primary flex-shrink-0 faq-icon" style="font-size:20px">add</span>
+                    </button>
+                    <div class="faq-answer px-6 text-sm text-gray-300 leading-relaxed">
+                        We follow Microsoft's Sure Step and Agile/Waterfall hybrid methodology, adapted for financial services. This includes: Discovery &amp; Scoping, Solution Design, Development &amp; Configuration, User Acceptance Testing, Training, Go-Live, and Post-Implementation Support. Each phase is managed by a certified Project Manager with a dedicated functional and technical team.
+                    </div>
+                </div>
+                <div class="faq-item" data-topic="implementation">
+                    <button class="faq-btn w-full flex items-start justify-between gap-4 px-6 py-5 text-left" onclick="toggleFAQ(this)">
+                        <span class="font-semibold text-white text-base">Do you offer data migration services?</span>
+                        <span class="material-symbols-outlined text-primary flex-shrink-0 faq-icon" style="font-size:20px">add</span>
+                    </button>
+                    <div class="faq-answer px-6 text-sm text-gray-300 leading-relaxed">
+                        Yes. We provide comprehensive data migration services including data mapping, cleansing, transformation, and validation. Our team has extensive experience migrating from legacy banking systems, spreadsheet-based operations, and competing ERP platforms to Microsoft Dynamics 365.
+                    </div>
+                </div>
+
+                <!-- Billing -->
+                <div class="px-6 py-4 bg-white/5 border-b border-white/10 border-t">
+                    <h3 class="text-sm font-bold text-gray-400 uppercase tracking-wider">Billing &amp; Licensing</h3>
+                </div>
+                <div class="faq-item" data-topic="billing">
+                    <button class="faq-btn w-full flex items-start justify-between gap-4 px-6 py-5 text-left" onclick="toggleFAQ(this)">
+                        <span class="font-semibold text-white text-base">How is Microsoft Dynamics 365 licensing structured?</span>
+                        <span class="material-symbols-outlined text-primary flex-shrink-0 faq-icon" style="font-size:20px">add</span>
+                    </button>
+                    <div class="faq-answer px-6 text-sm text-gray-300 leading-relaxed">
+                        Microsoft Dynamics 365 uses a per-user, per-month subscription model. As a Microsoft Inner Circle Partner, we help clients optimize their licensing strategy to maximize value and minimize cost. Licensing typically includes Base licenses (full access) and Activity licenses (limited function users), with module-specific pricing for Finance, HR, Supply Chain, and CRM.
+                    </div>
+                </div>
+                <div class="faq-item" data-topic="billing">
+                    <button class="faq-btn w-full flex items-start justify-between gap-4 px-6 py-5 text-left border-b-0" onclick="toggleFAQ(this)">
+                        <span class="font-semibold text-white text-base">Do you provide post-go-live support and what are the SLAs?</span>
+                        <span class="material-symbols-outlined text-primary flex-shrink-0 faq-icon" style="font-size:20px">add</span>
+                    </button>
+                    <div class="faq-answer px-6 text-sm text-gray-300 leading-relaxed">
+                        Yes. We offer tiered support packages: Standard (business hours), Enhanced (extended hours), and Premium (24/7 support with dedicated account manager). SLAs range from 4-hour response for critical issues (Premium) to next-business-day for standard requests. All packages include access to our support portal, ticketing system, and knowledge base.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Support -->
+    <section id="contact-support" class="aurora-gradient py-20 lg:py-24 w-full">
+        <div class="max-w-5xl mx-auto px-6 lg:px-12">
+            <div class="scroll-reveal text-center mb-12">
+                <span class="text-primary font-bold tracking-widest uppercase text-sm mb-3 block">Still Need Help?</span>
+                <h2 class="font-serif text-4xl lg:text-5xl text-white leading-tight mb-4">Contact Our Support Team</h2>
+                <p class="text-gray-400 text-lg">Our expert support team is ready to assist you — 24/7 for premium clients, extended hours for all.</p>
+            </div>
+            <div class="scroll-reveal-stagger grid md:grid-cols-3 gap-6">
+                <!-- Email -->
+                <div class="scroll-reveal-child support-card bg-white/5 rounded-2xl p-8 border border-white/10 text-center">
+                    <div class="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-5" style="background:linear-gradient(135deg,#00013a,#0f1055);">
+                        <span class="material-symbols-outlined text-primary" style="font-size:28px">mail</span>
+                    </div>
+                    <h3 class="font-bold text-white text-lg mb-2">Email Support</h3>
+                    <p class="text-sm text-gray-400 mb-5 leading-relaxed">For general inquiries and non-urgent support requests.</p>
+                    <a href="mailto:support@globalits.bh" class="inline-flex items-center gap-1.5 text-primary font-semibold text-sm hover:underline">
+                        support@globalits.bh
+                        <span class="material-symbols-outlined text-lg">open_in_new</span>
+                    </a>
+                    <div class="text-xs text-gray-400 mt-2">Response within 4–8 hours</div>
+                </div>
+                <!-- Phone -->
+                <div class="scroll-reveal-child support-card bg-white/5 rounded-2xl p-8 border border-white/10 text-center">
+                    <div class="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-5" style="background:linear-gradient(135deg,#0a0b2e,#1a1b6b);">
+                        <span class="material-symbols-outlined text-primary" style="font-size:28px">phone</span>
+                    </div>
+                    <h3 class="font-bold text-white text-lg mb-2">Schedule a Call</h3>
+                    <p class="text-sm text-gray-400 mb-5 leading-relaxed">Talk directly to a support specialist about your issue.</p>
+                    <a href="index.html#contact" class="inline-flex items-center gap-1.5 text-primary font-semibold text-sm hover:underline">
+                        Book a Support Session
+                        <span class="material-symbols-outlined text-lg">arrow_forward</span>
+                    </a>
+                    <div class="text-xs text-gray-400 mt-2">Available Sun–Thu, 8AM–6PM GST</div>
+                </div>
+                <!-- Live Chat -->
+                <div class="scroll-reveal-child support-card bg-white/5 rounded-2xl p-8 border border-white/10 text-center">
+                    <div class="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-5" style="background:linear-gradient(135deg,#00013a,#0a0b2e);">
+                        <span class="material-symbols-outlined text-primary" style="font-size:28px">chat</span>
+                    </div>
+                    <h3 class="font-bold text-white text-lg mb-2">Priority Support</h3>
+                    <p class="text-sm text-gray-400 mb-5 leading-relaxed">Premium clients have access to 24/7 dedicated support with guaranteed SLAs.</p>
+                    <a href="mailto:info@globalits.bh?subject=Premium Support Inquiry" class="inline-flex items-center gap-1.5 text-primary font-semibold text-sm hover:underline">
+                        Learn About Premium
+                        <span class="material-symbols-outlined text-lg">arrow_forward</span>
+                    </a>
+                    <div class="text-xs text-gray-400 mt-2">24/7 for premium clients</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="aurora-gradient text-white py-20 lg:py-24 border-t border-white/5">
+        <div class="max-w-7xl mx-auto px-6 lg:px-12">
+            <div class="flex w-full flex-col justify-between gap-10 lg:flex-row lg:items-start">
+                <div class="flex w-full flex-col gap-6 lg:max-w-md"><img src="https://globaledgeholding.com/wp-content/uploads/2019/07/GitsGedge-logos-4-1.png" alt="Global iTS" class="h-10 w-auto object-contain"><p class="text-sm text-gray-400 leading-relaxed max-w-sm">Delivering enterprise-grade AI solutions for financial services worldwide.</p></div>
+                <div class="grid w-full gap-8 grid-cols-2 md:grid-cols-3 lg:gap-16">
+                    <div><h3 class="mb-4 font-bold text-white text-base">Solutions</h3><ul class="space-y-3 text-sm text-gray-400"><li class="hover:text-primary transition-colors"><a href="gbank.html">G Bank AI</a></li><li class="hover:text-primary transition-colors"><a href="ginsure.html">G Insure AI</a></li><li class="hover:text-primary transition-colors"><a href="ginvest.html">G Invest AI</a></li><li class="hover:text-primary transition-colors"><a href="grisk.html">G Risk AI</a></li><li class="hover:text-primary transition-colors"><a href="ghrms.html">G HRMS AI</a></li></ul></div>
+                    <div><h3 class="mb-4 font-bold text-white text-base">Company</h3><ul class="space-y-3 text-sm text-gray-400"><li class="hover:text-primary transition-colors"><a href="about.html">About Us</a></li><li class="hover:text-primary transition-colors"><a href="leadership.html">Leadership</a></li><li class="hover:text-primary transition-colors"><a href="careers.html">Careers</a></li><li class="hover:text-primary transition-colors"><a href="news-events.html">News &amp; Events</a></li><li class="hover:text-primary transition-colors"><a href="index.html#contact">Contact</a></li></ul></div>
+                    <div><h3 class="mb-4 font-bold text-white text-base">Resources</h3><ul class="space-y-3 text-sm text-gray-400"><li class="hover:text-primary transition-colors"><a href="help-center.html">Help Center</a></li><li class="hover:text-primary transition-colors"><a href="customer-stories.html">Case Studies</a></li><li class="hover:text-primary transition-colors"><a href="blog.html">Blog</a></li><li class="hover:text-primary transition-colors"><a href="partnerships.html">Partnerships</a></li></ul></div>
+                </div>
+            </div>
+            <div class="mt-12 flex flex-col justify-between gap-4 border-t border-white/10 pt-8 text-xs text-gray-400 md:flex-row md:items-center"><p>© 2026 Global iTS. All rights reserved.</p></div>
+        </div>
+    </footer>
+
+    <script>
+    function scrollTo(id) { var el = document.querySelector(id); if(el) el.scrollIntoView({ behavior:'smooth', block:'start' }); }
+
+    function toggleFAQ(btn) {
+        var answer = btn.nextElementSibling;
+        var icon = btn.querySelector('.faq-icon');
+        var isOpen = answer.classList.contains('open');
+        // Close all
+        document.querySelectorAll('.faq-answer').forEach(function(a) { a.classList.remove('open'); });
+        document.querySelectorAll('.faq-icon').forEach(function(i) { i.classList.remove('open'); });
+        if(!isOpen) { answer.classList.add('open'); icon.classList.add('open'); }
+    }
+
+    function filterFAQsByTopic(topic) {
+        var items = document.querySelectorAll('.faq-item');
+        items.forEach(function(item) {
+            item.style.display = (topic === 'all' || item.dataset.topic === topic) ? '' : 'none';
+        });
+    }
+
+    function filterFAQs() {
+        var q = document.getElementById('help-search').value.toLowerCase();
+        if(!q) { document.querySelectorAll('.faq-item').forEach(function(i) { i.style.display=''; }); return; }
+        document.querySelectorAll('.faq-item').forEach(function(item) {
+            var text = (item.querySelector('button span')?.textContent || '') + ' ' + (item.querySelector('.faq-answer')?.textContent || '');
+            item.style.display = text.toLowerCase().includes(q) ? '' : 'none';
+        });
+        if(q.length > 2) { var faqSection = document.getElementById('faqs'); if(faqSection) faqSection.scrollIntoView({behavior:'smooth'}); }
+    }
+
+    // Scroll reveal
+    (function() {
+        var ro = new IntersectionObserver(function(e) { e.forEach(function(x) { if (x.isIntersecting) { x.target.classList.add('revealed'); ro.unobserve(x.target); } }); }, { threshold: 0.1 });
+        document.querySelectorAll('.scroll-reveal').forEach(function(el) { ro.observe(el); });
+        var so = new IntersectionObserver(function(e) { e.forEach(function(x) { if (x.isIntersecting) { x.target.querySelectorAll('.scroll-reveal-child').forEach(function(c,i) { setTimeout(function() { c.classList.add('revealed'); }, i * 80); }); so.unobserve(x.target); } }); }, { threshold: 0.08 });
+        document.querySelectorAll('.scroll-reveal-stagger').forEach(function(el) { so.observe(el); });
+    })();
+    // Nav
+    (function() {
+        var nav = document.getElementById('main-nav');
+        var mm = document.getElementById('mobile-menu');
+        var mi = document.getElementById('menu-toggle-icon');
+        var mp = document.getElementById('menu-path-animated');
+        var open = false; var ad = null; var names = ['products','industries','company'];
+        function sc() { nav.classList.toggle('scrolled', window.scrollY > 10); }
+        window.addEventListener('scroll', sc, { passive: true }); sc();
+        window.toggleDropdown = function(n) { if (ad === n) { cl(); return; } cl(); var c = document.getElementById('dropdown-' + n); c?.querySelector('.nav-dropdown-panel')?.classList.add('open'); c?.querySelector('.nav-chevron')?.classList.add('open'); ad = n; };
+        function cl() { names.forEach(function(n) { var c = document.getElementById('dropdown-'+n); c?.querySelector('.nav-dropdown-panel')?.classList.remove('open'); c?.querySelector('.nav-chevron')?.classList.remove('open'); }); ad = null; }
+        document.addEventListener('click', function(e) { if (!names.some(function(n) { return e.target.closest('#dropdown-'+n); })) cl(); });
+        document.addEventListener('keydown', function(e) { if (e.key==='Escape') { cl(); if (open) window.toggleMobileMenu(); } });
+        window.toggleMobileMenu = function() { open=!open; mm.classList.toggle('open',open); mi.classList.toggle('-rotate-45',open); if(mp){mp.style.strokeDasharray=open?'20 300':'12 63';mp.style.strokeDashoffset=open?'-32.42px':'0';} document.body.style.overflow=open?'hidden':''; };
+    })();
+    </script>
+</body>
+</html>
